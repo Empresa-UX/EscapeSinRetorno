@@ -62,3 +62,4 @@ C:\Users\Gustavo\Desktop\Cristian\Proyectos\ShadowSky\obj\Debug\net8.0\refint\Sh
 C:\Users\Gustavo\Desktop\Cristian\Proyectos\ShadowSky\obj\Debug\net8.0\ShadowSky.pdb
 C:\Users\Gustavo\Desktop\Cristian\Proyectos\ShadowSky\obj\Debug\net8.0\ShadowSky.genruntimeconfig.cache
 C:\Users\Gustavo\Desktop\Cristian\Proyectos\ShadowSky\obj\Debug\net8.0\ref\ShadowSky.dll
+C:\Users\Gustavo\Desktop\Cristian\Proyectos\ShadowSky\bin\Debug\net8.0\Content\Images\World\background3.png
