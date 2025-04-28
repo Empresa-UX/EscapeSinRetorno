@@ -1,6 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System.Diagnostics;
 
 namespace ShadowSky;
 
@@ -21,11 +22,14 @@ public class Game1 : Game
         _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
         _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
         _graphics.ApplyChanges();
+
+        Debug.WriteLine("Game1: Constructor ejecutado.");
     }
 
     protected override void Initialize()
     {
         playerPosition = new Vector2(100, 100);
+        Debug.WriteLine("Game1: Initialize ejecutado. Posición inicial del jugador: " + playerPosition);
         base.Initialize();
     }
 
@@ -36,25 +40,45 @@ public class Game1 : Game
         playerTexture = Content.Load<Texture2D>("Images/Player/PersonajeUno/player");
         backgroundTexture = Content.Load<Texture2D>("Images/World/background3");
 
+        Debug.WriteLine("Game1: Texturas del jugador y fondo cargadas.");
+
         world = new World.World(50, 50);
+        Debug.WriteLine("Game1: Mundo creado con tamaño 50x50.");
+
         world.LoadContent(Content);
+        Debug.WriteLine("Game1: Contenido del mundo cargado.");
     }
 
     protected override void Update(GameTime gameTime)
     {
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
             Keyboard.GetState().IsKeyDown(Keys.Escape))
+        {
+            Debug.WriteLine("Game1: Saliendo del juego por input.");
             Exit();
+        }
 
         var keyboardState = Keyboard.GetState();
         if (keyboardState.IsKeyDown(Keys.W))
+        {
             playerPosition.Y -= 2;
+            Debug.WriteLine("Game1: Jugador movido hacia arriba. Nueva posición: " + playerPosition);
+        }
         if (keyboardState.IsKeyDown(Keys.S))
+        {
             playerPosition.Y += 2;
+            Debug.WriteLine("Game1: Jugador movido hacia abajo. Nueva posición: " + playerPosition);
+        }
         if (keyboardState.IsKeyDown(Keys.A))
+        {
             playerPosition.X -= 2;
+            Debug.WriteLine("Game1: Jugador movido hacia la izquierda. Nueva posición: " + playerPosition);
+        }
         if (keyboardState.IsKeyDown(Keys.D))
+        {
             playerPosition.X += 2;
+            Debug.WriteLine("Game1: Jugador movido hacia la derecha. Nueva posición: " + playerPosition);
+        }
 
         base.Update(gameTime);
     }
@@ -87,6 +111,8 @@ public class Game1 : Game
         );
 
         Globals.SpriteBatch.End();
+
+        Debug.WriteLine("Game1: Draw ejecutado.");
 
         base.Draw(gameTime);
     }

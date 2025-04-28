@@ -5,6 +5,6 @@ public class StoneTile : Tile
     public StoneTile()
     {
         Name = "Stone";
-        TextureName = "WorldTiles/Ground/StoneTile"; // Ruta de la imagen en Content
+        TextureName = "Images/World/Tiles/32/stone"; // Ruta de la imagen en Content
     }
 }

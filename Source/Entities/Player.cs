@@ -2,7 +2,6 @@ using System;
 using Microsoft.Xna.Framework; // Necesario para trabajar con Vector2
 using System.Collections.Generic; // Necesario para usar Dictionary
 
-
 namespace ShadowSky.Entities
 {
     public class Player

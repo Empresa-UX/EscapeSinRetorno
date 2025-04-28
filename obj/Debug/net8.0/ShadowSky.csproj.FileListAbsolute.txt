@@ -30,6 +30,11 @@ C:\Users\Gustavo\Desktop\Cristian\Proyectos\ShadowSky\ShadowSky\obj\Debug\net8.0
 C:\Users\Gustavo\Desktop\Cristian\Proyectos\ShadowSky\ShadowSky\obj\Debug\net8.0\ShadowSky.pdb
 C:\Users\Gustavo\Desktop\Cristian\Proyectos\ShadowSky\ShadowSky\obj\Debug\net8.0\ShadowSky.genruntimeconfig.cache
 C:\Users\Gustavo\Desktop\Cristian\Proyectos\ShadowSky\ShadowSky\obj\Debug\net8.0\ref\ShadowSky.dll
+C:\Users\Gustavo\Desktop\Cristian\Proyectos\ShadowSky\bin\Debug\net8.0\Content\Images\World\Tiles\32\dirt.jpg
+C:\Users\Gustavo\Desktop\Cristian\Proyectos\ShadowSky\bin\Debug\net8.0\Content\Images\World\Tiles\32\grass.png
+C:\Users\Gustavo\Desktop\Cristian\Proyectos\ShadowSky\bin\Debug\net8.0\Content\Images\World\Tiles\32\path.jpg
+C:\Users\Gustavo\Desktop\Cristian\Proyectos\ShadowSky\bin\Debug\net8.0\Content\Images\World\Tiles\32\stone.jpg
+C:\Users\Gustavo\Desktop\Cristian\Proyectos\ShadowSky\bin\Debug\net8.0\Content\Images\World\Tiles\32\water.png
 C:\Users\Gustavo\Desktop\Cristian\Proyectos\ShadowSky\bin\Debug\net8.0\ShadowSky.exe
 C:\Users\Gustavo\Desktop\Cristian\Proyectos\ShadowSky\bin\Debug\net8.0\ShadowSky.deps.json
 C:\Users\Gustavo\Desktop\Cristian\Proyectos\ShadowSky\bin\Debug\net8.0\ShadowSky.runtimeconfig.json
@@ -62,4 +67,3 @@ C:\Users\Gustavo\Desktop\Cristian\Proyectos\ShadowSky\obj\Debug\net8.0\refint\Sh
 C:\Users\Gustavo\Desktop\Cristian\Proyectos\ShadowSky\obj\Debug\net8.0\ShadowSky.pdb
 C:\Users\Gustavo\Desktop\Cristian\Proyectos\ShadowSky\obj\Debug\net8.0\ShadowSky.genruntimeconfig.cache
 C:\Users\Gustavo\Desktop\Cristian\Proyectos\ShadowSky\obj\Debug\net8.0\ref\ShadowSky.dll
-C:\Users\Gustavo\Desktop\Cristian\Proyectos\ShadowSky\bin\Debug\net8.0\Content\Images\World\background3.png

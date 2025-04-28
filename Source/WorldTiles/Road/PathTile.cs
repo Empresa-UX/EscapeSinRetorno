@@ -5,6 +5,6 @@ public class PathTile : Tile
     public PathTile()
     {
         Name = "Path";
-        TextureName = "WorldTiles/Road/PathTile"; // Ruta de la imagen en Content
+        TextureName = "Images/World/Tiles/32/path"; // Ruta de la imagen en Content
     }
 }

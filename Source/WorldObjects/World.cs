@@ -41,18 +41,18 @@ namespace ShadowSky.World
         public void LoadContent(ContentManager content)
         {
             // 🚀 Cargamos todas las texturas necesarias
-            grassTexture = content.Load<Texture2D>("Images/World/Tiles/32/GrassTile");
-            dirtTexture = content.Load<Texture2D>("Images/World/Tiles/32/DirtTile");
-            stoneTexture = content.Load<Texture2D>("Images/World/Tiles/32/StoneTile");
-            waterTexture = content.Load<Texture2D>("Images/World/Tiles/32/WaterTile");
-            pathTexture = content.Load<Texture2D>("Images/World/Tiles/32/PathTile");
+            grassTexture = content.Load<Texture2D>("Images/World/Tiles/32/grass");
+            dirtTexture = content.Load<Texture2D>("Images/World/Tiles/32/dirt");
+            stoneTexture = content.Load<Texture2D>("Images/World/Tiles/32/stone");
+            waterTexture = content.Load<Texture2D>("Images/World/Tiles/32/water");
+            pathTexture = content.Load<Texture2D>("Images/World/Tiles/32/path");
 
             // 🔥 Una vez cargadas, generamos el mundo
             GenerateWorld();
             InitializeWorld();
         }
 
-private void GenerateWorld()
+    private void GenerateWorld()
 {
     Random random = new Random();
 
@@ -65,24 +65,25 @@ private void GenerateWorld()
             switch (tileType)
             {
                 case 0:
-                    tiles[x, y] = new GrassTile();
+                    tiles[x, y] = new GrassTile() { Texture = grassTexture };
                     break;
                 case 1:
-                    tiles[x, y] = new DirtTile();
+                    tiles[x, y] = new DirtTile() { Texture = dirtTexture };
                     break;
                 case 2:
-                    tiles[x, y] = new StoneTile();
+                    tiles[x, y] = new StoneTile() { Texture = stoneTexture };
                     break;
                 case 3:
-                    tiles[x, y] = new WaterTile();
+                    tiles[x, y] = new WaterTile() { Texture = waterTexture };
                     break;
                 case 4:
-                    tiles[x, y] = new PathTile();
+                    tiles[x, y] = new PathTile() { Texture = pathTexture };
                     break;
             }
         }
     }
 }
+
 
 
         private void InitializeWorld()

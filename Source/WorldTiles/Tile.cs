@@ -13,6 +13,7 @@ namespace ShadowSky.WorldTiles
 
         public Tile()
         {
+            
         }
 
         public virtual void Draw(int x, int y)
