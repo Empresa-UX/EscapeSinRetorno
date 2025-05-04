@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using ShadowSky.World.Objects;
 
 namespace ShadowSky.World
 {
@@ -12,8 +13,13 @@ namespace ShadowSky.World
         private readonly int _tileSize;
         private TileType[,] _tiles;
         private int[,] _tileTextureIndices;
+
         private Dictionary<TileType, List<Texture2D>> _tileTextures;
         private readonly Random _rng = new();
+
+        private readonly List<Tree> _trees = new();
+        private readonly List<Texture2D> _treeTextures = new();
+
 
         public TileMap(int tileSize)
         {
@@ -80,6 +86,13 @@ namespace ShadowSky.World
                     y++;
                 }
             }
+
+            for (int i = 1; i <= 5; i++)
+            {
+                _treeTextures.Add(content.Load<Texture2D>($"Trees/tree_{i}"));
+            }
+
+            GenerateTrees();
         }
 
         private List<Texture2D> LoadTextures(ContentManager content, string folder, string prefix, int count)
@@ -105,6 +118,27 @@ namespace ShadowSky.World
             if (x >= 0 && x < _tiles.GetLength(0) && y >= 0 && y < _tiles.GetLength(1))
                 return _tiles[x, y];
             return TileType.Empty;
+        }
+
+        private void GenerateTrees()
+        {
+            for (int y = 0; y < _tiles.GetLength(1); y++)
+            {
+                for (int x = 0; x < _tiles.GetLength(0); x++)
+                {
+                    if (_tiles[x, y] != TileType.Grass)
+                        continue;
+
+                    double chance = _rng.NextDouble();
+
+                    if (chance < 0.03) // 3% chance por tile
+                    {
+                        var texture = _treeTextures[_rng.Next(_treeTextures.Count)];
+                        var position = new Vector2(x * _tileSize, y * _tileSize - (texture.Height - _tileSize));
+                        _trees.Add(new Tree(texture, position));
+                    }
+                }
+            }
         }
 
         private Texture2D GetTileTexture(TileType tile, int index)
@@ -140,6 +174,10 @@ namespace ShadowSky.World
                     }
                 }
             }
+
+            foreach (var tree in _trees)
+                tree.Draw(spriteBatch, camera);
+
         }
     }
 }

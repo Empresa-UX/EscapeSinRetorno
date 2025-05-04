@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ShadowSky")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+382cae28f427f55c59339c918a65b15e40ebed8e")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+848453ed6047b273d6b8c9dcf1013418a4b7b1f8")]
 [assembly: System.Reflection.AssemblyProductAttribute("ShadowSky")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ShadowSky")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

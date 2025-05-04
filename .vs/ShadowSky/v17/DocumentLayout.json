@@ -3,20 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|c:\\users\\gustavo\\source\\repos\\shadowsky\\shadowsky\\source\\world\\tiletype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|solutionrelative:shadowsky\\source\\world\\tiletype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|c:\\users\\gustavo\\source\\repos\\shadowsky\\shadowsky\\source\\world\\tile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|solutionrelative:shadowsky\\source\\world\\tile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|c:\\users\\gustavo\\source\\repos\\shadowsky\\shadowsky\\source\\world\\tilemap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|solutionrelative:shadowsky\\source\\world\\tilemap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|c:\\users\\gustavo\\source\\repos\\shadowsky\\shadowsky\\game1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|solutionrelative:shadowsky\\game1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|c:\\users\\gustavo\\source\\repos\\shadowsky\\shadowsky\\source\\world\\flower.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|solutionrelative:shadowsky\\source\\world\\flower.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|c:\\users\\gustavo\\source\\repos\\shadowsky\\shadowsky\\source\\world\\tree.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|solutionrelative:shadowsky\\source\\world\\tree.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|c:\\users\\gustavo\\source\\repos\\shadowsky\\shadowsky\\source\\world\\tiletype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|solutionrelative:shadowsky\\source\\world\\tiletype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|c:\\users\\gustavo\\source\\repos\\shadowsky\\shadowsky\\source\\world\\tile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|solutionrelative:shadowsky\\source\\world\\tile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -38,33 +46,59 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "Flower.cs",
+              "DocumentMoniker": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\World\\Flower.cs",
+              "RelativeDocumentMoniker": "ShadowSky\\Source\\World\\Flower.cs",
+              "ToolTip": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\World\\Flower.cs",
+              "RelativeToolTip": "ShadowSky\\Source\\World\\Flower.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAaAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-04T21:11:58.049Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 3,
+              "Title": "Tree.cs",
+              "DocumentMoniker": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\World\\Tree.cs",
+              "RelativeDocumentMoniker": "ShadowSky\\Source\\World\\Tree.cs",
+              "ToolTip": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\World\\Tree.cs",
+              "RelativeToolTip": "ShadowSky\\Source\\World\\Tree.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAUAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-04T20:52:54.267Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Game1.cs",
               "DocumentMoniker": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Game1.cs",
               "RelativeDocumentMoniker": "ShadowSky\\Game1.cs",
               "ToolTip": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Game1.cs",
               "RelativeToolTip": "ShadowSky\\Game1.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAACcAAAAAAAAAAAA5wBoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-01T17:38:23.824Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "TileMap.cs",
               "DocumentMoniker": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\World\\TileMap.cs",
               "RelativeDocumentMoniker": "ShadowSky\\Source\\World\\TileMap.cs",
               "ToolTip": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\World\\TileMap.cs",
               "RelativeToolTip": "ShadowSky\\Source\\World\\TileMap.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA0AAAAjAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-01T18:35:37.3Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
               "Title": "Tile.cs",
               "DocumentMoniker": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\World\\Tile.cs",
               "RelativeDocumentMoniker": "ShadowSky\\Source\\World\\Tile.cs",
@@ -72,18 +106,17 @@
               "RelativeToolTip": "ShadowSky\\Source\\World\\Tile.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-01T18:35:17.304Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-01T18:35:17.304Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 4,
               "Title": "TileType.cs",
               "DocumentMoniker": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\World\\TileType.cs",
               "RelativeDocumentMoniker": "ShadowSky\\Source\\World\\TileType.cs",
               "ToolTip": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\World\\TileType.cs",
               "RelativeToolTip": "ShadowSky\\Source\\World\\TileType.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-05-01T18:35:04.756Z",
               "EditorCaption": ""
