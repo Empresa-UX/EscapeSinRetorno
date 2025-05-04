@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SourceFileCollection xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Profile>Reach</Profile>
+  <Platform>Windows</Platform>
+  <Config />
+  <SourceFiles>
+    <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Characters/player.png</File>
+    <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Tiles/terrain/dirt/dirt_1.jpg</File>
+    <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Tiles/terrain/dirt/dirt_2.jpg</File>
+    <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Tiles/terrain/dirt/dirt_3.jpg</File>
+    <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Tiles/terrain/dirt/dirt_4.jpg</File>
+    <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Tiles/terrain/grass/grass_1.jpg</File>
+    <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Tiles/terrain/grass/grass_2.jpg</File>
+    <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Tiles/terrain/grass/grass_3.jpg</File>
+    <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Tiles/terrain/grass/grass_4.jpg</File>
+    <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Tiles/terrain/path/path_1.png</File>
+    <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Tiles/terrain/path/path_2.png</File>
+    <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Tiles/terrain/path/path_3.png</File>
+    <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Tiles/terrain/path/path_4.png</File>
+    <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Tiles/terrain/stone/stone_1.png</File>
+    <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Tiles/terrain/stone/stone_2.png</File>
+    <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Tiles/terrain/stone/stone_3.png</File>
+    <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Tiles/terrain/stone/stone_4.png</File>
+    <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Tiles/terrain/water/water_1.jpg</File>
+    <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Tiles/terrain/water/water_2.jpg</File>
+    <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Tiles/terrain/water/water_3.jpg</File>
+    <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Tiles/terrain/water/water_4.jpg</File>
+  </SourceFiles>
+  <DestFiles>
+    <File xsi:nil="true" />
+    <File>Tiles/terrain/dirt/dirt_1</File>
+    <File>Tiles/terrain/dirt/dirt_2</File>
+    <File>Tiles/terrain/dirt/dirt_3</File>
+    <File>Tiles/terrain/dirt/dirt_4</File>
+    <File>Tiles/terrain/grass/grass_1</File>
+    <File>Tiles/terrain/grass/grass_2</File>
+    <File>Tiles/terrain/grass/grass_3</File>
+    <File>Tiles/terrain/grass/grass_4</File>
+    <File>Tiles/terrain/path/path_1</File>
+    <File>Tiles/terrain/path/path_2</File>
+    <File>Tiles/terrain/path/path_3</File>
+    <File>Tiles/terrain/path/path_4</File>
+    <File>Tiles/terrain/stone/stone_1</File>
+    <File>Tiles/terrain/stone/stone_2</File>
+    <File>Tiles/terrain/stone/stone_3</File>
+    <File>Tiles/terrain/stone/stone_4</File>
+    <File>Tiles/terrain/water/water_1</File>
+    <File>Tiles/terrain/water/water_2</File>
+    <File>Tiles/terrain/water/water_3</File>
+    <File>Tiles/terrain/water/water_4</File>
+  </DestFiles>
+</SourceFileCollection>
