@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using ShadowSky.World.Objects;
+using ShadowSky.Source.World;
 
 namespace ShadowSky.World
 {
@@ -19,6 +20,10 @@ namespace ShadowSky.World
 
         private readonly List<Tree> _trees = new();
         private readonly List<Texture2D> _treeTextures = new();
+
+        private List<Flower> _flowers = new();
+        private List<Texture2D> _flowerTextures = new();
+        public int TileSize => _tileSize;
 
 
         public TileMap(int tileSize)
@@ -35,7 +40,6 @@ namespace ShadowSky.World
                     _tileTextureIndices[x, y] = 0; // Inicializa en 0 por defecto
                 }
         }
-
         public void LoadContent(ContentManager content)
         {
             _tileTextures = new()
@@ -93,6 +97,12 @@ namespace ShadowSky.World
             }
 
             GenerateTrees();
+
+            for (int i = 1; i <= 7; i++)
+                _flowerTextures.Add(content.Load<Texture2D>($"Flowers/flower_{i}"));
+
+            GenerateFlowers();
+
         }
 
         private List<Texture2D> LoadTextures(ContentManager content, string folder, string prefix, int count)
@@ -141,6 +151,23 @@ namespace ShadowSky.World
             }
         }
 
+        private void GenerateFlowers()
+        {
+            for (int y = 0; y < _tiles.GetLength(1); y++)
+            {
+                for (int x = 0; x < _tiles.GetLength(0); x++)
+                {
+                    if (_tiles[x, y] == TileType.Grass && _rng.NextDouble() < 0.02)
+                    {
+                        var texture = _flowerTextures[_rng.Next(_flowerTextures.Count)];
+                        var position = new Vector2(x * _tileSize, y * _tileSize);
+                        _flowers.Add(new Flower(texture, position));
+                    }
+                }
+            }
+        }
+
+
         private Texture2D GetTileTexture(TileType tile, int index)
         {
             if (_tileTextures.TryGetValue(tile, out var list) && index >= 0 && index < list.Count)
@@ -156,6 +183,7 @@ namespace ShadowSky.World
             int startX = (int)(camera.X / _tileSize);
             int startY = (int)(camera.Y / _tileSize);
 
+            // Dibujar tiles del suelo
             for (int y = startY; y < startY + tilesHigh; y++)
             {
                 for (int x = startX; x < startX + tilesWide; x++)
@@ -175,9 +203,14 @@ namespace ShadowSky.World
                 }
             }
 
+            // 🌼 Flores van sobre el suelo, debajo de árboles y jugador
+            foreach (var flower in _flowers)
+                flower.Draw(spriteBatch, camera);
+
+            // 🌳 Árboles encima de flores
             foreach (var tree in _trees)
                 tree.Draw(spriteBatch, camera);
-
         }
+
     }
 }

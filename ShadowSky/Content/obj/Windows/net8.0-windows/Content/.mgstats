@@ -1,8 +1,1 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Flowers/flower_1.png","C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/bin/Windows/Content/Flowers/flower_1.xnb","TextureProcessor","Texture2DContent",1354,4181,0,1018988
-"C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Flowers/flower_2.png","C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/bin/Windows/Content/Flowers/flower_2.xnb","TextureProcessor","Texture2DContent",1860,4181,0,0028129
-"C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Flowers/flower_3.png","C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/bin/Windows/Content/Flowers/flower_3.xnb","TextureProcessor","Texture2DContent",1687,4181,0,0021611
-"C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Flowers/flower_4.png","C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/bin/Windows/Content/Flowers/flower_4.xnb","TextureProcessor","Texture2DContent",2708,6229,0,0015819
-"C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Flowers/flower_5.png","C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/bin/Windows/Content/Flowers/flower_5.xnb","TextureProcessor","Texture2DContent",2919,6229,0,0019965
-"C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Flowers/flower_6.png","C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/bin/Windows/Content/Flowers/flower_6.xnb","TextureProcessor","Texture2DContent",2576,6229,0,0016222
-"C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Flowers/flower_7.png","C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/bin/Windows/Content/Flowers/flower_7.xnb","TextureProcessor","Texture2DContent",3003,6229,0,0015371
