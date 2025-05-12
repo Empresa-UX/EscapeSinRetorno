@@ -4,6 +4,7 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
+    <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Shaders/BlurEffect.fx</File>
     <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Characters/player.png</File>
     <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Flowers/flower_1.png</File>
     <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Flowers/flower_2.png</File>
@@ -12,6 +13,7 @@
     <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Flowers/flower_5.png</File>
     <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Flowers/flower_6.png</File>
     <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Flowers/flower_7.png</File>
+    <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Fonts/DebugFont.spritefont</File>
     <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Tiles/terrain/dirt/dirt_1.jpg</File>
     <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Tiles/terrain/dirt/dirt_2.jpg</File>
     <File>C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Tiles/terrain/dirt/dirt_3.jpg</File>
@@ -40,13 +42,6 @@
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
     <File>Tiles/terrain/dirt/dirt_1</File>
     <File>Tiles/terrain/dirt/dirt_2</File>
     <File>Tiles/terrain/dirt/dirt_3</File>
@@ -67,10 +62,5 @@
     <File>Tiles/terrain/water/water_2</File>
     <File>Tiles/terrain/water/water_3</File>
     <File>Tiles/terrain/water/water_4</File>
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
-    <File xsi:nil="true" />
   </DestFiles>
 </SourceFileCollection>

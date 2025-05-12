@@ -3,43 +3,39 @@
   "WorkspaceRootPath": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|c:\\users\\gustavo\\source\\repos\\shadowsky\\shadowsky\\source\\player\\playerstats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|solutionrelative:shadowsky\\source\\player\\playerstats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Gustavo\\AppData\\Local\\SourceServer\\412bd61e076a676ca430552c5c177b862f0c98fc3b8506b3bed5f22d038a8388\\ShadowSky\\Game1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|c:\\users\\gustavo\\source\\repos\\shadowsky\\shadowsky\\source\\player\\playerinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|solutionrelative:shadowsky\\source\\player\\playerinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|c:\\users\\gustavo\\source\\repos\\shadowsky\\shadowsky\\source\\world\\tilemap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|solutionrelative:shadowsky\\source\\world\\tilemap.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|c:\\users\\gustavo\\source\\repos\\shadowsky\\shadowsky\\source\\player\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|solutionrelative:shadowsky\\source\\player\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|c:\\users\\gustavo\\source\\repos\\shadowsky\\shadowsky\\content\\shaders\\blureffect.fx||{8B382828-6202-11D1-8870-0000F87579D2}",
+      "RelativeMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|solutionrelative:shadowsky\\content\\shaders\\blureffect.fx||{8B382828-6202-11D1-8870-0000F87579D2}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|c:\\users\\gustavo\\source\\repos\\shadowsky\\shadowsky\\game1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|solutionrelative:shadowsky\\game1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|c:\\users\\gustavo\\source\\repos\\shadowsky\\shadowsky\\source\\world\\tree.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|solutionrelative:shadowsky\\source\\world\\tree.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|c:\\users\\gustavo\\source\\repos\\shadowsky\\shadowsky\\source\\player\\playerstats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|solutionrelative:shadowsky\\source\\player\\playerstats.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|c:\\users\\gustavo\\source\\repos\\shadowsky\\shadowsky\\source\\world\\flower.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|solutionrelative:shadowsky\\source\\world\\flower.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|c:\\users\\gustavo\\source\\repos\\shadowsky\\shadowsky\\source\\player\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|solutionrelative:shadowsky\\source\\player\\player.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|c:\\users\\gustavo\\source\\repos\\shadowsky\\shadowsky\\source\\world\\tiletype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|solutionrelative:shadowsky\\source\\world\\tiletype.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|c:\\users\\gustavo\\source\\repos\\shadowsky\\shadowsky\\source\\world\\tile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|solutionrelative:shadowsky\\source\\world\\tile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|c:\\users\\gustavo\\source\\repos\\shadowsky\\shadowsky\\source\\player\\playerinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|solutionrelative:shadowsky\\source\\player\\playerinventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|c:\\users\\gustavo\\source\\repos\\shadowsky\\shadowsky\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|solutionrelative:shadowsky\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|c:\\users\\gustavo\\source\\repos\\shadowsky\\shadowsky\\shadowsky.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{A5F10C35-6DF2-4F28-A1B5-FD2A2A821BC7}|ShadowSky\\ShadowSky.csproj|solutionrelative:shadowsky\\shadowsky.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Content\\Fonts\\DebugFont.spritefont||{FA3CD31E-987B-443A-9B81-186104E8DAC1}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:ShadowSky\\Content\\Fonts\\DebugFont.spritefont||{FA3CD31E-987B-443A-9B81-186104E8DAC1}"
     }
   ],
   "DocumentGroupContainers": [
@@ -49,133 +45,123 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 1,
+          "SelectedChildIndex": 2,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "Game1.cs",
-              "DocumentMoniker": "C:\\Users\\Gustavo\\AppData\\Local\\SourceServer\\412bd61e076a676ca430552c5c177b862f0c98fc3b8506b3bed5f22d038a8388\\ShadowSky\\Game1.cs",
-              "RelativeDocumentMoniker": "..\\..\\..\\AppData\\Local\\SourceServer\\412bd61e076a676ca430552c5c177b862f0c98fc3b8506b3bed5f22d038a8388\\ShadowSky\\Game1.cs",
-              "ToolTip": "C:\\Users\\Gustavo\\AppData\\Local\\SourceServer\\412bd61e076a676ca430552c5c177b862f0c98fc3b8506b3bed5f22d038a8388\\ShadowSky\\Game1.cs",
-              "RelativeToolTip": "..\\..\\..\\AppData\\Local\\SourceServer\\412bd61e076a676ca430552c5c177b862f0c98fc3b8506b3bed5f22d038a8388\\ShadowSky\\Game1.cs",
-              "ViewState": "AgIAAB8AAAAAAAAAAAAcwDMAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-09T00:38:36.104Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "PlayerStats.cs",
-              "DocumentMoniker": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\Player\\PlayerStats.cs",
-              "RelativeDocumentMoniker": "ShadowSky\\Source\\Player\\PlayerStats.cs",
-              "ToolTip": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\Player\\PlayerStats.cs",
-              "RelativeToolTip": "ShadowSky\\Source\\Player\\PlayerStats.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-09T00:30:46.658Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "PlayerInventory.cs",
-              "DocumentMoniker": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\Player\\PlayerInventory.cs",
-              "RelativeDocumentMoniker": "ShadowSky\\Source\\Player\\PlayerInventory.cs",
-              "ToolTip": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\Player\\PlayerInventory.cs",
-              "RelativeToolTip": "ShadowSky\\Source\\Player\\PlayerInventory.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-09T00:30:35.656Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "Player.cs",
-              "DocumentMoniker": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\Player\\Player.cs",
-              "RelativeDocumentMoniker": "ShadowSky\\Source\\Player\\Player.cs",
-              "ToolTip": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\Player\\Player.cs",
-              "RelativeToolTip": "ShadowSky\\Source\\Player\\Player.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAMAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-09T00:30:22.727Z",
+              "Title": "Microsoft.Common.CurrentVersion.targets",
+              "DocumentMoniker": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "RelativeDocumentMoniker": "..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "ToolTip": "C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "RelativeToolTip": "..\\..\\..\\..\\..\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\Microsoft.Common.CurrentVersion.targets",
+              "ViewState": "AgIAAPoSAAAAAAAAAAAmwBUTAAAEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003801|",
+              "WhenOpened": "2025-05-11T12:20:19.377Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 6,
-              "Title": "Tree.cs",
-              "DocumentMoniker": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\World\\Tree.cs",
-              "RelativeDocumentMoniker": "ShadowSky\\Source\\World\\Tree.cs",
-              "ToolTip": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\World\\Tree.cs",
-              "RelativeToolTip": "ShadowSky\\Source\\World\\Tree.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAoAAAAVAAAAAAAAAA==",
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Program.cs",
+              "RelativeDocumentMoniker": "ShadowSky\\Program.cs",
+              "ToolTip": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Program.cs",
+              "RelativeToolTip": "ShadowSky\\Program.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-04T20:52:54.267Z"
+              "WhenOpened": "2025-05-11T12:08:27.727Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 0,
+              "Title": "BlurEffect.fx",
+              "DocumentMoniker": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Content\\Shaders\\BlurEffect.fx",
+              "RelativeDocumentMoniker": "ShadowSky\\Content\\Shaders\\BlurEffect.fx",
+              "ToolTip": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Content\\Shaders\\BlurEffect.fx",
+              "RelativeToolTip": "ShadowSky\\Content\\Shaders\\BlurEffect.fx",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABgAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-05-10T18:01:20.761Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "Game1.cs",
               "DocumentMoniker": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Game1.cs",
               "RelativeDocumentMoniker": "ShadowSky\\Game1.cs",
               "ToolTip": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Game1.cs",
               "RelativeToolTip": "ShadowSky\\Game1.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAFsAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAI0AAAAAAAAAAAAswJoAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-01T17:38:23.824Z",
+              "WhenOpened": "2025-05-10T15:07:03.875Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PlayerStats.cs",
+              "DocumentMoniker": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\Player\\PlayerStats.cs",
+              "RelativeDocumentMoniker": "ShadowSky\\Source\\Player\\PlayerStats.cs",
+              "ToolTip": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\Player\\PlayerStats.cs",
+              "RelativeToolTip": "ShadowSky\\Source\\Player\\PlayerStats.cs",
+              "ViewState": "AgIAAFkAAAAAAAAAAAAcwGcAAAAxAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-10T16:12:00.33Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "PlayerInventory.cs",
+              "DocumentMoniker": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\Player\\PlayerInventory.cs",
+              "RelativeDocumentMoniker": "ShadowSky\\Source\\Player\\PlayerInventory.cs",
+              "ToolTip": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\Player\\PlayerInventory.cs",
+              "RelativeToolTip": "ShadowSky\\Source\\Player\\PlayerInventory.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-10T16:11:59.753Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "TileMap.cs",
-              "DocumentMoniker": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\World\\TileMap.cs",
-              "RelativeDocumentMoniker": "ShadowSky\\Source\\World\\TileMap.cs",
-              "ToolTip": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\World\\TileMap.cs",
-              "RelativeToolTip": "ShadowSky\\Source\\World\\TileMap.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAzAAAAAAAAAA==",
+              "Title": "Player.cs",
+              "DocumentMoniker": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\Player\\Player.cs",
+              "RelativeDocumentMoniker": "ShadowSky\\Source\\Player\\Player.cs",
+              "ToolTip": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\Player\\Player.cs",
+              "RelativeToolTip": "ShadowSky\\Source\\Player\\Player.cs",
+              "ViewState": "AgIAAGAAAAAAAAAAAAAqwGoAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-01T18:35:37.3Z",
+              "WhenOpened": "2025-05-10T16:11:59.062Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 7,
-              "Title": "Flower.cs",
-              "DocumentMoniker": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\World\\Flower.cs",
-              "RelativeDocumentMoniker": "ShadowSky\\Source\\World\\Flower.cs",
-              "ToolTip": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\World\\Flower.cs",
-              "RelativeToolTip": "ShadowSky\\Source\\World\\Flower.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAQAAAAaAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-04T21:11:58.049Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 9,
-              "Title": "Tile.cs",
-              "DocumentMoniker": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\World\\Tile.cs",
-              "RelativeDocumentMoniker": "ShadowSky\\Source\\World\\Tile.cs",
-              "ToolTip": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\World\\Tile.cs",
-              "RelativeToolTip": "ShadowSky\\Source\\World\\Tile.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-01T18:35:17.304Z"
+              "Title": "ShadowSky.csproj",
+              "DocumentMoniker": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\ShadowSky.csproj",
+              "RelativeDocumentMoniker": "ShadowSky\\ShadowSky.csproj",
+              "ToolTip": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\ShadowSky.csproj",
+              "RelativeToolTip": "ShadowSky\\ShadowSky.csproj",
+              "ViewState": "AgIAAB4AAAAAAAAAAAAAAAUAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-05-10T12:16:04.607Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 8,
-              "Title": "TileType.cs",
-              "DocumentMoniker": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\World\\TileType.cs",
-              "RelativeDocumentMoniker": "ShadowSky\\Source\\World\\TileType.cs",
-              "ToolTip": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Source\\World\\TileType.cs",
-              "RelativeToolTip": "ShadowSky\\Source\\World\\TileType.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-01T18:35:04.756Z"
+              "Title": "DebugFont.spritefont",
+              "DocumentMoniker": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Content\\Fonts\\DebugFont.spritefont",
+              "RelativeDocumentMoniker": "ShadowSky\\Content\\Fonts\\DebugFont.spritefont",
+              "ToolTip": "C:\\Users\\Gustavo\\source\\repos\\ShadowSky\\ShadowSky\\Content\\Fonts\\DebugFont.spritefont",
+              "RelativeToolTip": "ShadowSky\\Content\\Fonts\\DebugFont.spritefont",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001001|",
+              "WhenOpened": "2025-05-09T23:47:34.195Z"
             }
           ]
         }

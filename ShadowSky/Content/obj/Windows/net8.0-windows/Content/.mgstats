@@ -1,1 +1,2 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
+"C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/Shaders/BlurEffect.fx","C:/Users/Gustavo/source/repos/ShadowSky/ShadowSky/Content/bin/Windows/Content/Shaders/BlurEffect.xnb","EffectProcessor","CompiledEffectContent",731,1677,0,4102598

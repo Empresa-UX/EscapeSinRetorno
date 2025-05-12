@@ -80,3 +80,6 @@ C:\Users\Gustavo\source\repos\ShadowSky\ShadowSky\bin\Debug\net8.0-windows\Conte
 C:\Users\Gustavo\source\repos\ShadowSky\ShadowSky\bin\Debug\net8.0-windows\Content\Flowers\flower_5.xnb
 C:\Users\Gustavo\source\repos\ShadowSky\ShadowSky\bin\Debug\net8.0-windows\Content\Flowers\flower_6.xnb
 C:\Users\Gustavo\source\repos\ShadowSky\ShadowSky\bin\Debug\net8.0-windows\Content\Flowers\flower_7.xnb
+C:\Users\Gustavo\source\repos\ShadowSky\ShadowSky\bin\Debug\net8.0-windows\Content\Fonts\DebugFont.xnb
+C:\Users\Gustavo\source\repos\ShadowSky\ShadowSky\bin\Debug\net8.0-windows\Content\Shaders\BlurEffect.xnb
+C:\Users\Gustavo\source\repos\ShadowSky\ShadowSky\bin\Debug\net8.0-windows\Content\Shaders\TestEffect.xnb
