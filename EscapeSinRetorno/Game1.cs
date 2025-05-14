@@ -1,7 +1,7 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using EscapeSinRetorno.Source.World; // Asegurate de tener este using
+using EscapeSinRetorno.Source.World;
 
 namespace EscapeSinRetorno
 {
