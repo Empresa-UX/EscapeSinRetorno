@@ -151,3 +151,14 @@ C:\Users\maiky\source\repos\EscapeSinRumbo\EscapeSinRetorno\EscapeSinRetorno\bin
 C:\Users\maiky\source\repos\EscapeSinRumbo\EscapeSinRetorno\EscapeSinRetorno\obj\Debug\net8.0-windows\EscapeSi.7802FCF7.Up2Date
 C:\Users\maiky\source\repos\EscapeSinRumbo\EscapeSinRetorno\EscapeSinRetorno\obj\Debug\net8.0-windows\EscapeSinRetorno.genruntimeconfig.cache
 C:\Users\maiky\source\repos\EscapeSinRumbo\EscapeSinRetorno\EscapeSinRetorno\obj\Debug\net8.0-windows\ref\EscapeSinRetorno.dll
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Characters\Enchantress\Attack_1.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Characters\Enchantress\Attack_2.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Characters\Enchantress\Attack_3.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Characters\Enchantress\Attack_4.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Characters\Enchantress\Dead.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Characters\Enchantress\Hurt.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Characters\Enchantress\Idle.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Characters\Enchantress\Jump.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Characters\Enchantress\Run.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Characters\Enchantress\Walk
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Characters\Enchantress\Walk.xnb
