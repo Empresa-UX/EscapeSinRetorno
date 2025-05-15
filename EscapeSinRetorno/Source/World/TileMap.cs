@@ -211,5 +211,27 @@ namespace EscapeSinRetorno.Source.World
             foreach (var tile in _tiles)
                 tile.Draw(spriteBatch, camera);
         }
+        public bool IsColliding(Vector2 position, int width, int height)
+        {
+            int leftTile = (int)(position.X / (_tileSize * 2));
+            int rightTile = (int)((position.X + width) / (_tileSize * 2));
+            int topTile = (int)(position.Y / (_tileSize * 2));
+            int bottomTile = (int)((position.Y + height) / (_tileSize * 2));
+
+            for (int y = topTile; y <= bottomTile; y++)
+            {
+                for (int x = leftTile; x <= rightTile; x++)
+                {
+                    if (!IsValid(x, y))
+                        continue;
+
+                    string tileCode = _mapData[y][x];
+                    if (tileCode == "W" || tileCode == "D")
+                        return true;
+                }
+            }
+            return false;
+        }
+
     }
 }

@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Gustavo\\source\\repos\\EscapeSinRetorno\\EscapeSinRetorno\\EscapeSinRetorno.csproj": {}
+    "C:\\Users\\maiky\\source\\repos\\EscapeSinRumbo\\EscapeSinRetorno\\EscapeSinRetorno\\EscapeSinRetorno.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Gustavo\\source\\repos\\EscapeSinRetorno\\EscapeSinRetorno\\EscapeSinRetorno.csproj": {
+    "C:\\Users\\maiky\\source\\repos\\EscapeSinRumbo\\EscapeSinRetorno\\EscapeSinRetorno\\EscapeSinRetorno.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Gustavo\\source\\repos\\EscapeSinRetorno\\EscapeSinRetorno\\EscapeSinRetorno.csproj",
+        "projectUniqueName": "C:\\Users\\maiky\\source\\repos\\EscapeSinRumbo\\EscapeSinRetorno\\EscapeSinRetorno\\EscapeSinRetorno.csproj",
         "projectName": "EscapeSinRetorno",
-        "projectPath": "C:\\Users\\Gustavo\\source\\repos\\EscapeSinRetorno\\EscapeSinRetorno\\EscapeSinRetorno.csproj",
-        "packagesPath": "C:\\Users\\Gustavo\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Gustavo\\source\\repos\\EscapeSinRetorno\\EscapeSinRetorno\\obj\\",
+        "projectPath": "C:\\Users\\maiky\\source\\repos\\EscapeSinRumbo\\EscapeSinRetorno\\EscapeSinRetorno\\EscapeSinRetorno.csproj",
+        "packagesPath": "C:\\Users\\maiky\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\maiky\\source\\repos\\EscapeSinRumbo\\EscapeSinRetorno\\EscapeSinRetorno\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\Gustavo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\maiky\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -70,24 +70,6 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
-          "downloadDependencies": [
-            {
-              "name": "Microsoft.AspNetCore.App.Ref",
-              "version": "[8.0.15, 8.0.15]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Host.win-x64",
-              "version": "[8.0.15, 8.0.15]"
-            },
-            {
-              "name": "Microsoft.NETCore.App.Ref",
-              "version": "[8.0.15, 8.0.15]"
-            },
-            {
-              "name": "Microsoft.WindowsDesktop.App.Ref",
-              "version": "[8.0.15, 8.0.15]"
-            }
-          ],
           "frameworkReferences": {
             "Microsoft.NETCore.App": {
               "privateAssets": "all"
@@ -96,7 +78,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.201/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

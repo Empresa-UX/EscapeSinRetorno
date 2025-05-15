@@ -45,56 +45,58 @@ namespace EscapeSinRetorno.Source.Entities
 		}
 
 
-		public void Update(GameTime gameTime, TileMap tileMap)
-		{
-			float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
+        public void Update(GameTime gameTime, TileMap tileMap)
+        {
+            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-			KeyboardState ks = Keyboard.GetState();
-			Vector2 input = Vector2.Zero;
+            KeyboardState ks = Keyboard.GetState();
+            Vector2 input = Vector2.Zero;
 
-			if (ks.IsKeyDown(Keys.D))
-			{
-				input.X += 1;
-				_flip = SpriteEffects.None;
-			}
-			else if (ks.IsKeyDown(Keys.A))
-			{
-				input.X -= 1;
-				_flip = SpriteEffects.FlipHorizontally;
-			}
+            if (ks.IsKeyDown(Keys.D))
+            {
+                input.X += 1;
+                _flip = SpriteEffects.None;
+            }
+            else if (ks.IsKeyDown(Keys.A))
+            {
+                input.X -= 1;
+                _flip = SpriteEffects.FlipHorizontally;
+            }
 
-			if (ks.IsKeyDown(Keys.W))
-				input.Y -= 1;
-			else if (ks.IsKeyDown(Keys.S))
-				input.Y += 1;
+            if (ks.IsKeyDown(Keys.W))
+                input.Y -= 1;
+            else if (ks.IsKeyDown(Keys.S))
+                input.Y += 1;
 
-			_isMoving = input != Vector2.Zero;
+            _isMoving = input != Vector2.Zero;
 
-			if (_isMoving)
-			{
-				input.Normalize();
-				_velocity = input * _speed * deltaTime;
+            Vector2 newPosX = Vector2.Zero;
+            Vector2 newPosY = Vector2.Zero;
 
-				// Movimiento en X
-				Vector2 newPosX = new Vector2(HitboxPosition.X + _velocity.X, HitboxPosition.Y);
-				if (!tileMap.IsColliding(newPosX, Width, Height))
-					_position.X += _velocity.X;
+            if (_isMoving)
+            {
+                input.Normalize();
+                _velocity = input * _speed * deltaTime;
 
-				// Movimiento en Y
-				Vector2 newPosY = new Vector2(HitboxPosition.X, HitboxPosition.Y + _velocity.Y);
-				if (!tileMap.IsColliding(newPosY, Width, Height))
-					_position.Y += _velocity.Y;
+                newPosX = new Vector2(HitboxPosition.X + _velocity.X, HitboxPosition.Y);
+                if (!tileMap.IsColliding(newPosX, Width, Height))
+                    _position.X += _velocity.X;
 
-				Animate(gameTime);
-			}
-			else
-			{
-				_velocity = Vector2.Zero;
-				_currentFrame = 0;
-			}
-		}
+                newPosY = new Vector2(HitboxPosition.X, HitboxPosition.Y + _velocity.Y);
+                if (!tileMap.IsColliding(newPosY, Width, Height))
+                    _position.Y += _velocity.Y;
 
-		private void Animate(GameTime gameTime)
+                Animate(gameTime);
+            }
+            else
+            {
+                _velocity = Vector2.Zero;
+                _currentFrame = 0;
+            }
+        }
+
+
+        private void Animate(GameTime gameTime)
 		{
 			_timer += gameTime.ElapsedGameTime.TotalMilliseconds;
 			if (_timer > _interval)
