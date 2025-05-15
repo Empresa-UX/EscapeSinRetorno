@@ -151,22 +151,37 @@ namespace EscapeSinRetorno.Source.World
 
         private string DetectWallDirection(int x, int y)
         {
-            bool up = IsFloor(x, y - 1);
-            bool down = IsFloor(x, y + 1);
-            bool left = IsFloor(x - 1, y);
-            bool right = IsFloor(x + 1, y);
+            int wCount = 0;
+            for (int dx = -2; dx <= 2; dx++)
+            {
+                if (IsWall(x + dx, y)) wCount++;
+            }
 
-            if (up) return "wall_up";
-            if (down) return "wall_down";
-            if (left) return "wall_left";
-            if (right) return "wall_right";
+            if (wCount >= 3) return "wall_up";
+
+            bool floorBelow = IsFloor(x, y + 1);
+            bool floorLeft = IsFloor(x - 1, y);
+            bool floorRight = IsFloor(x + 1, y);
+
+            if (floorBelow && floorLeft) return "wall_left";
+            if (floorBelow && floorRight) return "wall_right";
+            if (floorBelow) return "wall_down";
+            if (floorLeft) return "wall_left";
+            if (floorRight) return "wall_right";
 
             return "wall_up";
         }
 
         private string DetectWallVariant(int x, int y, string dir)
         {
-            return (dir == "wall_left" || dir == "wall_right") && IsFloor(x, y + 1) ? "3" : "1";
+            if ((dir == "wall_left" || dir == "wall_right") && IsFloor(x, y + 1))
+                return "3";
+
+            bool above = IsWall(x, y - 1);
+            bool below = IsWall(x, y + 1);
+            if (above && below) return "2";
+
+            return "1";
         }
 
         private bool IsWall(int x, int y)

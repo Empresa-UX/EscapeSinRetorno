@@ -68,3 +68,4 @@ C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0
 C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Tiles\floors\floor_7.xnb
 C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Tiles\floors\floor_8.xnb
 C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Tiles\floors\floor_9.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Maps\v2.txt

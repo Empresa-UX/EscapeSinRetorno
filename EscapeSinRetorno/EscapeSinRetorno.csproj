@@ -22,6 +22,9 @@
 		<None Update="Content\Maps\v1.txt">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
+		<None Update="Content\Maps\v2.txt">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 
 	<Target Name="RestoreDotnetTools" BeforeTargets="Restore">
