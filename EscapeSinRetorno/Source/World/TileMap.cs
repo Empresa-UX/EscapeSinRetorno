@@ -17,6 +17,8 @@ namespace EscapeSinRetorno.Source.World
         private readonly Dictionary<(int x, int y), string> _doorOverrides = new();
         private readonly Random _rng = new();
         private string[][] _mapData;
+        public Vector2? PlayerStartPosition { get; private set; } = null;
+
 
         public TileMap(int tileSize)
         {
@@ -139,6 +141,13 @@ namespace EscapeSinRetorno.Source.World
                     {
                         layers.Add(tex);
                     }
+                    else if (code == "P")
+                    {
+                        string floorCode = $"F{_rng.Next(1, 13)}";
+                        layers.Add(_tileTextures[floorCode]);
+                        PlayerStartPosition = new Vector2(x * _tileSize * 2, y * _tileSize * 2);
+                    }
+
 
                     if (layers.Count > 0)
                     {
@@ -184,6 +193,37 @@ namespace EscapeSinRetorno.Source.World
             return "1";
         }
 
+        private void DrawNothingTile(SpriteBatch spriteBatch, Vector2 worldPos)
+        {
+            if (_tileTextures.TryGetValue("N", out var tex))
+            {
+                spriteBatch.Draw(tex, worldPos, null, Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0f);
+            }
+        }
+
+        public void DrawBackground(SpriteBatch spriteBatch, Vector2 camera, int screenWidth, int screenHeight)
+        {
+            if (!_tileTextures.TryGetValue("N", out var tex))
+                return;
+
+            int tileDrawSize = _tileSize * 2;
+
+            int minX = (int)(camera.X / tileDrawSize) - 1;
+            int maxX = (int)((camera.X + screenWidth) / tileDrawSize) + 1;
+            int minY = (int)(camera.Y / tileDrawSize) - 1;
+            int maxY = (int)((camera.Y + screenHeight) / tileDrawSize) + 1;
+
+            for (int y = minY; y <= maxY; y++)
+            {
+                for (int x = minX; x <= maxX; x++)
+                {
+                    Vector2 pos = new Vector2(x * tileDrawSize, y * tileDrawSize);
+                    spriteBatch.Draw(tex, pos, null, Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0f);
+                }
+            }
+        }
+
+
         private bool IsWall(int x, int y)
         {
             return IsValid(x, y) && _mapData[y][x] == "W";
@@ -208,9 +248,42 @@ namespace EscapeSinRetorno.Source.World
 
         public void Draw(SpriteBatch spriteBatch, Vector2 camera)
         {
-            foreach (var tile in _tiles)
-                tile.Draw(spriteBatch, camera);
+            int screenWidth = 1280;
+            int screenHeight = 720;
+            int tileDrawSize = _tileSize * 2;
+
+            int minX = (int)(camera.X / tileDrawSize) - 1;
+            int maxX = (int)((camera.X + screenWidth) / tileDrawSize) + 1;
+            int minY = (int)(camera.Y / tileDrawSize) - 1;
+            int maxY = (int)((camera.Y + screenHeight) / tileDrawSize) + 1;
+
+            for (int y = minY; y <= maxY; y++)
+            {
+                for (int x = minX; x <= maxX; x++)
+                {
+                    Vector2 pos = new Vector2(x * tileDrawSize, y * tileDrawSize);
+
+                    if (IsValid(x, y))
+                    {
+                        foreach (var tile in _tiles)
+                        {
+                            if ((int)tile.Position.X == (int)pos.X && (int)tile.Position.Y == (int)pos.Y)
+                            {
+                                tile.Draw(spriteBatch, camera);
+                                break;
+                            }
+                        }
+                    }
+                    else
+                    {
+                        DrawNothingTile(spriteBatch, pos); // <- usar pos ya creado
+                    }
+                }
+            }
         }
+
+
+
         public bool IsColliding(Vector2 position, int width, int height)
         {
             int leftTile = (int)(position.X / (_tileSize * 2));

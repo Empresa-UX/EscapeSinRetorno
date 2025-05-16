@@ -41,6 +41,9 @@ namespace EscapeSinRetorno.Source.Entities
 
         public int Width => _hitboxWidth;
         public int Height => _hitboxHeight;
+        public Vector2 Position => _position;
+        public void SetPosition(Vector2 pos) => _position = pos;
+
 
         public Vector2 HitboxPosition => new Vector2(
             _position.X + (_frameWidth - _hitboxWidth) / 2,

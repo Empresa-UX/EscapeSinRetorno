@@ -13,6 +13,7 @@ namespace EscapeSinRetorno
 
         private TileMap _tileMap;
         private Player _player;
+        private Camera2D _camera;
 
         public Game1()
         {
@@ -34,6 +35,13 @@ namespace EscapeSinRetorno
 
             _player = new Player();
             _player.LoadContent(Content, GraphicsDevice);
+
+            if (_tileMap.PlayerStartPosition.HasValue)
+            {
+                _player.SetPosition(_tileMap.PlayerStartPosition.Value);
+            }
+
+            _camera = new Camera2D(GraphicsDevice.Viewport);
         }
 
         protected override void Update(GameTime gameTime)
@@ -43,6 +51,8 @@ namespace EscapeSinRetorno
                 Exit();
 
             _player.Update(gameTime, _tileMap);
+            _camera.Follow(_player.Position, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+
 
             base.Update(gameTime);
         }
@@ -51,8 +61,9 @@ namespace EscapeSinRetorno
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _spriteBatch.Begin();
+            _spriteBatch.Begin(transformMatrix: _camera.GetTransform());
 
+            _tileMap.DrawBackground(_spriteBatch, camera: _camera.GetPosition(), screenWidth: 1280, screenHeight: 720);
             _tileMap.Draw(_spriteBatch, Vector2.Zero);
             _player.Draw(_spriteBatch);
 
