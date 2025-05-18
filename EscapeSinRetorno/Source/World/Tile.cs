@@ -1,6 +1,7 @@
 ﻿// Tile.cs
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 
 namespace EscapeSinRetorno.Source.World
@@ -19,7 +20,7 @@ namespace EscapeSinRetorno.Source.World
         public void Draw(SpriteBatch spriteBatch, Vector2 camera)
         {
             foreach (var tex in _layers)
-                spriteBatch.Draw(tex, Position - camera, null, Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(tex, Position - camera, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
     }
 }

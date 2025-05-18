@@ -4,59 +4,47 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/doors/door_boss/door_1.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/doors/door_boss/door_2.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/doors/door_normal/door_1.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/doors/door_normal/door_2.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/doors/door_side/door_1.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/doors/door_side/door_2.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_1.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_10.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_11.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_12.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_2.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_3.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_4.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_5.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_6.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_7.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_8.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_9.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/nothing.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/with_floor/wall_down/wall_1.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/with_floor/wall_down/wall_2.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/with_floor/wall_left/wall_1.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/with_floor/wall_left/wall_2.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/with_floor/wall_left/wall_3.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/with_floor/wall_right/wall_1.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/with_floor/wall_right/wall_2.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/with_floor/wall_right/wall_3.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/with_floor/wall_up/wall_1.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/with_floor/wall_up/wall_2.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/with_floor/wall_up/wall_3.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/with_nothing/wall_down/wall_1.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/with_nothing/wall_down/wall_2.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/with_nothing/wall_left/wall_1.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/with_nothing/wall_left/wall_2.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/with_nothing/wall_left/wall_3.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/with_nothing/wall_right/wall_1.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/with_nothing/wall_right/wall_2.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/with_nothing/wall_right/wall_3.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/with_nothing/wall_up/wall_1.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/with_nothing/wall_up/wall_2.png</File>
-    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/with_nothing/wall_up/wall_3.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/doors/door_1.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_1.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_10.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_11.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_12.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_13.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_14.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_15.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_16.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_2.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_3.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_4.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_5.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_6.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_7.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_8.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_9.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/nothing.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/wall_left_right/wall_1.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/wall_left_right/wall_2.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/wall_left_right/wall_3.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/wall_left_right/wall_4.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/wall_left_right/wall_5.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/wall_left_right/wall_6.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/wall_left_right/wall_7.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/wall_left_right/wall_8.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/wall_left_right/wall_9.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/wall_up_down/wall_1.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/wall_up_down/wall_2.jpeg</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/wall_up_down/wall_3.jpeg</File>
   </SourceFiles>
   <DestFiles>
-    <File>Tiles/doors/door_boss/door_1</File>
-    <File>Tiles/doors/door_boss/door_2</File>
-    <File>Tiles/doors/door_normal/door_1</File>
-    <File>Tiles/doors/door_normal/door_2</File>
-    <File>Tiles/doors/door_side/door_1</File>
-    <File>Tiles/doors/door_side/door_2</File>
+    <File>Tiles/doors/door_1</File>
     <File>Tiles/floors/floor_1</File>
     <File>Tiles/floors/floor_10</File>
     <File>Tiles/floors/floor_11</File>
     <File>Tiles/floors/floor_12</File>
+    <File>Tiles/floors/floor_13</File>
+    <File>Tiles/floors/floor_14</File>
+    <File>Tiles/floors/floor_15</File>
+    <File>Tiles/floors/floor_16</File>
     <File>Tiles/floors/floor_2</File>
     <File>Tiles/floors/floor_3</File>
     <File>Tiles/floors/floor_4</File>
@@ -66,27 +54,17 @@
     <File>Tiles/floors/floor_8</File>
     <File>Tiles/floors/floor_9</File>
     <File xsi:nil="true" />
-    <File>Tiles/walls/with_floor/wall_down/wall_1</File>
-    <File>Tiles/walls/with_floor/wall_down/wall_2</File>
-    <File>Tiles/walls/with_floor/wall_left/wall_1</File>
-    <File>Tiles/walls/with_floor/wall_left/wall_2</File>
-    <File>Tiles/walls/with_floor/wall_left/wall_3</File>
-    <File>Tiles/walls/with_floor/wall_right/wall_1</File>
-    <File>Tiles/walls/with_floor/wall_right/wall_2</File>
-    <File>Tiles/walls/with_floor/wall_right/wall_3</File>
-    <File>Tiles/walls/with_floor/wall_up/wall_1</File>
-    <File>Tiles/walls/with_floor/wall_up/wall_2</File>
-    <File>Tiles/walls/with_floor/wall_up/wall_3</File>
-    <File>Tiles/walls/with_nothing/wall_down/wall_1</File>
-    <File>Tiles/walls/with_nothing/wall_down/wall_2</File>
-    <File>Tiles/walls/with_nothing/wall_left/wall_1</File>
-    <File>Tiles/walls/with_nothing/wall_left/wall_2</File>
-    <File>Tiles/walls/with_nothing/wall_left/wall_3</File>
-    <File>Tiles/walls/with_nothing/wall_right/wall_1</File>
-    <File>Tiles/walls/with_nothing/wall_right/wall_2</File>
-    <File>Tiles/walls/with_nothing/wall_right/wall_3</File>
-    <File>Tiles/walls/with_nothing/wall_up/wall_1</File>
-    <File>Tiles/walls/with_nothing/wall_up/wall_2</File>
-    <File>Tiles/walls/with_nothing/wall_up/wall_3</File>
+    <File>Tiles/walls/wall_left_right/wall_1</File>
+    <File>Tiles/walls/wall_left_right/wall_2</File>
+    <File>Tiles/walls/wall_left_right/wall_3</File>
+    <File>Tiles/walls/wall_left_right/wall_4</File>
+    <File>Tiles/walls/wall_left_right/wall_5</File>
+    <File>Tiles/walls/wall_left_right/wall_6</File>
+    <File>Tiles/walls/wall_left_right/wall_7</File>
+    <File>Tiles/walls/wall_left_right/wall_8</File>
+    <File>Tiles/walls/wall_left_right/wall_9</File>
+    <File>Tiles/walls/wall_up_down/wall_1</File>
+    <File>Tiles/walls/wall_up_down/wall_2</File>
+    <File>Tiles/walls/wall_up_down/wall_3</File>
   </DestFiles>
 </SourceFileCollection>

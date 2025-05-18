@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
+using System;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using EscapeSinRetorno.Source.World;
@@ -53,7 +54,6 @@ namespace EscapeSinRetorno
             _player.Update(gameTime, _tileMap);
             _camera.Follow(_player.Position, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
 
-
             base.Update(gameTime);
         }
 
@@ -63,8 +63,9 @@ namespace EscapeSinRetorno
 
             _spriteBatch.Begin(transformMatrix: _camera.GetTransform());
 
-            _tileMap.DrawBackground(_spriteBatch, camera: _camera.GetPosition(), screenWidth: 1280, screenHeight: 720);
+            _tileMap.DrawBackground(_spriteBatch, camera: _camera.GetPosition(), screenWidth: 1366, screenHeight: 768);
             _tileMap.Draw(_spriteBatch, Vector2.Zero);
+
             _player.Draw(_spriteBatch);
 
             _spriteBatch.End();

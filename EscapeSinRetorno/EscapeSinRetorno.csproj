@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<OutputType>WinExe</OutputType>
+		<OutputType>Exe</OutputType>
 		<TargetFramework>net8.0-windows</TargetFramework>
 		<RollForward>Major</RollForward>
 		<PublishReadyToRun>false</PublishReadyToRun>
@@ -23,6 +23,12 @@
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Content\Maps\v2.txt">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Content\Maps\v7.txt">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Content\Maps\v9.txt">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>

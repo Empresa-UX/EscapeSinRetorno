@@ -13,7 +13,7 @@
 
 #---------------------------------- Content ---------------------------------#
 
-#begin Tiles/doors/door_boss/door_1.png
+#begin Tiles/doors/door_1.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -23,9 +23,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/doors/door_boss/door_1.png;Tiles/doors/door_boss/door_1
+/build:Tiles/doors/door_1.jpeg;Tiles/doors/door_1
 
-#begin Tiles/doors/door_boss/door_2.png
+#begin Tiles/floors/floor_1.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -35,9 +35,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/doors/door_boss/door_2.png;Tiles/doors/door_boss/door_2
+/build:Tiles/floors/floor_1.jpeg;Tiles/floors/floor_1
 
-#begin Tiles/doors/door_normal/door_1.png
+#begin Tiles/floors/floor_10.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -47,9 +47,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/doors/door_normal/door_1.png;Tiles/doors/door_normal/door_1
+/build:Tiles/floors/floor_10.jpeg;Tiles/floors/floor_10
 
-#begin Tiles/doors/door_normal/door_2.png
+#begin Tiles/floors/floor_11.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -59,9 +59,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/doors/door_normal/door_2.png;Tiles/doors/door_normal/door_2
+/build:Tiles/floors/floor_11.jpeg;Tiles/floors/floor_11
 
-#begin Tiles/doors/door_side/door_1.png
+#begin Tiles/floors/floor_12.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -71,9 +71,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/doors/door_side/door_1.png;Tiles/doors/door_side/door_1
+/build:Tiles/floors/floor_12.jpeg;Tiles/floors/floor_12
 
-#begin Tiles/doors/door_side/door_2.png
+#begin Tiles/floors/floor_13.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -83,9 +83,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/doors/door_side/door_2.png;Tiles/doors/door_side/door_2
+/build:Tiles/floors/floor_13.jpeg;Tiles/floors/floor_13
 
-#begin Tiles/floors/floor_1.png
+#begin Tiles/floors/floor_14.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -95,9 +95,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/floors/floor_1.png;Tiles/floors/floor_1
+/build:Tiles/floors/floor_14.jpeg;Tiles/floors/floor_14
 
-#begin Tiles/floors/floor_10.png
+#begin Tiles/floors/floor_15.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -107,9 +107,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/floors/floor_10.png;Tiles/floors/floor_10
+/build:Tiles/floors/floor_15.jpeg;Tiles/floors/floor_15
 
-#begin Tiles/floors/floor_11.png
+#begin Tiles/floors/floor_16.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -119,9 +119,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/floors/floor_11.png;Tiles/floors/floor_11
+/build:Tiles/floors/floor_16.jpeg;Tiles/floors/floor_16
 
-#begin Tiles/floors/floor_12.png
+#begin Tiles/floors/floor_2.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -131,9 +131,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/floors/floor_12.png;Tiles/floors/floor_12
+/build:Tiles/floors/floor_2.jpeg;Tiles/floors/floor_2
 
-#begin Tiles/floors/floor_2.png
+#begin Tiles/floors/floor_3.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -143,9 +143,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/floors/floor_2.png;Tiles/floors/floor_2
+/build:Tiles/floors/floor_3.jpeg;Tiles/floors/floor_3
 
-#begin Tiles/floors/floor_3.png
+#begin Tiles/floors/floor_4.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -155,9 +155,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/floors/floor_3.png;Tiles/floors/floor_3
+/build:Tiles/floors/floor_4.jpeg;Tiles/floors/floor_4
 
-#begin Tiles/floors/floor_4.png
+#begin Tiles/floors/floor_5.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -167,9 +167,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/floors/floor_4.png;Tiles/floors/floor_4
+/build:Tiles/floors/floor_5.jpeg;Tiles/floors/floor_5
 
-#begin Tiles/floors/floor_5.png
+#begin Tiles/floors/floor_6.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -179,9 +179,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/floors/floor_5.png;Tiles/floors/floor_5
+/build:Tiles/floors/floor_6.jpeg;Tiles/floors/floor_6
 
-#begin Tiles/floors/floor_6.png
+#begin Tiles/floors/floor_7.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -191,9 +191,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/floors/floor_6.png;Tiles/floors/floor_6
+/build:Tiles/floors/floor_7.jpeg;Tiles/floors/floor_7
 
-#begin Tiles/floors/floor_7.png
+#begin Tiles/floors/floor_8.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -203,9 +203,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/floors/floor_7.png;Tiles/floors/floor_7
+/build:Tiles/floors/floor_8.jpeg;Tiles/floors/floor_8
 
-#begin Tiles/floors/floor_8.png
+#begin Tiles/floors/floor_9.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -215,9 +215,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/floors/floor_8.png;Tiles/floors/floor_8
+/build:Tiles/floors/floor_9.jpeg;Tiles/floors/floor_9
 
-#begin Tiles/floors/floor_9.png
+#begin Tiles/nothing.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -227,9 +227,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/floors/floor_9.png;Tiles/floors/floor_9
+/build:Tiles/nothing.jpeg
 
-#begin Tiles/nothing.png
+#begin Tiles/walls/wall_left_right/wall_1.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -239,9 +239,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/nothing.png
+/build:Tiles/walls/wall_left_right/wall_1.jpeg;Tiles/walls/wall_left_right/wall_1
 
-#begin Tiles/walls/with_floor/wall_down/wall_1.png
+#begin Tiles/walls/wall_left_right/wall_2.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -251,9 +251,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/walls/with_floor/wall_down/wall_1.png;Tiles/walls/with_floor/wall_down/wall_1
+/build:Tiles/walls/wall_left_right/wall_2.jpeg;Tiles/walls/wall_left_right/wall_2
 
-#begin Tiles/walls/with_floor/wall_down/wall_2.png
+#begin Tiles/walls/wall_left_right/wall_3.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -263,9 +263,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/walls/with_floor/wall_down/wall_2.png;Tiles/walls/with_floor/wall_down/wall_2
+/build:Tiles/walls/wall_left_right/wall_3.jpeg;Tiles/walls/wall_left_right/wall_3
 
-#begin Tiles/walls/with_floor/wall_left/wall_1.png
+#begin Tiles/walls/wall_left_right/wall_4.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -275,9 +275,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/walls/with_floor/wall_left/wall_1.png;Tiles/walls/with_floor/wall_left/wall_1
+/build:Tiles/walls/wall_left_right/wall_4.jpeg;Tiles/walls/wall_left_right/wall_4
 
-#begin Tiles/walls/with_floor/wall_left/wall_2.png
+#begin Tiles/walls/wall_left_right/wall_5.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -287,9 +287,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/walls/with_floor/wall_left/wall_2.png;Tiles/walls/with_floor/wall_left/wall_2
+/build:Tiles/walls/wall_left_right/wall_5.jpeg;Tiles/walls/wall_left_right/wall_5
 
-#begin Tiles/walls/with_floor/wall_left/wall_3.png
+#begin Tiles/walls/wall_left_right/wall_6.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -299,9 +299,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/walls/with_floor/wall_left/wall_3.png;Tiles/walls/with_floor/wall_left/wall_3
+/build:Tiles/walls/wall_left_right/wall_6.jpeg;Tiles/walls/wall_left_right/wall_6
 
-#begin Tiles/walls/with_floor/wall_right/wall_1.png
+#begin Tiles/walls/wall_left_right/wall_7.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -311,9 +311,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/walls/with_floor/wall_right/wall_1.png;Tiles/walls/with_floor/wall_right/wall_1
+/build:Tiles/walls/wall_left_right/wall_7.jpeg;Tiles/walls/wall_left_right/wall_7
 
-#begin Tiles/walls/with_floor/wall_right/wall_2.png
+#begin Tiles/walls/wall_left_right/wall_8.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -323,9 +323,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/walls/with_floor/wall_right/wall_2.png;Tiles/walls/with_floor/wall_right/wall_2
+/build:Tiles/walls/wall_left_right/wall_8.jpeg;Tiles/walls/wall_left_right/wall_8
 
-#begin Tiles/walls/with_floor/wall_right/wall_3.png
+#begin Tiles/walls/wall_left_right/wall_9.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -335,9 +335,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/walls/with_floor/wall_right/wall_3.png;Tiles/walls/with_floor/wall_right/wall_3
+/build:Tiles/walls/wall_left_right/wall_9.jpeg;Tiles/walls/wall_left_right/wall_9
 
-#begin Tiles/walls/with_floor/wall_up/wall_1.png
+#begin Tiles/walls/wall_up_down/wall_1.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -347,9 +347,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/walls/with_floor/wall_up/wall_1.png;Tiles/walls/with_floor/wall_up/wall_1
+/build:Tiles/walls/wall_up_down/wall_1.jpeg;Tiles/walls/wall_up_down/wall_1
 
-#begin Tiles/walls/with_floor/wall_up/wall_2.png
+#begin Tiles/walls/wall_up_down/wall_2.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -359,9 +359,9 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/walls/with_floor/wall_up/wall_2.png;Tiles/walls/with_floor/wall_up/wall_2
+/build:Tiles/walls/wall_up_down/wall_2.jpeg;Tiles/walls/wall_up_down/wall_2
 
-#begin Tiles/walls/with_floor/wall_up/wall_3.png
+#begin Tiles/walls/wall_up_down/wall_3.jpeg
 /importer:TextureImporter
 /processor:TextureProcessor
 /processorParam:ColorKeyColor=255,0,255,255
@@ -371,137 +371,5 @@
 /processorParam:ResizeToPowerOfTwo=False
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
-/build:Tiles/walls/with_floor/wall_up/wall_3.png;Tiles/walls/with_floor/wall_up/wall_3
-
-#begin Tiles/walls/with_nothing/wall_down/wall_1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Tiles/walls/with_nothing/wall_down/wall_1.png;Tiles/walls/with_nothing/wall_down/wall_1
-
-#begin Tiles/walls/with_nothing/wall_down/wall_2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Tiles/walls/with_nothing/wall_down/wall_2.png;Tiles/walls/with_nothing/wall_down/wall_2
-
-#begin Tiles/walls/with_nothing/wall_left/wall_1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Tiles/walls/with_nothing/wall_left/wall_1.png;Tiles/walls/with_nothing/wall_left/wall_1
-
-#begin Tiles/walls/with_nothing/wall_left/wall_2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Tiles/walls/with_nothing/wall_left/wall_2.png;Tiles/walls/with_nothing/wall_left/wall_2
-
-#begin Tiles/walls/with_nothing/wall_left/wall_3.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Tiles/walls/with_nothing/wall_left/wall_3.png;Tiles/walls/with_nothing/wall_left/wall_3
-
-#begin Tiles/walls/with_nothing/wall_right/wall_1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Tiles/walls/with_nothing/wall_right/wall_1.png;Tiles/walls/with_nothing/wall_right/wall_1
-
-#begin Tiles/walls/with_nothing/wall_right/wall_2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Tiles/walls/with_nothing/wall_right/wall_2.png;Tiles/walls/with_nothing/wall_right/wall_2
-
-#begin Tiles/walls/with_nothing/wall_right/wall_3.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Tiles/walls/with_nothing/wall_right/wall_3.png;Tiles/walls/with_nothing/wall_right/wall_3
-
-#begin Tiles/walls/with_nothing/wall_up/wall_1.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Tiles/walls/with_nothing/wall_up/wall_1.png;Tiles/walls/with_nothing/wall_up/wall_1
-
-#begin Tiles/walls/with_nothing/wall_up/wall_2.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Tiles/walls/with_nothing/wall_up/wall_2.png;Tiles/walls/with_nothing/wall_up/wall_2
-
-#begin Tiles/walls/with_nothing/wall_up/wall_3.png
-/importer:TextureImporter
-/processor:TextureProcessor
-/processorParam:ColorKeyColor=255,0,255,255
-/processorParam:ColorKeyEnabled=True
-/processorParam:GenerateMipmaps=False
-/processorParam:PremultiplyAlpha=True
-/processorParam:ResizeToPowerOfTwo=False
-/processorParam:MakeSquare=False
-/processorParam:TextureFormat=Color
-/build:Tiles/walls/with_nothing/wall_up/wall_3.png;Tiles/walls/with_nothing/wall_up/wall_3
+/build:Tiles/walls/wall_up_down/wall_3.jpeg;Tiles/walls/wall_up_down/wall_3
 
