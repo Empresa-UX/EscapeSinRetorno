@@ -43,6 +43,7 @@ namespace EscapeSinRetorno
             }
 
             _camera = new Camera2D(GraphicsDevice.Viewport);
+            _camera.SetZoom(5.0f); // Zoom x2
         }
 
         protected override void Update(GameTime gameTime)

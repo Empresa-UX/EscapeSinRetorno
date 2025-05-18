@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework.Input;
 using EscapeSinRetorno.Source.World;
 using System;
 using System.Collections.Generic;
+using SharpDX.Direct2D1.Effects;
 
 namespace EscapeSinRetorno.Source.Entities
 {
@@ -34,20 +35,22 @@ namespace EscapeSinRetorno.Source.Entities
 
         private int _hitboxWidth = 32;
         private int _hitboxHeight = 32;
+        private float _scale = 0.5f; // Ajustá el tamaño que te parezca correcto
+
 
         private KeyboardState _previousKeyboardState;
         private bool _animLocked = false;
         private bool _wasMoving = false;
 
-        public int Width => _hitboxWidth;
-        public int Height => _hitboxHeight;
+        public int Width => (int)(_hitboxWidth * _scale);
+        public int Height => (int)(_hitboxHeight * _scale);
         public Vector2 Position => _position;
         public void SetPosition(Vector2 pos) => _position = pos;
 
 
         public Vector2 HitboxPosition => new Vector2(
-            _position.X + (_frameWidth - _hitboxWidth) / 2,
-            _position.Y + (_frameHeight - _hitboxHeight)
+            _position.X + (_frameWidth * _scale - Width) / 2,
+            _position.Y + (_frameHeight * _scale - Height)
         );
 
         public void LoadContent(ContentManager content, GraphicsDevice graphicsDevice)
@@ -233,9 +236,9 @@ namespace EscapeSinRetorno.Source.Entities
             int clampedFrame = Math.Clamp(_currentFrame, 0, totalFrames - 1);
 
             Rectangle source = new Rectangle(clampedFrame * _frameWidth, 0, _frameWidth, _frameHeight);
-            spriteBatch.Draw(tex, _position, source, Color.White, 0f, Vector2.Zero, 1f, _flip, 0f);
+            spriteBatch.Draw(tex, _position, source, Color.White, 0f, Vector2.Zero, _scale, _flip, 0f);
 
-            Rectangle hitboxRect = new Rectangle((int)HitboxPosition.X, (int)HitboxPosition.Y, _hitboxWidth, _hitboxHeight);
+            Rectangle hitboxRect = new Rectangle((int)HitboxPosition.X, (int)HitboxPosition.Y, Width, Height);
             spriteBatch.Draw(_debugPixel, hitboxRect, Color.Red * 0.3f);
         }
     }

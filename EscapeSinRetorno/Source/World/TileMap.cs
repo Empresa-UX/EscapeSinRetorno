@@ -11,6 +11,7 @@ namespace EscapeSinRetorno.Source.World
 {
     public class TileMap
     {
+
         private readonly int _tileSize;
         private Tile[,] _tiles;
         private readonly Dictionary<string, Texture2D> _tileTextures = new();
@@ -55,7 +56,6 @@ namespace EscapeSinRetorno.Source.World
             while (!reader.EndOfStream)
                 lines.Add(reader.ReadLine());
 
-            int expectedCols = 80;
             int rows = lines.Count;
 
             _mapData = new string[rows][];
@@ -88,10 +88,18 @@ namespace EscapeSinRetorno.Source.World
 
                     if (code == "F")
                     {
-                        int frame = floorCounters[y]++;
-                        if (floorCounters[y] > 16) floorCounters[y] = 1;
+                        int frame = (x % 4) + (y % 4) * 4 + 1;
                         layers.Add(_tileTextures[$"F{frame}"]);
                     }
+                    // Generación del piso más aleatorio, descomentar para testear
+                    //if (code == "F")
+                    //{
+                    //    int baseFrame = (x % 4) + (y % 4) * 4 + 1;
+                    //    int randomOffset = new Random(x * 73856093 ^ y * 19349663).Next(-2, 3); // ±2
+                    //    int frame = Math.Clamp(baseFrame + randomOffset, 1, 16);
+                    //    layers.Add(_tileTextures[$"F{frame}"]);
+                    //}
+
                     else if (code == "P")
                     {
                         layers.Add(_tileTextures["F1"]);
@@ -134,7 +142,6 @@ namespace EscapeSinRetorno.Source.World
                 }
             }
         }
-
         private string GetWallTextureKey(int x, int y)
         {
             bool up = _wallPositions.Contains(new Point(x, y - 1));
