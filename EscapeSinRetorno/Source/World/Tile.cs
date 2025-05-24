@@ -19,8 +19,8 @@ namespace EscapeSinRetorno.Source.World
 
         public void Draw(SpriteBatch spriteBatch, Vector2 camera)
         {
-            foreach (var tex in _layers)
-                spriteBatch.Draw(tex, Position - camera, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            if (_layers.Count > 0)
+                spriteBatch.Draw(_layers[0], Position - camera, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
     }
 }

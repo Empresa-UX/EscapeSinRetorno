@@ -126,9 +126,6 @@ C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0
 C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Tiles\walls\wall_left_right\wall_7.xnb
 C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Tiles\walls\wall_left_right\wall_8.xnb
 C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Tiles\walls\wall_left_right\wall_9.xnb
-C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Tiles\walls\wall_up_down\wall_1.xnb
-C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Tiles\walls\wall_up_down\wall_2.xnb
-C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Tiles\walls\wall_up_down\wall_3.xnb
 C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Tiles\walls\with_floor\wall_down\wall_1.xnb
 C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Tiles\walls\with_floor\wall_down\wall_2.xnb
 C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Tiles\walls\with_floor\wall_left\wall_1.xnb
@@ -181,3 +178,7 @@ C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0
 C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\EscapeSinRetorno.pdb
 C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\obj\Debug\net8.0-windows\EscapeSinRetorno.genruntimeconfig.cache
 C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\obj\Debug\net8.0-windows\ref\EscapeSinRetorno.dll
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Tiles\walls\wall_up_down\wall_10.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Tiles\walls\wall_up_down\wall_11.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Tiles\walls\wall_up_down\wall_12.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Maps\test.txt

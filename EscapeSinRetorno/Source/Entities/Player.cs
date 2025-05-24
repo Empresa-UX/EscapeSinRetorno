@@ -7,7 +7,6 @@ using Microsoft.Xna.Framework.Input;
 using EscapeSinRetorno.Source.World;
 using System;
 using System.Collections.Generic;
-using SharpDX.Direct2D1.Effects;
 
 namespace EscapeSinRetorno.Source.Entities
 {
