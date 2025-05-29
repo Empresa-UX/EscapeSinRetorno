@@ -4,6 +4,33 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/Enchantress/Attack_1.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/Enchantress/Attack_2.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/Enchantress/Attack_3.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/Enchantress/Attack_4.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/Enchantress/Dead.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/Enchantress/Hurt.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/Enchantress/Idle.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/Enchantress/Jump.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/Enchantress/Run.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/Enchantress/Walk.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/EVilWizard/Attack1.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/EVilWizard/Attack2.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/EVilWizard/Death.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/EVilWizard/Fall.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/EVilWizard/Idle.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/EVilWizard/Jump.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/EVilWizard/Run.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/EVilWizard/Take_hit.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/MageGuardian/Idle_blue.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/MageGuardian/Idle_magenta.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/MageGuardian/Idle_red.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/NightBorne/Attack.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/NightBorne/Death_1.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/NightBorne/Death_2.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/NightBorne/Hurt.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/NightBorne/Idle.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/NightBorne/Run.png</File>
     <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/doors/door_1.jpeg</File>
     <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_1.jpeg</File>
     <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_10.jpeg</File>
@@ -36,6 +63,33 @@
     <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/wall_up_down/wall_12.png</File>
   </SourceFiles>
   <DestFiles>
+    <File>Characters/Enchantress/Attack_1</File>
+    <File>Characters/Enchantress/Attack_2</File>
+    <File>Characters/Enchantress/Attack_3</File>
+    <File>Characters/Enchantress/Attack_4</File>
+    <File>Characters/Enchantress/Dead</File>
+    <File>Characters/Enchantress/Hurt</File>
+    <File>Characters/Enchantress/Idle</File>
+    <File>Characters/Enchantress/Jump</File>
+    <File>Characters/Enchantress/Run</File>
+    <File>Characters/Enchantress/Walk</File>
+    <File>Characters/EVilWizard/Attack1</File>
+    <File>Characters/EVilWizard/Attack2</File>
+    <File>Characters/EVilWizard/Death</File>
+    <File>Characters/EVilWizard/Fall</File>
+    <File>Characters/EVilWizard/Idle</File>
+    <File>Characters/EVilWizard/Jump</File>
+    <File>Characters/EVilWizard/Run</File>
+    <File>Characters/EVilWizard/Take_hit</File>
+    <File>Characters/MageGuardian/Idle_blue</File>
+    <File>Characters/MageGuardian/Idle_magenta</File>
+    <File>Characters/MageGuardian/Idle_red</File>
+    <File>Characters/NightBorne/Attack</File>
+    <File>Characters/NightBorne/Death_1</File>
+    <File>Characters/NightBorne/Death_2</File>
+    <File>Characters/NightBorne/Hurt</File>
+    <File>Characters/NightBorne/Idle</File>
+    <File>Characters/NightBorne/Run</File>
     <File>Tiles/doors/door_1</File>
     <File>Tiles/floors/floor_1</File>
     <File>Tiles/floors/floor_10</File>

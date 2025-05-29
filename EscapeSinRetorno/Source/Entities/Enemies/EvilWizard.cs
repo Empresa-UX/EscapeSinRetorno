@@ -8,33 +8,39 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace EscapeSinRetorno.Source.Entities.Enemies
-public class EvilWizard : Enemy
 {
-    public EvilWizard(Vector2 startPosition) : base(startPosition) { }
-
-    public override void LoadContent(ContentManager content)
+    public class EvilWizard : Enemy
     {
-        string basePath = "Characters/EVilWizard/";
-        string[] states = { "Attack1", "Attack2", "Death", "Fall", "Idle", "Jump", "Run", "Take_hit" };
-        foreach (var state in states)
-            animations[state] = content.Load<Texture2D>($"{basePath}{state}");
+        private float speed = 50f;
+        private float detectionRadius = 180f;
 
-        currentAnimation = "Idle";
-    }
+        public EvilWizard(Vector2 startPosition) : base(startPosition) { }
 
-    public override void Update(GameTime gameTime, Vector2 playerPosition)
-    {
-        Vector2 direction = playerPosition - position;
-        if (direction.Length() > 1f)
+        public override void LoadContent(ContentManager content)
         {
-            direction.Normalize();
-            position += direction * 50f * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            currentAnimation = "Run";
+            string basePath = "Characters/EvilWizard/";
+            string[] states = { "Attack1", "Attack2", "Death", "Fall", "Idle", "Jump", "Run", "Take_hit" };
+            foreach (var state in states)
+                animations[state] = content.Load<Texture2D>($"{basePath}{state}");
+
+            currentAnimation = "Idle";
         }
-        else
+
+        public override void Update(GameTime gameTime, Vector2 playerPosition)
         {
-            currentAnimation = "Attack1";
+            Vector2 toPlayer = playerPosition - position;
+            float dist = toPlayer.Length();
+
+            if (dist < detectionRadius)
+            {
+                toPlayer.Normalize();
+                position += toPlayer * speed * (float)gameTime.ElapsedGameTime.TotalSeconds;
+                currentAnimation = "Run";
+            }
+            else
+            {
+                currentAnimation = "Idle";
+            }
         }
     }
-}
 }

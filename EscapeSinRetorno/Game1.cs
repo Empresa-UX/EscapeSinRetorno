@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using EscapeSinRetorno.Source.World;
 using EscapeSinRetorno.Source.Entities; // Recuerda importar Player
+using EscapeSinRetorno.Source.Entities.Enemies; // Recuerda importar Player
+
 
 namespace EscapeSinRetorno
 {
@@ -11,10 +13,13 @@ namespace EscapeSinRetorno
     {
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
+        private EnemyManager _enemyManager;
 
         private TileMap _tileMap;
         private Player _player;
         private Camera2D _camera;
+
+        public static readonly System.Random Random = new System.Random();
 
         public Game1()
         {
@@ -42,6 +47,11 @@ namespace EscapeSinRetorno
                 _player.SetPosition(_tileMap.PlayerStartPosition.Value);
             }
 
+            _enemyManager = new EnemyManager();
+            _enemyManager.SpawnFromMapData(_tileMap.EnemySpawns);
+            _enemyManager.LoadContent(Content);
+
+
             _camera = new Camera2D(GraphicsDevice.Viewport);
             _camera.SetZoom(5.0f); // Zoom x2
         }
@@ -52,8 +62,12 @@ namespace EscapeSinRetorno
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            _enemyManager.Update(gameTime, _player.Position);
+
             _player.Update(gameTime, _tileMap);
+            
             _camera.Follow(_player.Position, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+
 
             base.Update(gameTime);
         }
@@ -66,6 +80,8 @@ namespace EscapeSinRetorno
 
             _tileMap.DrawBackground(_spriteBatch, camera: _camera.GetPosition(), screenWidth: 1366, screenHeight: 768);
             _tileMap.Draw(_spriteBatch, Vector2.Zero);
+
+            _enemyManager.Draw(_spriteBatch, _camera.GetPosition());
 
             _player.Draw(_spriteBatch);
 

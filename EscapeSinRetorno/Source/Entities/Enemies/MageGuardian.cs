@@ -26,6 +26,9 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             currentAnimation = "Idle";
         }
 
-        public override void Update(GameTime gameTime, Vector2 playerPosition) { }
+        public override void Update(GameTime gameTime, Vector2 playerPosition)
+        {
+            currentAnimation = "Idle"; // Siempre quieto
+        }
     }
 }

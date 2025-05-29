@@ -31,6 +31,23 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
                 enemy.Draw(spriteBatch, camera);
         }
 
+        public void SpawnFromMapData(List<(EnemyType type, Vector2 pos, string variant)> spawns)
+        {
+            foreach (var (type, pos, variant) in spawns)
+            {
+                Enemy enemy = type switch
+                {
+                    EnemyType.EvilWizard => new EvilWizard(pos),
+                    EnemyType.NightBorne => new NightBorne(pos),
+                    EnemyType.MageGuardian => new MageGuardian(pos, variant),
+                    _ => null
+                };
+
+                if (enemy != null) enemies.Add(enemy);
+            }
+        }
+
+
         public void Add(Enemy enemy) => enemies.Add(enemy);
     }
 }

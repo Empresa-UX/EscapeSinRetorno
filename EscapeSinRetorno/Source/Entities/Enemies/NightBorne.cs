@@ -12,10 +12,15 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
 {
     public class NightBorne : Enemy
     {
-        private float moveTimer = 0;
+        private float moveTimer = 0f;
         private Vector2 velocity = Vector2.Zero;
+        private Vector2 initialPosition;
+        private float patrolRange = 100f;
 
-        public NightBorne(Vector2 startPosition) : base(startPosition) { }
+        public NightBorne(Vector2 startPosition) : base(startPosition)
+        {
+            initialPosition = startPosition;
+        }
 
         public override void LoadContent(ContentManager content)
         {
@@ -29,19 +34,29 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
 
         public override void Update(GameTime gameTime, Vector2 playerPosition)
         {
-            moveTimer -= (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (moveTimer <= 0)
+            float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            moveTimer -= delta;
+
+            if (moveTimer <= 0f)
             {
                 velocity = new Vector2(
                     (float)(Game1.Random.NextDouble() * 2 - 1),
                     (float)(Game1.Random.NextDouble() * 2 - 1));
-                velocity.Normalize();
+                if (velocity != Vector2.Zero) velocity.Normalize();
                 velocity *= 40f;
                 moveTimer = 2f;
             }
 
-            position += velocity * (float)gameTime.ElapsedGameTime.TotalSeconds;
-            currentAnimation = "Run";
+            Vector2 nextPos = position + velocity * delta;
+            if ((nextPos - initialPosition).Length() <= patrolRange)
+            {
+                position = nextPos;
+                currentAnimation = "Run";
+            }
+            else
+            {
+                currentAnimation = "Idle";
+            }
         }
     }
 }

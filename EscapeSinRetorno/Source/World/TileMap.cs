@@ -1,5 +1,6 @@
 ﻿// File: Source/World/TileMap.cs
 
+using EscapeSinRetorno.Source.Entities.Enemies;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,6 +17,8 @@ namespace EscapeSinRetorno.Source.World
         private readonly Dictionary<string, Texture2D> _tileTextures = new();
         private string[][] _mapData;
         public Vector2? PlayerStartPosition { get; private set; } = null;
+        public List<(EnemyType type, Vector2 position, string variant)> EnemySpawns { get; private set; } = new();
+
 
         public TileMap(int tileSize)
         {
@@ -73,6 +76,8 @@ namespace EscapeSinRetorno.Source.World
 
         private void BuildTileInstances()
         {
+            EnemySpawns.Clear();
+
             int width = _mapData[0].Length;
             int height = _mapData.Length;
             _tiles = new Tile[width, height];
@@ -118,6 +123,29 @@ namespace EscapeSinRetorno.Source.World
                             Console.WriteLine($"❌ ERROR: Valor inválido de muro: '{code}' en ({x},{y})");
                         }
                     }
+                    else if (code == "EW")
+                    {
+                        layers.Add(_tileTextures["F1"]);
+                        EnemySpawns.Add((EnemyType.EvilWizard, new Vector2(x * _tileSize, y * _tileSize), ""));
+                    }
+                    else if (code == "NG")
+                    {
+                        layers.Add(_tileTextures["F1"]);
+                        EnemySpawns.Add((EnemyType.NightBorne, new Vector2(x * _tileSize, y * _tileSize), ""));
+                    }
+                    else if (code == "MR" || code == "MB" || code == "MM")
+                    {
+                        layers.Add(_tileTextures["F1"]);
+                        string variant = code switch
+                        {
+                            "MR" => "red",
+                            "MB" => "blue",
+                            "MM" => "magenta",
+                            _ => "blue"
+                        };
+                        EnemySpawns.Add((EnemyType.MageGuardian, new Vector2(x * _tileSize, y * _tileSize), variant));
+                    }
+
 
 
                     if (layers.Count > 0)
