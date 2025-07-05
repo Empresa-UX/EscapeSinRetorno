@@ -23,14 +23,16 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
 
         public override void LoadContent(ContentManager content)
         {
+            Vector2 sharedOrigin = new Vector2(38.5f, 51f); // ideal para tus enemigos
+
             string basePath = "Characters/NightBorne/";
 
-            animations["Attack"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Attack"), FrameWidth = 85, FrameHeight = 69 };
-            animations["Death_1"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Death_1"), FrameWidth = 85, FrameHeight = 67 };
-            animations["Death_2"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Death_2"), FrameWidth = 94, FrameHeight = 73 };
-            animations["Hurt"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Hurt"), FrameWidth = 91, FrameHeight = 46 };
-            animations["Idle"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Idle"), FrameWidth = 58, FrameHeight = 51 };
-            animations["Run"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Run"), FrameWidth = 45, FrameHeight = 45 };
+            animations["Attack"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Attack"), FrameWidth = 77, FrameHeight = 68 };
+            animations["Death_1"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Death_1"), FrameWidth = 77, FrameHeight = 67 };
+            animations["Death_2"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Death_2"), FrameWidth = 78, FrameHeight = 67 };
+            animations["Hurt"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Hurt"), FrameWidth = 72, FrameHeight = 45 };
+            animations["Idle"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Idle"), FrameWidth = 77, FrameHeight = 51 };
+            animations["Run"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Run"), FrameWidth = 75, FrameHeight = 45 };
 
             currentAnimation = "Idle";
         }

@@ -50,9 +50,21 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             int frame = Math.Clamp(currentFrame, 0, clip.TotalFrames - 1);
             Rectangle source = new Rectangle(frame * clip.FrameWidth, 0, clip.FrameWidth, clip.FrameHeight);
 
-            spriteBatch.Draw(clip.Texture, position, source, Color.White);
+            Vector2 origin = new Vector2(clip.FrameWidth / 2f, clip.FrameHeight); // punto base: centro inferior
+            spriteBatch.Draw(clip.Texture, position, source, Color.White, 0f, origin, 1f, SpriteEffects.None, 0f);
         }
 
+        protected void PlayAnimation(string name)
+        {
+            if (currentAnimation == name) return;
+
+            if (animations.ContainsKey(name))
+            {
+                currentAnimation = name;
+                currentFrame = 0;
+                animationTimer = 0;
+            }
+        }
 
     }
 }
