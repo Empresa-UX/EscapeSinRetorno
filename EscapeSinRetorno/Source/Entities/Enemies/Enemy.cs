@@ -53,5 +53,6 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             spriteBatch.Draw(clip.Texture, position, source, Color.White);
         }
 
+
     }
 }
