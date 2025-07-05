@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EscapeSinRetorno")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+34247f98cf5b41b9d4252340a7c703596f46c9e5")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a25dac123110821993a2ea821c6d428385bafb27")]
 [assembly: System.Reflection.AssemblyProductAttribute("EscapeSinRetorno")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EscapeSinRetorno")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

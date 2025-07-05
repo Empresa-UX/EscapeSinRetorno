@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,11 +25,12 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
 
         public abstract void LoadContent(ContentManager content);
         public abstract void Update(GameTime gameTime, Vector2 playerPosition);
-
-        public virtual void Draw(SpriteBatch spriteBatch, Vector2 camera)
+        public virtual void Draw(SpriteBatch spriteBatch)
         {
             if (animations.TryGetValue(currentAnimation, out var tex))
-                spriteBatch.Draw(tex, position - camera, Color.White);
+            {
+                spriteBatch.Draw(tex, position, Color.White);
+            }
         }
     }
 }

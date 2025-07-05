@@ -48,7 +48,7 @@ namespace EscapeSinRetorno
             }
 
             _enemyManager = new EnemyManager();
-            _enemyManager.SpawnFromMapData(_tileMap.EnemySpawns);
+            _enemyManager.SpawnFromMapData(_tileMap.EnemySpawns); // ✅ sin if externo
             _enemyManager.LoadContent(Content);
 
 
@@ -76,12 +76,14 @@ namespace EscapeSinRetorno
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
+            // Aplicar la transformación de cámara al SpriteBatch
             _spriteBatch.Begin(transformMatrix: _camera.GetTransform());
 
-            _tileMap.DrawBackground(_spriteBatch, camera: _camera.GetPosition(), screenWidth: 1366, screenHeight: 768);
+            // NO pasar información de cámara a los métodos Draw
+            _tileMap.DrawBackground(_spriteBatch, Vector2.Zero, 1366, 768);
             _tileMap.Draw(_spriteBatch, Vector2.Zero);
 
-            _enemyManager.Draw(_spriteBatch, _camera.GetPosition());
+            _enemyManager.Draw(_spriteBatch);  // Sin parámetros
 
             _player.Draw(_spriteBatch);
 

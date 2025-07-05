@@ -126,16 +126,21 @@ namespace EscapeSinRetorno.Source.World
                     else if (code == "EW")
                     {
                         layers.Add(_tileTextures["F1"]);
-                        EnemySpawns.Add((EnemyType.EvilWizard, new Vector2(x * _tileSize, y * _tileSize), ""));
+                        Vector2 spawnPos = new Vector2(x * _tileSize, y * _tileSize);
+                        EnemySpawns.Add((EnemyType.EvilWizard, spawnPos, ""));
+                        Console.WriteLine($"🧙 EvilWizard spawned at ({x},{y}) = world pos {spawnPos}");
                     }
                     else if (code == "NG")
                     {
                         layers.Add(_tileTextures["F1"]);
-                        EnemySpawns.Add((EnemyType.NightBorne, new Vector2(x * _tileSize, y * _tileSize), ""));
+                        Vector2 spawnPos = new Vector2(x * _tileSize, y * _tileSize);
+                        EnemySpawns.Add((EnemyType.NightBorne, spawnPos, ""));
+                        Console.WriteLine($"👻 NightBorne spawned at ({x},{y}) = world pos {spawnPos}");
                     }
                     else if (code == "MR" || code == "MB" || code == "MM")
                     {
                         layers.Add(_tileTextures["F1"]);
+                        Vector2 spawnPos = new Vector2(x * _tileSize, y * _tileSize);
                         string variant = code switch
                         {
                             "MR" => "red",
@@ -143,7 +148,8 @@ namespace EscapeSinRetorno.Source.World
                             "MM" => "magenta",
                             _ => "blue"
                         };
-                        EnemySpawns.Add((EnemyType.MageGuardian, new Vector2(x * _tileSize, y * _tileSize), variant));
+                        EnemySpawns.Add((EnemyType.MageGuardian, spawnPos, variant));
+                        Console.WriteLine($"🛡️ MageGuardian {variant} spawned at ({x},{y}) = world pos {spawnPos}");
                     }
 
 

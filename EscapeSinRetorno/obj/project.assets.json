@@ -429,14 +429,14 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "MonoGame.Content.Builder.Task/3.8.3": {
+      "MonoGame.Content.Builder.Task/3.8.4": {
         "type": "package",
         "build": {
           "build/MonoGame.Content.Builder.Task.props": {},
           "build/MonoGame.Content.Builder.Task.targets": {}
         }
       },
-      "MonoGame.Framework.WindowsDX/3.8.3": {
+      "MonoGame.Framework.WindowsDX/3.8.4": {
         "type": "package",
         "dependencies": {
           "Microsoft.NETCore.App": "2.1.30",
@@ -1788,80 +1788,33 @@
         "version.txt"
       ]
     },
-    "MonoGame.Content.Builder.Task/3.8.3": {
-      "sha512": "Q1Pv/MCIcnrV4cjIw9sKdY30Swoj5ju+bCASx4E+vvtfXc3ENnHAVJ6QEFeqlcfA0fJZIX4igMmsf6gQbVHXHw==",
+    "MonoGame.Content.Builder.Task/3.8.4": {
+      "sha512": "Oc/tp6liQ34BkBCrdQO23JDf1Z8r11kKeL9oXSlEfUiRSQYs7C0TYaKIjhfYGjSRaV7JaFIisLDToWpnf7ztKg==",
       "type": "package",
-      "path": "monogame.content.builder.task/3.8.3",
+      "path": "monogame.content.builder.task/3.8.4",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
-        "README.md",
         "build/MonoGame.Content.Builder.Task.props",
         "build/MonoGame.Content.Builder.Task.targets",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/.nupkg.metadata",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/.signature.p7s",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/Icon.png",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/README.md",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/dotnet-mgcb.3.8.3.nupkg",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/dotnet-mgcb.3.8.3.nupkg.sha512",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/dotnet-mgcb.nupkg",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/dotnet-mgcb.nuspec",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/AssimpNetter.dll",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/BCnEncoder.dll",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/CppNet.dll",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/DotnetToolSettings.xml",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/KtxSharp.dll",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/Microsoft.Toolkit.HighPerformance.dll",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/MonoGame.Framework.Content.Pipeline.dll",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/MonoGame.Framework.Content.Pipeline.pdb",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/MonoGame.Framework.Content.Pipeline.xml",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/MonoGame.Framework.dll",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/MonoGame.Framework.pdb",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/MonoGame.Framework.xml",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/SharpDX.D3DCompiler.dll",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/SharpDX.dll",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/libmojoshader_64.dll",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/mgcb.deps.json",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/mgcb.dll",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/mgcb.pdb",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/mgcb.runtimeconfig.json",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/mgfxc",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/mgfxc.deps.json",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/mgfxc.dll",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/mgfxc.pdb",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/mgfxc.runtimeconfig.json",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/runtimes/linux-arm64/native/libassimp.so",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/runtimes/linux-x64/native/libassimp.so",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/runtimes/linux-x64/native/libfreeimage.so",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/runtimes/linux-x64/native/libfreetype.so",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/runtimes/osx-arm64/native/libassimp.dylib",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/runtimes/osx-x64/native/libassimp.dylib",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/runtimes/osx/native/libfreeimage.dylib",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/runtimes/osx/native/libfreetype.dylib",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/runtimes/win-x64/native/FreeImage.dll",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/runtimes/win-x64/native/assimp.dll",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/runtimes/win-x64/native/freetype.dll",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/dotnet-mgcb/3.8.3/tools/net8.0/any/runtimes/win-x86/native/assimp.dll",
-        "build/dotnet-tools/.store/dotnet-mgcb/3.8.3/project.assets.json",
-        "build/dotnet-tools/mgcb.exe",
-        "monogame.content.builder.task.3.8.3.nupkg.sha512",
+        "monogame.content.builder.task.3.8.4.nupkg.sha512",
         "monogame.content.builder.task.nuspec"
       ]
     },
-    "MonoGame.Framework.WindowsDX/3.8.3": {
-      "sha512": "d0d28IHIKdRlRgbg77B44Paj1FuLf58eciv+5i9Ca6sn7kyv6ZIme41Laicr1iMxo9ZbRnIidps8ttYpBSeThw==",
+    "MonoGame.Framework.WindowsDX/3.8.4": {
+      "sha512": "dq3DQ60YkrlwJ/XEXtxjE/dmYAY4t370HXTvU2n942VHPv6AnzkKiuBLM4vRKZPBVZ+ylnKG6ZgKaV795eKt4w==",
       "type": "package",
-      "path": "monogame.framework.windowsdx/3.8.3",
+      "path": "monogame.framework.windowsdx/3.8.4",
       "files": [
         ".nupkg.metadata",
         ".signature.p7s",
         "Icon.png",
-        "README.md",
+        "README-packages.md",
         "build/MonoGame.Framework.WindowsDX.targets",
         "lib/net8.0-windows7.0/MonoGame.Framework.dll",
         "lib/net8.0-windows7.0/MonoGame.Framework.xml",
-        "monogame.framework.windowsdx.3.8.3.nupkg.sha512",
+        "monogame.framework.windowsdx.3.8.4.nupkg.sha512",
         "monogame.framework.windowsdx.nuspec"
       ]
     },
@@ -4249,7 +4202,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.200"
+      "SdkAnalysisLevel": "9.0.300"
     },
     "frameworks": {
       "net8.0-windows7.0": {
@@ -4278,19 +4231,23 @@
         "downloadDependencies": [
           {
             "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[8.0.15, 8.0.15]"
+            "version": "[8.0.17, 8.0.17]"
+          },
+          {
+            "name": "Microsoft.Net.Sdk.Compilers.Toolset",
+            "version": "[9.0.301, 9.0.301]"
           },
           {
             "name": "Microsoft.NETCore.App.Host.win-x64",
-            "version": "[8.0.15, 8.0.15]"
+            "version": "[8.0.17, 8.0.17]"
           },
           {
             "name": "Microsoft.NETCore.App.Ref",
-            "version": "[8.0.15, 8.0.15]"
+            "version": "[8.0.17, 8.0.17]"
           },
           {
             "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[8.0.15, 8.0.15]"
+            "version": "[8.0.17, 8.0.17]"
           }
         ],
         "frameworkReferences": {
@@ -4301,7 +4258,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.203/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.301/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

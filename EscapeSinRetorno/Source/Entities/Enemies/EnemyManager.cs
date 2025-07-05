@@ -12,6 +12,7 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
     public class EnemyManager
     {
         private readonly List<Enemy> enemies = new();
+        private bool enemiesSpawned = false;
 
         public void LoadContent(ContentManager content)
         {
@@ -25,14 +26,21 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
                 enemy.Update(gameTime, playerPosition);
         }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 camera)
+        public void Draw(SpriteBatch spriteBatch)
         {
             foreach (var enemy in enemies)
-                enemy.Draw(spriteBatch, camera);
+                enemy.Draw(spriteBatch);
         }
 
         public void SpawnFromMapData(List<(EnemyType type, Vector2 pos, string variant)> spawns)
         {
+            if (enemiesSpawned)
+            {
+                Console.WriteLine($"⚠️ Enemigos ya spawneados. Count: {enemies.Count}");
+                return;
+            }
+
+            Console.WriteLine($"🎯 Spawning {spawns.Count} enemies from map data");
             foreach (var (type, pos, variant) in spawns)
             {
                 Enemy enemy = type switch
@@ -43,11 +51,15 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
                     _ => null
                 };
 
-                if (enemy != null) enemies.Add(enemy);
+                if (enemy != null)
+                {
+                    enemies.Add(enemy);
+                    Console.WriteLine($"✅ Enemy {type} added at {pos}");
+                }
             }
+
+            enemiesSpawned = true; // ✅ Seteado internamente
         }
-
-
         public void Add(Enemy enemy) => enemies.Add(enemy);
     }
 }
