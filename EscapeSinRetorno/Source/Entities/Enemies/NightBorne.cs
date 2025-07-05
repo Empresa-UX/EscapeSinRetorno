@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -25,9 +19,48 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
         public override void LoadContent(ContentManager content)
         {
             string basePath = "Characters/NightBorne/";
-            string[] states = { "Attack", "Death_1", "Death_2", "Hurt", "Idle", "Run" };
-            foreach (var state in states)
-                animations[state] = content.Load<Texture2D>($"{basePath}{state}");
+
+            animations["Attack"] = new AnimationClip
+            {
+                Texture = content.Load<Texture2D>($"{basePath}Attack"),
+                FrameWidth = 85,
+                FrameHeight = 69
+            };
+
+            animations["Death_1"] = new AnimationClip
+            {
+                Texture = content.Load<Texture2D>($"{basePath}Death_1"),
+                FrameWidth = 85,
+                FrameHeight = 67
+            };
+
+            animations["Death_2"] = new AnimationClip
+            {
+                Texture = content.Load<Texture2D>($"{basePath}Death_2"),
+                FrameWidth = 94,
+                FrameHeight = 73
+            };
+
+            animations["Hurt"] = new AnimationClip
+            {
+                Texture = content.Load<Texture2D>($"{basePath}Hurt"),
+                FrameWidth = 91,
+                FrameHeight = 46
+            };
+
+            animations["Idle"] = new AnimationClip
+            {
+                Texture = content.Load<Texture2D>($"{basePath}Idle"),
+                FrameWidth = 58,
+                FrameHeight = 51
+            };
+
+            animations["Run"] = new AnimationClip
+            {
+                Texture = content.Load<Texture2D>($"{basePath}Run"),
+                FrameWidth = 45,
+                FrameHeight = 45
+            };
 
             currentAnimation = "Idle";
         }

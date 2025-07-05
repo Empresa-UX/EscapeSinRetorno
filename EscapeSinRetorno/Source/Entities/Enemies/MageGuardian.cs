@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -22,7 +16,14 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
         public override void LoadContent(ContentManager content)
         {
             string path = $"Characters/MageGuardian/Idle_{color.ToLower()}";
-            animations["Idle"] = content.Load<Texture2D>(path);
+
+            animations["Idle"] = new AnimationClip
+            {
+                Texture = content.Load<Texture2D>(path),
+                FrameWidth = 64,    // 896 / 14 frames
+                FrameHeight = 64
+            };
+
             currentAnimation = "Idle";
         }
 

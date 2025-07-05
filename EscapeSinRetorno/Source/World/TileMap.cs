@@ -1,6 +1,4 @@
-﻿// File: Source/World/TileMap.cs
-
-using EscapeSinRetorno.Source.Entities.Enemies;
+﻿using EscapeSinRetorno.Source.Entities.Enemies;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -16,9 +14,10 @@ namespace EscapeSinRetorno.Source.World
         private Tile[,] _tiles;
         private readonly Dictionary<string, Texture2D> _tileTextures = new();
         private string[][] _mapData;
+        private bool _isContentLoaded = false; // ← NUEVA BANDERA
+
         public Vector2? PlayerStartPosition { get; private set; } = null;
         public List<(EnemyType type, Vector2 position, string variant)> EnemySpawns { get; private set; } = new();
-
 
         public TileMap(int tileSize)
         {
@@ -27,9 +26,18 @@ namespace EscapeSinRetorno.Source.World
 
         public void LoadContent(ContentManager content)
         {
+            if (_isContentLoaded)
+            {
+                Console.WriteLine("⚠️ TileMap.LoadContent ya fue llamado anteriormente. Saltando re-carga.");
+                return;
+            }
+
+            Console.WriteLine("🗺️ Cargando TileMap por primera vez...");
             LoadTileTextures(content);
             LoadMapFromFile("Content/Maps/test.txt");
             BuildTileInstances();
+            _isContentLoaded = true;
+            Console.WriteLine("✅ TileMap cargado correctamente");
         }
 
         private void LoadTileTextures(ContentManager content)
@@ -55,12 +63,11 @@ namespace EscapeSinRetorno.Source.World
             while (!reader.EndOfStream)
             {
                 var line = reader.ReadLine();
-                if (!string.IsNullOrWhiteSpace(line))  // 🔍 filtrar líneas vacías
+                if (!string.IsNullOrWhiteSpace(line))
                     lines.Add(line);
             }
 
             Console.WriteLine($"📄 Cargadas {lines.Count} líneas desde el mapa");
-
 
             int rows = lines.Count;
             _mapData = new string[rows][];
@@ -76,7 +83,14 @@ namespace EscapeSinRetorno.Source.World
 
         private void BuildTileInstances()
         {
-            EnemySpawns.Clear();
+            Console.WriteLine("🔨 Construyendo tiles e identificando spawns...");
+
+            // Solo limpiar si ya había datos (por si acaso)
+            if (EnemySpawns.Count > 0)
+            {
+                Console.WriteLine($"⚠️ Ya había {EnemySpawns.Count} spawns. Limpiando...");
+                EnemySpawns.Clear();
+            }
 
             int width = _mapData[0].Length;
             int height = _mapData.Length;
@@ -98,6 +112,7 @@ namespace EscapeSinRetorno.Source.World
                     {
                         layers.Add(_tileTextures["F1"]);
                         PlayerStartPosition = new Vector2(x * _tileSize, y * _tileSize);
+                        Console.WriteLine($"🏃 Player start position: ({x},{y}) = world pos {PlayerStartPosition}");
                     }
                     else if (code.Length >= 2 && code[0] == 'W')
                     {
@@ -111,7 +126,7 @@ namespace EscapeSinRetorno.Source.World
                             if (_tileTextures.TryGetValue(key, out var wallTex))
                             {
                                 layers.Add(wallTex);
-                                Console.WriteLine($"🧱 Tile ({x},{y}) usa textura '{key}' (wall_{wallId})");
+                                // Console.WriteLine($"🧱 Tile ({x},{y}) usa textura '{key}' (wall_{wallId})");
                             }
                             else
                             {
@@ -152,21 +167,20 @@ namespace EscapeSinRetorno.Source.World
                         Console.WriteLine($"🛡️ MageGuardian {variant} spawned at ({x},{y}) = world pos {spawnPos}");
                     }
 
-
-
                     if (layers.Count > 0)
                     {
                         var pos = new Vector2(x * _tileSize, y * _tileSize);
                         _tiles[x, y] = new Tile(layers, pos);
                     }
+
                     if (layers.Count > 1)
                     {
                         Console.WriteLine($"⚠️ Tile ({x},{y}) tiene {layers.Count} capas: posibles conflictos.");
                     }
                 }
-
             }
-            Console.WriteLine($"✅ Generados {_tiles.Length} tiles ({_mapData.Length} filas × {_mapData[0].Length} columnas)");
+
+            Console.WriteLine($"🎯 Total enemy spawns encontrados: {EnemySpawns.Count}");
         }
 
         public void Draw(SpriteBatch spriteBatch, Vector2 camera)

@@ -19,12 +19,67 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
         public override void LoadContent(ContentManager content)
         {
             string basePath = "Characters/EvilWizard/";
-            string[] states = { "Attack1", "Attack2", "Death", "Fall", "Idle", "Jump", "Run", "Take_hit" };
-            foreach (var state in states)
-                animations[state] = content.Load<Texture2D>($"{basePath}{state}");
+
+            animations["Idle"] = new AnimationClip
+            {
+                Texture = content.Load<Texture2D>($"{basePath}Idle"),
+                FrameWidth = 250,   // 2000 / 8 frames
+                FrameHeight = 250
+            };
+
+            animations["Run"] = new AnimationClip
+            {
+                Texture = content.Load<Texture2D>($"{basePath}Run"),
+                FrameWidth = 250,   // 2000 / 8 frames
+                FrameHeight = 250
+            };
+
+            animations["Attack1"] = new AnimationClip
+            {
+                Texture = content.Load<Texture2D>($"{basePath}Attack1"),
+                FrameWidth = 250,   // 2000 / 8 frames
+                FrameHeight = 250
+            };
+
+            animations["Attack2"] = new AnimationClip
+            {
+                Texture = content.Load<Texture2D>($"{basePath}Attack2"),
+                FrameWidth = 250,   // 2000 / 8 frames
+                FrameHeight = 250
+            };
+
+            animations["Jump"] = new AnimationClip
+            {
+                Texture = content.Load<Texture2D>($"{basePath}Jump"),
+                FrameWidth = 250,   // 500 / 2 frames
+                FrameHeight = 250
+            };
+
+            animations["Fall"] = new AnimationClip
+            {
+                Texture = content.Load<Texture2D>($"{basePath}Fall"),
+                FrameWidth = 250,   // 500 / 2 frames
+                FrameHeight = 250
+            };
+
+            animations["Death"] = new AnimationClip
+            {
+                Texture = content.Load<Texture2D>($"{basePath}Death"),
+                FrameWidth = 250,   // 1750 / 7 frames
+                FrameHeight = 250
+            };
+
+            animations["Take_hit"] = new AnimationClip
+            {
+                Texture = content.Load<Texture2D>($"{basePath}Take_hit"),
+                FrameWidth = 250,   // 750 / 3 frames
+                FrameHeight = 250
+            };
 
             currentAnimation = "Idle";
         }
+
+
 
         public override void Update(GameTime gameTime, Vector2 playerPosition)
         {

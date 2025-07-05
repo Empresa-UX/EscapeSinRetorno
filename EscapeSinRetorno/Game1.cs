@@ -51,7 +51,6 @@ namespace EscapeSinRetorno
             _enemyManager.SpawnFromMapData(_tileMap.EnemySpawns); // ✅ sin if externo
             _enemyManager.LoadContent(Content);
 
-
             _camera = new Camera2D(GraphicsDevice.Viewport);
             _camera.SetZoom(5.0f); // Zoom x2
         }
