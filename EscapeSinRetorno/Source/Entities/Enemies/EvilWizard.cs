@@ -79,8 +79,6 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             currentAnimation = "Idle";
         }
 
-
-
         public override void Update(GameTime gameTime, Vector2 playerPosition)
         {
             Vector2 toPlayer = playerPosition - position;

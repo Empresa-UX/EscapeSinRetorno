@@ -27,12 +27,12 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
 
             string basePath = "Characters/NightBorne/";
 
-            animations["Attack"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Attack"), FrameWidth = 77, FrameHeight = 68 };
-            animations["Death_1"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Death_1"), FrameWidth = 77, FrameHeight = 67 };
-            animations["Death_2"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Death_2"), FrameWidth = 78, FrameHeight = 67 };
-            animations["Hurt"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Hurt"), FrameWidth = 72, FrameHeight = 45 };
-            animations["Idle"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Idle"), FrameWidth = 77, FrameHeight = 51 };
-            animations["Run"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Run"), FrameWidth = 75, FrameHeight = 45 };
+            animations["Attack"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Attack"), FrameWidth = 80, FrameHeight = 80 };
+            animations["Death_1"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Death_1"), FrameWidth = 80, FrameHeight = 80 };
+            animations["Death_2"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Death_2"), FrameWidth = 80, FrameHeight = 80 };
+            animations["Hurt"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Hurt"), FrameWidth = 80, FrameHeight = 80 };
+            animations["Idle"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Idle"), FrameWidth = 80, FrameHeight = 80 };
+            animations["Run"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Run"), FrameWidth = 80, FrameHeight = 80 };
 
             currentAnimation = "Idle";
         }
