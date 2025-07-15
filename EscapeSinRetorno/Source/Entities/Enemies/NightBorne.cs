@@ -11,7 +11,7 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
 
         private Vector2 velocity = Vector2.Zero;
         private float detectionRange = 160f;
-        private float attackRange = 40f;
+        private float attackRange = 10f;
 
         private int maxHealth = 100;
         private int health = 100;
@@ -27,7 +27,13 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
 
             string basePath = "Characters/NightBorne/";
 
-            animations["Attack"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Attack"), FrameWidth = 80, FrameHeight = 80 };
+            animations["Attack"] = new AnimationClip
+            {
+                Texture = content.Load<Texture2D>($"{basePath}Attack"),
+                FrameWidth = 80,
+                FrameHeight = 80,
+                Offset = new Vector2(0, -10f) // 🔧 ajusta hacia arriba 10px
+            };
             animations["Death_1"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Death_1"), FrameWidth = 80, FrameHeight = 80 };
             animations["Death_2"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Death_2"), FrameWidth = 80, FrameHeight = 80 };
             animations["Hurt"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Hurt"), FrameWidth = 80, FrameHeight = 80 };
@@ -40,20 +46,20 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
         public override void Update(GameTime gameTime, Vector2 playerPosition)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            Vector2 toPlayer = playerPosition - position;
+            Vector2 toPlayer = playerPosition - Center;
             float distance = toPlayer.Length();
 
             if (health <= 0)
             {
                 if (!deathAnim1Done)
                 {
-                    currentAnimation = "Death_1";
+                    PlayAnimation("Death_1");
                     if (UpdateDeathAnimation(gameTime, "Death_1"))
                         deathAnim1Done = true;
                 }
                 else if (!deathAnim2Done)
                 {
-                    currentAnimation = "Death_2";
+                    PlayAnimation("Death_2");
                     if (UpdateDeathAnimation(gameTime, "Death_2"))
                         deathAnim2Done = true;
                 }
@@ -63,8 +69,8 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             if (distance < attackRange)
             {
                 currentState = State.Attack;
-                currentAnimation = "Attack";
                 velocity = Vector2.Zero;
+                PlayAnimation("Attack");
             }
             else if (distance < detectionRange)
             {
@@ -72,16 +78,17 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
                 toPlayer.Normalize();
                 velocity = toPlayer * 60f;
                 position += velocity * delta;
-                currentAnimation = "Run";
+                PlayAnimation("Run");
             }
             else
             {
                 currentState = State.Idle;
                 velocity = Vector2.Zero;
-                currentAnimation = "Idle";
+                PlayAnimation("Idle");
             }
 
             UpdateAnimation(gameTime);
+
         }
 
         private bool UpdateDeathAnimation(GameTime gameTime, string anim)

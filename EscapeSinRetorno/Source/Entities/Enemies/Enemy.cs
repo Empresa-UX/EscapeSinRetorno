@@ -21,6 +21,7 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
         protected int frameHeight = 64;
 
         public Vector2 Position => position;
+        public Vector2 Center => position; // Podés ajustar si cambiás origin en Draw
 
         public Enemy(Vector2 startPosition)
         {
@@ -51,7 +52,7 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             Rectangle source = new Rectangle(frame * clip.FrameWidth, 0, clip.FrameWidth, clip.FrameHeight);
 
             // Nuevo: origen fijo para cada clip basado en su tamaño
-            Vector2 origin = new Vector2(clip.FrameWidth / 2f, clip.FrameHeight) + clip.Offset;
+            Vector2 origin = new Vector2(clip.FrameWidth / 2f, clip.FrameHeight / 2f);
 
             spriteBatch.Draw(
                 clip.Texture,
@@ -79,5 +80,14 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             }
         }
 
+        public virtual Rectangle GetHitbox()
+        {
+            return new Rectangle(
+                (int)(position.X - frameWidth / 2),
+                (int)(position.Y - frameHeight),
+                frameWidth,
+                frameHeight
+            );
+        }
     }
 }
