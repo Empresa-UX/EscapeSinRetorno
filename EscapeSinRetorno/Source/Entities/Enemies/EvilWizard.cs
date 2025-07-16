@@ -21,6 +21,11 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
         private float idleTimer = 0f;
         private float attackTimer = 0f;
 
+        private float attackDuration = 0.8f; // duración total del ataque
+        private float attackTimeElapsed = 0f;
+        private string activeAttack = "Attack1";
+
+
         public EvilWizard(Vector2 startPosition) : base(startPosition) { }
 
         public override void LoadContent(ContentManager content)
@@ -86,10 +91,21 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
                     break;
 
                 case State.Attack:
-                    PlayAnimation((attackTimer % 2f < 1f) ? "Attack1" : "Attack2");
-                    attackTimer = attackCooldown;
-                    currentState = State.Idle;
-                    idleTimer = 0f;
+                    attackTimeElapsed += delta;
+
+                    if (attackTimeElapsed == delta) // primer frame del ataque
+                    {
+                        activeAttack = (attackTimer % 2f < 1f) ? "Attack1" : "Attack2";
+                        PlayAnimation(activeAttack);
+                    }
+
+                    if (attackTimeElapsed >= attackDuration)
+                    {
+                        attackTimeElapsed = 0f;
+                        attackTimer = attackCooldown;
+                        currentState = State.Idle;
+                        idleTimer = 0f;
+                    }
                     break;
             }
 
