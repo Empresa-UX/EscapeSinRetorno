@@ -118,19 +118,20 @@ namespace EscapeSinRetorno.Source.World
                     else if (code == "EW")
                     {
                         layers.Add(_tileTextures["F1"]);
-                        Vector2 spawnPos = new Vector2(x * _tileSize, y * _tileSize);
+                        // Centrar el pie del enemigo en el centro del tile
+                        Vector2 spawnPos = new Vector2((x + 0.5f) * _tileSize, (y + 1f) * _tileSize);
                         EnemySpawns.Add((EnemyType.EvilWizard, spawnPos, ""));
                     }
                     else if (code == "NG")
                     {
                         layers.Add(_tileTextures["F1"]);
-                        Vector2 spawnPos = new Vector2(x * _tileSize, y * _tileSize);
+                        Vector2 spawnPos = new Vector2((x + 0.5f) * _tileSize, (y + 1f) * _tileSize);
                         EnemySpawns.Add((EnemyType.NightBorne, spawnPos, ""));
                     }
                     else if (code == "MR" || code == "MB" || code == "MM")
                     {
                         layers.Add(_tileTextures["F1"]);
-                        Vector2 spawnPos = new Vector2(x * _tileSize, y * _tileSize);
+                        Vector2 spawnPos = new Vector2((x + 0.5f) * _tileSize, (y + 1f) * _tileSize);
                         string variant = code switch
                         {
                             "MR" => "red",

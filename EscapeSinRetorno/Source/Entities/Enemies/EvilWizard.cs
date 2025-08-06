@@ -16,14 +16,12 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
         private float runDuration = 10.0f;
         private float idleDuration = 2.0f;
         private float attackRange = 20f;
-        private float stopChaseDistance = 5f;   // Distancia mínima antes de parar
+        private float stopChaseDistance = 30f;   // Distancia mínima antes de parar
 
         private float attackCooldown = 3.5f;
-
         private float runTimer = 0f;
         private float idleTimer = 0f;
         private float attackTimer = 0f;
-
         private float attackDuration = 0.8f; // duración total del ataque
         private float attackTimeElapsed = 0f;
         private string activeAttack = "Attack1";
@@ -57,8 +55,6 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
         public override void Update(GameTime gameTime, Vector2 playerPosition, TileMap tileMap)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            // ✅ CORREGIDO: Usar Center corregido para cálculo de distancia
             Vector2 toPlayer = playerPosition - Center;
             float distance = toPlayer.Length();
 
@@ -81,7 +77,7 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
                 case State.Run:
                     runTimer += delta;
 
-                    // ✅ MEJORADO: Atacar cuando esté cerca
+                    // Atacar cuando esté cerca
                     if (distance <= attackRange && attackTimer <= 0f)
                     {
                         currentState = State.Attack;
@@ -89,35 +85,23 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
                         break;
                     }
 
-                    // ✅ CORREGIDO: Perseguir siempre, pero con distancia mínima
+                    // ✅ SIMPLIFICADO: Perseguir siempre, pararse solo cuando está muy cerca
                     if (distance > stopChaseDistance)
                     {
                         Vector2 direction = toPlayer;
                         if (direction.LengthSquared() > 1e-2f)
                             direction.Normalize();
 
-                        // ✅ CLAVE: Verificar si se pudo mover para evitar trabas
-                        bool couldMove = TryMoveToward(direction * speed, delta, tileMap);
-
-                        if (couldMove)
-                        {
-                            PlayAnimation("Run");
-                            runTimer = 0f; // Reset timer si se está moviendo
-                        }
-                        else
-                        {
-                            // Si no puede moverse, intentar idle un momento
-                            PlayAnimation("Idle");
-                        }
+                        bool moved = TryMoveToward(direction * speed, delta, tileMap);
+                        PlayAnimation(moved ? "Run" : "Idle");
                     }
                     else
                     {
-                        // Muy cerca del jugador, esperar o atacar
                         PlayAnimation("Idle");
                     }
 
-                    // ✅ OPCIONAL: Timeout solo si está lejos y no se mueve
-                    if (runTimer >= runDuration && distance > attackRange * 2)
+                    // Timeout para volver a idle después de mucho tiempo
+                    if (runTimer >= runDuration && distance > 200f)
                     {
                         currentState = State.Idle;
                         idleTimer = 0f;
@@ -127,7 +111,7 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
                 case State.Attack:
                     attackTimeElapsed += delta;
 
-                    if (attackTimeElapsed <= delta) // primer frame del ataque
+                    if (attackTimeElapsed <= delta)
                     {
                         activeAttack = (attackTimer % 2f < 1f) ? "Attack1" : "Attack2";
                         PlayAnimation(activeAttack);
@@ -137,7 +121,7 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
                     {
                         attackTimeElapsed = 0f;
                         attackTimer = attackCooldown;
-                        currentState = State.Run; // ✅ Volver a correr inmediatamente
+                        currentState = State.Run;
                         runTimer = 0f;
                     }
                     break;

@@ -106,40 +106,21 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
         }
         public virtual Rectangle GetHitbox()
         {
-            if (!animations.TryGetValue(currentAnimation, out var clip))
-                return new Rectangle((int)position.X, (int)position.Y, 1, 1);
-
-            // Asegurar valores por defecto si no están inicializados
-            int width = hitboxWidth > 0 ? hitboxWidth : (int)(clip.FrameWidth * 0.4f);
-            int height = hitboxHeight > 0 ? hitboxHeight : (int)(clip.FrameHeight * 0.6f);
-
-            // Centrar la hitbox en el sprite
-            int spriteBottom = (int)position.Y;
-            int spriteTop = spriteBottom - clip.FrameHeight;
-            int spriteCenterY = (spriteTop + spriteBottom) / 2;
-
-            int x = (int)(position.X - width / 2f);
-            int y = spriteCenterY - height / 2;
-
-            return new Rectangle(x, y, width, height);
+            return CreateHitboxAt(position);
         }
 
 
         protected bool TryMoveToward(Vector2 move, float delta, TileMap tileMap)
         {
-            if (move.LengthSquared() < 1e-6f) return false; // Sin movimiento
+            if (move.LengthSquared() < 1e-6f) return false;
 
             Vector2 newPosition = position + move * delta;
 
-            // ✅ CRUCIAL: Usar GetHitbox() para obtener la posición y tamaño correctos
-            var currentHitbox = GetHitbox();
-
-            // Calcular donde estaría la nueva hitbox
-            Vector2 hitboxOffset = new Vector2(currentHitbox.X - position.X, currentHitbox.Y - position.Y);
-            Vector2 newHitboxPosition = newPosition + hitboxOffset;
+            // ✅ SIMPLIFICADO: Crear hitbox temporal en la nueva posición
+            Rectangle newHitbox = CreateHitboxAt(newPosition);
 
             // Probar movimiento completo
-            if (!tileMap.IsColliding(newHitboxPosition, currentHitbox.Width, currentHitbox.Height))
+            if (!tileMap.IsColliding(new Vector2(newHitbox.X, newHitbox.Y), newHitbox.Width, newHitbox.Height))
             {
                 position = newPosition;
                 UpdateFlip(move);
@@ -148,31 +129,46 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
 
             // Probar solo movimiento X
             Vector2 xOnlyPosition = position + new Vector2(move.X, 0) * delta;
-            Vector2 xOnlyHitboxPos = xOnlyPosition + hitboxOffset;
-            if (!tileMap.IsColliding(xOnlyHitboxPos, currentHitbox.Width, currentHitbox.Height))
+            Rectangle xOnlyHitbox = CreateHitboxAt(xOnlyPosition);
+            if (!tileMap.IsColliding(new Vector2(xOnlyHitbox.X, xOnlyHitbox.Y), xOnlyHitbox.Width, xOnlyHitbox.Height))
             {
                 position = xOnlyPosition;
-                UpdateFlip(move);
+                UpdateFlip(new Vector2(move.X, 0));
                 return true;
             }
 
             // Probar solo movimiento Y
             Vector2 yOnlyPosition = position + new Vector2(0, move.Y) * delta;
-            Vector2 yOnlyHitboxPos = yOnlyPosition + hitboxOffset;
-            if (!tileMap.IsColliding(yOnlyHitboxPos, currentHitbox.Width, currentHitbox.Height))
+            Rectangle yOnlyHitbox = CreateHitboxAt(yOnlyPosition);
+            if (!tileMap.IsColliding(new Vector2(yOnlyHitbox.X, yOnlyHitbox.Y), yOnlyHitbox.Width, yOnlyHitbox.Height))
             {
                 position = yOnlyPosition;
-                UpdateFlip(move);
+                UpdateFlip(new Vector2(0, move.Y));
                 return true;
             }
 
-            return false; // No pudo moverse
+            return false;
         }
 
         private void UpdateFlip(Vector2 direction)
         {
             if (direction.X > 0.1f) flip = SpriteEffects.None;
             else if (direction.X < -0.1f) flip = SpriteEffects.FlipHorizontally;
+        }
+
+        private Rectangle CreateHitboxAt(Vector2 pos)
+        {
+            if (!animations.TryGetValue(currentAnimation, out var clip))
+                return new Rectangle((int)pos.X, (int)pos.Y, 1, 1);
+
+            int width = hitboxWidth > 0 ? hitboxWidth : (int)(clip.FrameWidth * 0.4f);
+            int height = hitboxHeight > 0 ? hitboxHeight : (int)(clip.FrameHeight * 0.4f);
+
+            // Ajustar la hitbox a partir del pie (bottom center) del sprite
+            int x = (int)(pos.X - width / 2f);
+            int y = (int)(pos.Y - height);  // Desde los pies hacia arriba
+
+            return new Rectangle(x, y, width, height);
         }
     }
 }
