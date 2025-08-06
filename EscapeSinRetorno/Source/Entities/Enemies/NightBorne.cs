@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using EscapeSinRetorno.Source.World;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -8,6 +9,8 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
     {
         private enum State { Idle, Run, Attack, Death }
         private State currentState = State.Idle;
+
+        private float speed = 60f;
 
         private Vector2 velocity = Vector2.Zero;
         private float detectionRange = 160f;
@@ -19,7 +22,10 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
         private bool deathAnim1Done = false;
         private bool deathAnim2Done = false;
 
-        public NightBorne(Vector2 startPosition) : base(startPosition) { }
+        public NightBorne(Vector2 startPosition) : base(startPosition)
+        {
+
+        }
 
         public override void LoadContent(ContentManager content)
         {
@@ -41,9 +47,12 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             animations["Run"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Run"), FrameWidth = 80, FrameHeight = 80 };
 
             currentAnimation = "Idle";
+
+            hitboxWidth = (int)(animations["Idle"].FrameWidth * 0.25f);
+            hitboxHeight = (int)(animations["Idle"].FrameHeight * 0.35f);
         }
 
-        public override void Update(GameTime gameTime, Vector2 playerPosition)
+        public override void Update(GameTime gameTime, Vector2 playerPosition, TileMap tileMap)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
             Vector2 toPlayer = playerPosition - Center;
@@ -75,11 +84,16 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             else if (distance < detectionRange)
             {
                 currentState = State.Run;
-                toPlayer.Normalize();
-                velocity = toPlayer * 60f;
-                position += velocity * delta;
+
+                Vector2 direction = toPlayer;
+                if (direction.LengthSquared() > 1e-2f)
+                    direction.Normalize();
+
+                TryMoveToward(direction * speed, delta, tileMap);
+
                 PlayAnimation("Run");
             }
+
             else
             {
                 currentState = State.Idle;
@@ -88,8 +102,8 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             }
 
             UpdateAnimation(gameTime);
-
         }
+
 
         private bool UpdateDeathAnimation(GameTime gameTime, string anim)
         {

@@ -50,6 +50,8 @@ namespace EscapeSinRetorno
             _enemyManager = new EnemyManager();
             _enemyManager.SpawnFromMapData(_tileMap.EnemySpawns); // ✅ sin if externo
             _enemyManager.LoadContent(Content);
+            Enemy.LoadDebugTexture(GraphicsDevice);
+
 
             _camera = new Camera2D(GraphicsDevice.Viewport);
             _camera.SetZoom(5.0f); // Zoom x2
@@ -61,7 +63,7 @@ namespace EscapeSinRetorno
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            _enemyManager.Update(gameTime, _player.Position);
+            _enemyManager.Update(gameTime, _player.Position, _tileMap);
 
             _player.Update(gameTime, _tileMap);
             

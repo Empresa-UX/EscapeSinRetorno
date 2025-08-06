@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿using EscapeSinRetorno.Source.World;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -20,14 +21,16 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             animations["Idle"] = new AnimationClip
             {
                 Texture = content.Load<Texture2D>(path),
-                FrameWidth = 64,    // 896 / 14 frames
-                FrameHeight = 64
+                FrameWidth = 64,
             };
 
             currentAnimation = "Idle";
+
+            hitboxWidth = (int)(animations["Idle"].FrameWidth * 0.4f);
+            hitboxHeight = (int)(animations["Idle"].FrameHeight * 0.6f);
         }
 
-        public override void Update(GameTime gameTime, Vector2 playerPosition)
+        public override void Update(GameTime gameTime, Vector2 playerPosition, TileMap tileMap)
         {
             currentAnimation = "Idle"; // Siempre quieto
             UpdateAnimation(gameTime); // ← ¡esto faltaba!
