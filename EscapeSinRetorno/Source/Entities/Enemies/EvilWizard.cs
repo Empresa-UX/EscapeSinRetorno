@@ -1,5 +1,4 @@
 ﻿// File: Source/Entities/Enemies/EvilWizard.cs
-using System;
 using EscapeSinRetorno.Source.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
@@ -9,28 +8,25 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
 {
     public class EvilWizard : Enemy
     {
-        private enum State { Idle, Run, Attack }
-        private State currentState = State.Run;
+        private enum State { Idle, Run, Attack, Death }
+        private State currentState = State.Idle;
 
         private float speed = 50f;
-        private float runDuration = 10.0f;
-        private float idleDuration = 2.0f;
         private float attackRange = 20f;
-        private float stopChaseDistance = 30f;   // Distancia mínima antes de parar
-
         private float attackCooldown = 3.5f;
-        private float runTimer = 0f;
-        private float idleTimer = 0f;
+        private float attackDuration = 0.8f;
+
         private float attackTimer = 0f;
-        private float attackDuration = 0.8f; // duración total del ataque
         private float attackTimeElapsed = 0f;
+
         private string activeAttack = "Attack1";
 
+        private int maxHealth = 100;
+        private int health = 100;
 
-        public EvilWizard(Vector2 startPosition) : base(startPosition)
-        {
+        private bool deathPlayed = false;
 
-        }
+        public EvilWizard(Vector2 startPosition) : base(startPosition) { }
 
         public override void LoadContent(ContentManager content)
         {
@@ -40,16 +36,13 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             animations["Run"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Run"), FrameWidth = 250, FrameHeight = 250 };
             animations["Attack1"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Attack1"), FrameWidth = 250, FrameHeight = 250 };
             animations["Attack2"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Attack2"), FrameWidth = 250, FrameHeight = 250 };
-            animations["Jump"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Jump"), FrameWidth = 250, FrameHeight = 250 };
-            animations["Fall"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Fall"), FrameWidth = 250, FrameHeight = 250 };
             animations["Death"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Death"), FrameWidth = 250, FrameHeight = 250 };
             animations["Take_hit"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Take_hit"), FrameWidth = 250, FrameHeight = 250 };
-
 
             PlayAnimation("Idle");
 
             hitboxWidth = (int)(animations["Idle"].FrameWidth * 0.25f);
-            hitboxHeight = (int)(animations["Idle"].FrameHeight * 0.3f);
+            hitboxHeight = (int)(animations["Idle"].FrameHeight * 0.25f);
         }
 
         public override void Update(GameTime gameTime, Vector2 playerPosition, TileMap tileMap)
@@ -60,54 +53,19 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
 
             attackTimer -= delta;
 
+            if (health <= 0)
+            {
+                if (!deathPlayed)
+                {
+                    PlayAnimation("Death");
+                    deathPlayed = true;
+                }
+                UpdateAnimation(gameTime);
+                return;
+            }
+
             switch (currentState)
             {
-                case State.Idle:
-                    idleTimer += delta;
-                    PlayAnimation("Idle");
-
-                    if (idleTimer >= idleDuration)
-                    {
-                        idleTimer = 0f;
-                        currentState = State.Run;
-                        runTimer = 0f;
-                    }
-                    break;
-
-                case State.Run:
-                    runTimer += delta;
-
-                    // Atacar cuando esté cerca
-                    if (distance <= attackRange && attackTimer <= 0f)
-                    {
-                        currentState = State.Attack;
-                        attackTimeElapsed = 0f;
-                        break;
-                    }
-
-                    // ✅ SIMPLIFICADO: Perseguir siempre, pararse solo cuando está muy cerca
-                    if (distance > stopChaseDistance)
-                    {
-                        Vector2 direction = toPlayer;
-                        if (direction.LengthSquared() > 1e-2f)
-                            direction.Normalize();
-
-                        bool moved = TryMoveToward(direction * speed, delta, tileMap);
-                        PlayAnimation(moved ? "Run" : "Idle");
-                    }
-                    else
-                    {
-                        PlayAnimation("Idle");
-                    }
-
-                    // Timeout para volver a idle después de mucho tiempo
-                    if (runTimer >= runDuration && distance > 200f)
-                    {
-                        currentState = State.Idle;
-                        idleTimer = 0f;
-                    }
-                    break;
-
                 case State.Attack:
                     attackTimeElapsed += delta;
 
@@ -122,12 +80,33 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
                         attackTimeElapsed = 0f;
                         attackTimer = attackCooldown;
                         currentState = State.Run;
-                        runTimer = 0f;
                     }
+                    break;
+
+                case State.Run:
+                default:
+                    if (distance <= attackRange && attackTimer <= 0f)
+                    {
+                        currentState = State.Attack;
+                        break;
+                    }
+
+                    Vector2 dir = toPlayer;
+                    if (dir.LengthSquared() > 1e-2f)
+                        dir.Normalize();
+
+                    bool moved = TryMoveToward(dir * speed, delta, tileMap);
+                    PlayAnimation(moved ? "Run" : "Idle");
                     break;
             }
 
             UpdateAnimation(gameTime);
+        }
+
+        public void TakeDamage(int dmg)
+        {
+            if (health <= 0) return;
+            health -= dmg;
         }
     }
 }
