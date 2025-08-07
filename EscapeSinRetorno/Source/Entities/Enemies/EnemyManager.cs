@@ -18,10 +18,10 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
                 enemy.LoadContent(content);
         }
 
-        public void Update(GameTime gameTime, Vector2 playerPosition, TileMap tileMap)
+        public void Update(GameTime gameTime, Player player, TileMap tileMap)
         {
             foreach (var enemy in enemies)
-                enemy.Update(gameTime, playerPosition, tileMap);
+                enemy.Update(gameTime, player, tileMap);
         }
 
         public void Draw(SpriteBatch spriteBatch)

@@ -1,6 +1,6 @@
 ﻿namespace EscapeSinRetorno.Source.Entities.Enemies
 {
-    public enum EnemyType
+   public enum EnemyType
     {
         EvilWizard,
         NightBorne,

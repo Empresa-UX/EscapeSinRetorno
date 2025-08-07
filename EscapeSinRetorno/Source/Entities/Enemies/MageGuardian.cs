@@ -31,7 +31,7 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             hitboxHeight = (int)(animations["Idle"].FrameHeight * 0.6f);
         }
 
-        public override void Update(GameTime gameTime, Vector2 playerPosition, TileMap tileMap)
+        public override void Update(GameTime gameTime, Player player, TileMap tileMap)
         {
             currentAnimation = "Idle";
             UpdateAnimation(gameTime);

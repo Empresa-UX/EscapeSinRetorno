@@ -62,7 +62,7 @@ namespace EscapeSinRetorno
                 Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            _enemyManager.Update(gameTime, _player.Position, _tileMap);
+            _enemyManager.Update(gameTime, _player, _tileMap);
 
             _player.Update(gameTime, _tileMap);
             

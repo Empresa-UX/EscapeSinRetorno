@@ -44,11 +44,10 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             hitboxHeight = (int)(animations["Idle"].FrameHeight * 0.25f);
         }
 
-        public override void Update(GameTime gameTime, Vector2 playerPosition, TileMap tileMap)
+        public override void Update(GameTime gameTime, Player player, TileMap tileMap)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            Vector2 toPlayer = playerPosition - Center;
-            float distance = toPlayer.Length();
+            Vector2 toPlayer = player.Position - Center;
 
             attackTimer -= delta;
 
@@ -84,11 +83,11 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
 
                 case State.Run:
                 default:
-                    if (distance <= attackRange && attackTimer <= 0f)
+                    if (IsCollidingWith(player.GetHitbox()))
                     {
                         currentState = State.Attack;
-                        break;
                     }
+
 
                     Vector2 dir = toPlayer;
                     if (dir.LengthSquared() > 1e-2f)

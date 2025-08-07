@@ -11,10 +11,15 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
         private State currentState = State.Idle;
 
         private float speed = 60f;
+        private float attackDuration = 0.8f;
+        private float attackCooldown = 3.5f;
+
+        private float attackTimer = 0f;
+        private float attackTimeElapsed = 0f;
 
         private Vector2 velocity = Vector2.Zero;
         private float detectionRange = 160f;
-        private float attackRange = 10f;
+        private float attackRange = 20f;
 
         private int maxHealth = 100;
         private int health = 100;
@@ -26,8 +31,6 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
 
         public override void LoadContent(ContentManager content)
         {
-            Vector2 sharedOrigin = new Vector2(38.5f, 51f); // ideal para tus enemigos
-
             string basePath = "Characters/NightBorne/";
 
             animations["Attack"] = new AnimationClip
@@ -35,7 +38,7 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
                 Texture = content.Load<Texture2D>($"{basePath}Attack"),
                 FrameWidth = 80,
                 FrameHeight = 80,
-                Offset = new Vector2(0, -10f) // 🔧 ajusta hacia arriba 10px
+                Offset = new Vector2(0, -10f)
             };
             animations["Death_1"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Death_1"), FrameWidth = 80, FrameHeight = 80 };
             animations["Death_2"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Death_2"), FrameWidth = 80, FrameHeight = 80 };
@@ -44,16 +47,17 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             animations["Run"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Run"), FrameWidth = 80, FrameHeight = 80 };
 
             currentAnimation = "Idle";
-
             hitboxWidth = (int)(animations["Idle"].FrameWidth * 0.25f);
             hitboxHeight = (int)(animations["Idle"].FrameHeight * 0.35f);
         }
 
-        public override void Update(GameTime gameTime, Vector2 playerPosition, TileMap tileMap)
+        public override void Update(GameTime gameTime, Player player, TileMap tileMap)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            Vector2 toPlayer = playerPosition - Center;
+            Vector2 toPlayer = player.Position - Center;
             float distance = toPlayer.Length();
+
+            attackTimer -= delta;
 
             if (health <= 0)
             {
@@ -72,35 +76,49 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
                 return;
             }
 
-            if (distance < attackRange)
+            switch (currentState)
             {
-                currentState = State.Attack;
-                velocity = Vector2.Zero;
-                PlayAnimation("Attack");
-            }
-            else if (distance < detectionRange)
-            {
-                currentState = State.Run;
+                case State.Attack:
+                    attackTimeElapsed += delta;
+                    if (attackTimeElapsed <= delta)
+                        PlayAnimation("Attack");
 
-                Vector2 direction = toPlayer;
-                if (direction.LengthSquared() > 1e-2f)
-                    direction.Normalize();
+                    if (attackTimeElapsed >= attackDuration)
+                    {
+                        attackTimeElapsed = 0f;
+                        attackTimer = attackCooldown;
+                        currentState = State.Run;
+                    }
+                    break;
 
-                TryMoveToward(direction * speed, delta, tileMap);
+                case State.Run:
+                default:
+                    if (distance < attackRange || IsCollidingWith(player.GetHitbox()))
+                    {
+                        currentState = State.Attack;
+                        break;
+                    }
 
-                PlayAnimation("Run");
-            }
+                    if (distance < detectionRange)
+                    {
+                        Vector2 dir = toPlayer;
+                        if (dir.LengthSquared() > 1e-2f)
+                            dir.Normalize();
 
-            else
-            {
-                currentState = State.Idle;
-                velocity = Vector2.Zero;
-                PlayAnimation("Idle");
+                        TryMoveToward(dir * speed, delta, tileMap);
+                        PlayAnimation("Run");
+                    }
+                    else
+                    {
+                        currentState = State.Idle;
+                        velocity = Vector2.Zero;
+                        PlayAnimation("Idle");
+                    }
+                    break;
             }
 
             UpdateAnimation(gameTime);
         }
-
 
         private bool UpdateDeathAnimation(GameTime gameTime, string anim)
         {

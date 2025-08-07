@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Input;
 using EscapeSinRetorno.Source.World;
 using System.Collections.Generic;
 using System;
+using SharpDX.Direct3D9;
 
 namespace EscapeSinRetorno.Source.Entities
 {
@@ -32,8 +33,8 @@ namespace EscapeSinRetorno.Source.Entities
 
         private readonly int _frameWidth = 128;
         private readonly int _frameHeight = 128;
-        private readonly int _hitboxWidth = 32;
-        private readonly int _hitboxHeight = 32;
+        private readonly int _hitboxWidth = 64;
+        private readonly int _hitboxHeight = 64;
 
         public int Width => (int)(_hitboxWidth * _scale);
         public int Height => (int)(_hitboxHeight * _scale);
@@ -168,6 +169,15 @@ namespace EscapeSinRetorno.Source.Entities
 
             spriteBatch.Draw(tex, _position, source, Color.White, 0f, Vector2.Zero, _scale, _flip, 0f);
             spriteBatch.Draw(_debugPixel, new Rectangle((int)HitboxPosition.X, (int)HitboxPosition.Y, Width, Height), Color.Red * 0.3f);
+        }
+        public Rectangle GetHitbox()
+        {
+            return new Rectangle(
+                (int)(HitboxPosition.X),
+                (int)(HitboxPosition.Y),
+                Width,
+                Height
+            );
         }
     }
 }

@@ -43,7 +43,7 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
         }
 
         public abstract void LoadContent(ContentManager content);
-        public abstract void Update(GameTime gameTime, Vector2 playerPosition, TileMap tileMap);
+        public abstract void Update(GameTime gameTime, Player player, TileMap tileMap);
 
         protected static Texture2D debugPixel;
 
@@ -167,6 +167,10 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             int y = (int)(pos.Y - height);  // Desde los pies hacia arriba
 
             return new Rectangle(x, y, width, height);
+        }
+        protected bool IsCollidingWith(Rectangle other)
+        {
+            return GetHitbox().Intersects(other);
         }
     }
 }
