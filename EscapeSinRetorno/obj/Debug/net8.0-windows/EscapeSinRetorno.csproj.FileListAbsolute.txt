@@ -199,3 +199,5 @@ C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0
 C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Characters\NightBorne\Hurt.xnb
 C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Characters\NightBorne\Idle.xnb
 C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Characters\NightBorne\Run.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Characters\NightBorne\NightBorne.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Fonts\MenuFont.xnb

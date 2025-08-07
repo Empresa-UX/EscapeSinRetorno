@@ -3,9 +3,10 @@ using System;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using EscapeSinRetorno.Source.World;
-using EscapeSinRetorno.Source.Entities; // Recuerda importar Player
-using EscapeSinRetorno.Source.Entities.Enemies; // Recuerda importar Player
-
+using EscapeSinRetorno.Source.Entities;
+using EscapeSinRetorno.Source.Entities.Enemies;
+using EscapeSinRetorno.Source.Core;
+using EscapeSinRetorno.Source.UI;
 
 namespace EscapeSinRetorno
 {
@@ -14,10 +15,14 @@ namespace EscapeSinRetorno
         private GraphicsDeviceManager _graphics;
         private SpriteBatch _spriteBatch;
         private EnemyManager _enemyManager;
-
         private TileMap _tileMap;
         private Player _player;
         private Camera2D _camera;
+        private GameStateManager _stateManager;
+
+        // Variables para controlar si estamos en menú o en juego
+        private bool _isInMenu = true;
+        private MenuState _menuState;
 
         public static readonly System.Random Random = new System.Random();
 
@@ -26,7 +31,6 @@ namespace EscapeSinRetorno
             _graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             IsMouseVisible = true;
-
             _graphics.PreferredBackBufferWidth = 1280;
             _graphics.PreferredBackBufferHeight = 720;
             _graphics.ApplyChanges();
@@ -36,6 +40,17 @@ namespace EscapeSinRetorno
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
 
+            // Cargar el menú primero
+            _menuState = new MenuState(this);
+            _menuState.LoadContent(Content, GraphicsDevice);
+        }
+
+        // Método público para que el menú pueda iniciar el juego
+        public void StartGame()
+        {
+            if (!_isInMenu) return; // Ya está en juego
+
+            // Cargar todo el contenido del juego
             _tileMap = new TileMap(tileSize: 16);
             _tileMap.LoadContent(Content);
 
@@ -50,24 +65,48 @@ namespace EscapeSinRetorno
             _enemyManager = new EnemyManager();
             _enemyManager.SpawnFromMapData(_tileMap.EnemySpawns);
             _enemyManager.LoadContent(Content);
+
             Enemy.LoadDebugTexture(GraphicsDevice);
 
             _camera = new Camera2D(GraphicsDevice.Viewport);
-            _camera.SetZoom(5.0f); // Zoom x2
+            _camera.SetZoom(5.0f);
+
+            _isInMenu = false;
+            IsMouseVisible = false; // Ocultar mouse en el juego
+        }
+
+        // Método público para volver al menú
+        public void ReturnToMenu()
+        {
+            _isInMenu = true;
+            IsMouseVisible = true;
         }
 
         protected override void Update(GameTime gameTime)
         {
-            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed ||
-                Keyboard.GetState().IsKeyDown(Keys.Escape))
+            if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 Exit();
 
-            _enemyManager.Update(gameTime, _player, _tileMap);
+            InputManager.Update();
 
-            _player.Update(gameTime, _tileMap);
-            
-            _camera.Follow(_player.Position, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+            if (_isInMenu)
+            {
+                _menuState.Update(gameTime);
+                _menuState.HandleInput();
+            }
+            else
+            {
+                // Tu código original del juego
+                if (Keyboard.GetState().IsKeyDown(Keys.Escape))
+                {
+                    ReturnToMenu();
+                    return;
+                }
 
+                _enemyManager.Update(gameTime, _player, _tileMap);
+                _player.Update(gameTime, _tileMap);
+                _camera.Follow(_player.Position , _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+            }
 
             base.Update(gameTime);
         }
@@ -76,16 +115,20 @@ namespace EscapeSinRetorno
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            _spriteBatch.Begin(transformMatrix: _camera.GetTransform());
-
-            _tileMap.DrawBackground(_spriteBatch, Vector2.Zero, 1366, 768);
-            _tileMap.Draw(_spriteBatch, Vector2.Zero);
-
-            _enemyManager.Draw(_spriteBatch);
-
-            _player.Draw(_spriteBatch);
-
-            _spriteBatch.End();
+            if (_isInMenu)
+            {
+                _menuState.Draw(_spriteBatch);
+            }
+            else
+            {
+                // Tu código original de dibujo del juego
+                _spriteBatch.Begin(transformMatrix: _camera.GetTransform());
+                _tileMap.DrawBackground(_spriteBatch, Vector2.Zero, 1366, 768);
+                _tileMap.Draw(_spriteBatch, Vector2.Zero);
+                _enemyManager.Draw(_spriteBatch);
+                _player.Draw(_spriteBatch);
+                _spriteBatch.End();
+            }
 
             base.Draw(gameTime);
         }

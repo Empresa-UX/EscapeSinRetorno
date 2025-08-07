@@ -325,6 +325,18 @@
 /processorParam:TextureFormat=Color
 /build:Characters/NightBorne/Idle.png;Characters/NightBorne/Idle
 
+#begin Characters/NightBorne/NightBorne.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:Characters/NightBorne/NightBorne.png;Characters/NightBorne/NightBorne
+
 #begin Characters/NightBorne/Run.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -336,6 +348,13 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:Characters/NightBorne/Run.png;Characters/NightBorne/Run
+
+#begin Fonts/MenuFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:Fonts/MenuFont.spritefont
 
 #begin Tiles/doors/door_1.jpeg
 /importer:TextureImporter
