@@ -47,7 +47,7 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
         public override void Update(GameTime gameTime, Player player, TileMap tileMap)
         {
             float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            Vector2 toPlayer = player.Position - Center;
+            Vector2 toPlayer = player.Center - Center;
 
             attackTimer -= delta;
 
