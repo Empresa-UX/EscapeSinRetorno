@@ -49,7 +49,7 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             PlayAnimation("Idle");
 
             hitboxWidth = (int)(animations["Idle"].FrameWidth * 0.25f);
-            hitboxHeight = (int)(animations["Idle"].FrameHeight * 0.35f);
+            hitboxHeight = (int)(animations["Idle"].FrameHeight * 0.3f);
         }
 
         public override void Update(GameTime gameTime, Vector2 playerPosition, TileMap tileMap)

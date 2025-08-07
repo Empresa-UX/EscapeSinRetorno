@@ -73,7 +73,8 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             int frame = Math.Clamp(currentFrame, 0, clip.TotalFrames - 1);
             Rectangle source = new Rectangle(frame * clip.FrameWidth, 0, clip.FrameWidth, clip.FrameHeight);
 
-            Vector2 origin = new Vector2(clip.FrameWidth / 2f, clip.FrameHeight);
+            Vector2 origin = new Vector2(clip.FrameWidth / 2f, clip.FrameHeight * 0.7f); // menos cabeza, más cuerpo
+
             spriteBatch.Draw(
                 clip.Texture,
                 position,
@@ -89,8 +90,6 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
 
             if (debugPixel != null)
                 spriteBatch.Draw(debugPixel, GetHitbox(), Color.Red * 0.3f);
-
-            spriteBatch.Draw(clip.Texture, new Rectangle((int)(position.X - clip.FrameWidth / 2), (int)(position.Y - clip.FrameHeight), clip.FrameWidth, clip.FrameHeight), Color.Green * 0.2f);
         }
 
         protected void PlayAnimation(string name)

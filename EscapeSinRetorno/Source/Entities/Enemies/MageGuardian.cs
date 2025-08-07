@@ -22,6 +22,7 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             {
                 Texture = content.Load<Texture2D>(path),
                 FrameWidth = 64,
+                FrameHeight = 64,
             };
 
             currentAnimation = "Idle";
@@ -32,8 +33,8 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
 
         public override void Update(GameTime gameTime, Vector2 playerPosition, TileMap tileMap)
         {
-            currentAnimation = "Idle"; // Siempre quieto
-            UpdateAnimation(gameTime); // ← ¡esto faltaba!
+            currentAnimation = "Idle";
+            UpdateAnimation(gameTime);
         }
     }
 }
