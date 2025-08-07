@@ -1,5 +1,4 @@
-﻿// File: Source/Entities/Enemies/Enemy.cs
-using EscapeSinRetorno.Source.World;
+﻿using EscapeSinRetorno.Source.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;

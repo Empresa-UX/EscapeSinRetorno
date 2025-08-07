@@ -20,7 +20,6 @@ public class Camera2D
     {
         _position = target - new Vector2(screenWidth / 2f / _zoom, screenHeight / 2f / _zoom);
     }
-
     public Matrix GetTransform()
     {
         return Matrix.CreateTranslation(new Vector3(-_position, 0f)) *

@@ -14,7 +14,7 @@ namespace EscapeSinRetorno.Source.World
         private Tile[,] _tiles;
         private readonly Dictionary<string, Texture2D> _tileTextures = new();
         private string[][] _mapData;
-        private bool _isContentLoaded = false; // ← NUEVA BANDERA
+        private bool _isContentLoaded = false;
 
         public Vector2? PlayerStartPosition { get; private set; } = null;
         public List<(EnemyType type, Vector2 position, string variant)> EnemySpawns { get; private set; } = new();
@@ -48,8 +48,7 @@ namespace EscapeSinRetorno.Source.World
 
         private void LoadMapFromFile(string relativePath)
         {
-            using var stream = TitleContainer.OpenStream(relativePath);
-            using var reader = new StreamReader(stream);
+            using var reader = new StreamReader(TitleContainer.OpenStream(relativePath));
 
             var lines = new List<string>();
             while (!reader.EndOfStream)
@@ -59,24 +58,14 @@ namespace EscapeSinRetorno.Source.World
                     lines.Add(line);
             }
 
-            int rows = lines.Count;
-            _mapData = new string[rows][];
-
-            for (int y = 0; y < rows; y++)
-            {
-                var tokens = lines[y].Trim().Split(',', StringSplitOptions.None);
-                _mapData[y] = new string[tokens.Length];
-                for (int x = 0; x < tokens.Length; x++)
-                    _mapData[y][x] = tokens[x].Trim().ToUpper();
-            }
+            _mapData = new string[lines.Count][];
+            for (int y = 0; y < lines.Count; y++)
+                _mapData[y] = lines[y].Trim().Split(',', StringSplitOptions.None);
         }
 
         private void BuildTileInstances()
         {
-            if (EnemySpawns.Count > 0)
-            {
-                EnemySpawns.Clear();
-            }
+            EnemySpawns.Clear();
 
             int width = _mapData[0].Length;
             int height = _mapData.Length;
@@ -86,67 +75,53 @@ namespace EscapeSinRetorno.Source.World
             {
                 for (int x = 0; x < width; x++)
                 {
+                    string code = _mapData[y][x].Trim().ToUpper();
                     var layers = new List<Texture2D>();
-                    string code = _mapData[y][x];
+                    var pos = new Vector2(x * _tileSize, y * _tileSize);
 
-                    if (code == "F")
+                    switch (code)
                     {
-                        int frame = (x % 4) + (y % 4) * 4 + 1;
-                        layers.Add(_tileTextures[$"F{frame}"]);
-                    }
-                    else if (code == "P")
-                    {
-                        layers.Add(_tileTextures["F1"]);
-                        PlayerStartPosition = new Vector2(x * _tileSize, y * _tileSize);
-                    }
-                    else if (code.Length >= 2 && code[0] == 'W')
-                    {
-                        string numeric = code.Substring(1).TrimStart('0');
-                        if (numeric == "") numeric = "0";
-
-                        if (int.TryParse(numeric, out int wallId))
-                        {
-                            string key = $"W{wallId}";
-
-                            if (_tileTextures.TryGetValue(key, out var wallTex))
+                        case "F":
+                            int frame = (x % 4) + (y % 4) * 4 + 1;
+                            layers.Add(_tileTextures[$"F{frame}"]);
+                            break;
+                        case "P":
+                            layers.Add(_tileTextures["F1"]);
+                            PlayerStartPosition = pos;
+                            break;
+                        case "EW":
+                            layers.Add(_tileTextures["F1"]);
+                            EnemySpawns.Add((EnemyType.EvilWizard, pos + new Vector2(_tileSize * 0.5f, _tileSize), ""));
+                            break;
+                        case "NG":
+                            layers.Add(_tileTextures["F1"]);
+                            EnemySpawns.Add((EnemyType.NightBorne, pos + new Vector2(_tileSize * 0.5f, _tileSize), ""));
+                            break;
+                        case "MR":
+                        case "MB":
+                        case "MM":
+                            layers.Add(_tileTextures["F1"]);
+                            string variant = code switch
                             {
-                                layers.Add(wallTex);
+                                "MR" => "red",
+                                "MB" => "blue",
+                                "MM" => "magenta",
+                                _ => "blue"
+                            };
+                            EnemySpawns.Add((EnemyType.MageGuardian, pos + new Vector2(_tileSize * 0.5f, _tileSize), variant));
+                            break;
+                        default:
+                            if (code.StartsWith("W") && int.TryParse(code[1..].TrimStart('0'), out int wallId))
+                            {
+                                string key = $"W{wallId}";
+                                if (_tileTextures.TryGetValue(key, out var wallTex))
+                                    layers.Add(wallTex);
                             }
-
-                        }
-                    }
-                    else if (code == "EW")
-                    {
-                        layers.Add(_tileTextures["F1"]);
-                        // Centrar el pie del enemigo en el centro del tile
-                        Vector2 spawnPos = new Vector2((x + 0.5f) * _tileSize, (y + 1f) * _tileSize);
-                        EnemySpawns.Add((EnemyType.EvilWizard, spawnPos, ""));
-                    }
-                    else if (code == "NG")
-                    {
-                        layers.Add(_tileTextures["F1"]);
-                        Vector2 spawnPos = new Vector2((x + 0.5f) * _tileSize, (y + 1f) * _tileSize);
-                        EnemySpawns.Add((EnemyType.NightBorne, spawnPos, ""));
-                    }
-                    else if (code == "MR" || code == "MB" || code == "MM")
-                    {
-                        layers.Add(_tileTextures["F1"]);
-                        Vector2 spawnPos = new Vector2((x + 0.5f) * _tileSize, (y + 1f) * _tileSize);
-                        string variant = code switch
-                        {
-                            "MR" => "red",
-                            "MB" => "blue",
-                            "MM" => "magenta",
-                            _ => "blue"
-                        };
-                        EnemySpawns.Add((EnemyType.MageGuardian, spawnPos, variant));
+                            break;
                     }
 
                     if (layers.Count > 0)
-                    {
-                        var pos = new Vector2(x * _tileSize, y * _tileSize);
                         _tiles[x, y] = new Tile(layers, pos);
-                    }
                 }
             }
         }
@@ -171,6 +146,7 @@ namespace EscapeSinRetorno.Source.World
                 }
             }
         }
+
         public void DrawBackground(SpriteBatch spriteBatch, Vector2 camera, int screenWidth, int screenHeight)
         {
             if (!_tileTextures.TryGetValue("N", out var tex)) return;
@@ -204,7 +180,7 @@ namespace EscapeSinRetorno.Source.World
                 {
                     if (y >= 0 && y < _mapData.Length && x >= 0 && x < _mapData[y].Length)
                     {
-                        string tileCode = _mapData[y][x];
+                        string tileCode = _mapData[y][x].ToUpper();
                         if (tileCode.StartsWith("W") || tileCode == "D")
                             return true;
                     }

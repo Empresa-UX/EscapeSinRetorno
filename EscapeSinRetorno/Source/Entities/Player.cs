@@ -1,18 +1,19 @@
-﻿// File: Source/Entities/Player.cs
-
+﻿// Simplified version of Player.cs
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using EscapeSinRetorno.Source.World;
-using System;
 using System.Collections.Generic;
+using System;
 
 namespace EscapeSinRetorno.Source.Entities
 {
     public class Player
     {
-        private Dictionary<string, Texture2D> _animations;
+        private Dictionary<string, Texture2D> _animations = new();
+        private Queue<string> _attackCombo = new();
+
         private string _currentAnim = "Idle";
         private int _currentFrame;
         private double _timer, _interval = 120;
@@ -21,73 +22,49 @@ namespace EscapeSinRetorno.Source.Entities
         private Vector2 _velocity;
         private float _speed = 100f;
         private float _runMultiplier = 1.8f;
+        private float _scale = 0.5f;
 
-        private bool _isAttacking = false;
-        private bool _isJumping = false;
-        private bool _isRunning = false;
+        private bool _isAttacking, _isJumping, _isRunning, _animLocked, _wasMoving;
+        private KeyboardState _previousKeyboardState;
 
         private SpriteEffects _flip = SpriteEffects.None;
         private Texture2D _debugPixel;
 
-        private int _frameWidth = 128;
-        private int _frameHeight = 128;
-
-        private int _hitboxWidth = 32;
-        private int _hitboxHeight = 32;
-        private float _scale = 0.5f; // Ajustá el tamaño que te parezca correcto
-
-
-        private KeyboardState _previousKeyboardState;
-        private bool _animLocked = false;
-        private bool _wasMoving = false;
+        private readonly int _frameWidth = 128;
+        private readonly int _frameHeight = 128;
+        private readonly int _hitboxWidth = 32;
+        private readonly int _hitboxHeight = 32;
 
         public int Width => (int)(_hitboxWidth * _scale);
         public int Height => (int)(_hitboxHeight * _scale);
         public Vector2 Position => _position;
         public void SetPosition(Vector2 pos) => _position = pos;
 
-
-        public Vector2 HitboxPosition => new Vector2(
+        public Vector2 HitboxPosition => new(
             _position.X + (_frameWidth * _scale - Width) / 2,
             _position.Y + (_frameHeight * _scale - Height)
         );
 
         public void LoadContent(ContentManager content, GraphicsDevice graphicsDevice)
         {
-            _animations = new Dictionary<string, Texture2D>
-            {
-                ["Idle"] = content.Load<Texture2D>("Characters/Enchantress/Idle"),
-                ["Walk"] = content.Load<Texture2D>("Characters/Enchantress/Walk"),
-                ["Run"] = content.Load<Texture2D>("Characters/Enchantress/Run"),
-                ["Jump"] = content.Load<Texture2D>("Characters/Enchantress/Jump"),
-                ["Attack_1"] = content.Load<Texture2D>("Characters/Enchantress/Attack_1"),
-                ["Attack_2"] = content.Load<Texture2D>("Characters/Enchantress/Attack_2"),
-                ["Attack_3"] = content.Load<Texture2D>("Characters/Enchantress/Attack_3"),
-                ["Attack_4"] = content.Load<Texture2D>("Characters/Enchantress/Attack_4"),
-            };
+            foreach (var anim in new[] { "Idle", "Walk", "Run", "Jump", "Attack_1", "Attack_2", "Attack_3", "Attack_4" })
+                _animations[anim] = content.Load<Texture2D>($"Characters/Enchantress/{anim}");
 
             _position = new Vector2(300, 300);
-
             _debugPixel = new Texture2D(graphicsDevice, 1, 1);
             _debugPixel.SetData(new[] { Color.White });
         }
 
         public void Update(GameTime gameTime, TileMap tileMap)
         {
-            KeyboardState ks = Keyboard.GetState();
+            var ks = Keyboard.GetState();
             Vector2 input = Vector2.Zero;
-
-            bool justPressed(Keys key) =>
-                ks.IsKeyDown(key) && !_previousKeyboardState.IsKeyDown(key);
+            bool JustPressed(Keys key) => ks.IsKeyDown(key) && !_previousKeyboardState.IsKeyDown(key);
 
             if (!_animLocked)
             {
-                if (justPressed(Keys.C)) TriggerComboAttack();
-                _isJumping = justPressed(Keys.Z);
-                if (_isJumping)
-                {
-                    StartAnimation("Jump");
-                }
+                if (JustPressed(Keys.C)) TriggerComboAttack();
+                if ((_isJumping = JustPressed(Keys.Z))) PlayAnimation("Jump", true);
             }
 
             if (_animLocked)
@@ -97,38 +74,32 @@ namespace EscapeSinRetorno.Source.Entities
                 return;
             }
 
-            if (ks.IsKeyDown(Keys.Right) || ks.IsKeyDown(Keys.D)) input.X += 1;
-            if (ks.IsKeyDown(Keys.Left) || ks.IsKeyDown(Keys.A)) input.X -= 1;
-            if (ks.IsKeyDown(Keys.Up) || ks.IsKeyDown(Keys.W)) input.Y -= 1;
-            if (ks.IsKeyDown(Keys.Down) || ks.IsKeyDown(Keys.S)) input.Y += 1;
+            if (ks.IsKeyDown(Keys.Right) || ks.IsKeyDown(Keys.D)) input.X++;
+            if (ks.IsKeyDown(Keys.Left) || ks.IsKeyDown(Keys.A)) input.X--;
+            if (ks.IsKeyDown(Keys.Up) || ks.IsKeyDown(Keys.W)) input.Y--;
+            if (ks.IsKeyDown(Keys.Down) || ks.IsKeyDown(Keys.S)) input.Y++;
 
             _isRunning = ks.IsKeyDown(Keys.X);
-
-            float deltaTime = (float)gameTime.ElapsedGameTime.TotalSeconds;
             bool isMoving = input != Vector2.Zero;
+            float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             if (isMoving)
             {
                 input.Normalize();
-                float finalSpeed = _speed * (_isRunning ? _runMultiplier : 1f);
-                _velocity = input * finalSpeed * deltaTime;
+                _velocity = input * _speed * (_isRunning ? _runMultiplier : 1f) * delta;
 
-                Vector2 newPosX = new Vector2(HitboxPosition.X + _velocity.X, HitboxPosition.Y);
-                if (!tileMap.IsColliding(newPosX, Width, Height))
+                if (!tileMap.IsColliding(HitboxPosition + new Vector2(_velocity.X, 0), Width, Height))
                     _position.X += _velocity.X;
-
-                Vector2 newPosY = new Vector2(HitboxPosition.X, HitboxPosition.Y + _velocity.Y);
-                if (!tileMap.IsColliding(newPosY, Width, Height))
+                if (!tileMap.IsColliding(HitboxPosition + new Vector2(0, _velocity.Y), Width, Height))
                     _position.Y += _velocity.Y;
 
-                _flip = _velocity.X > 0 ? SpriteEffects.None :
-                        _velocity.X < 0 ? SpriteEffects.FlipHorizontally : _flip;
+                if (_velocity.X != 0) _flip = _velocity.X > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
 
-                SetMovementAnimation(_isRunning ? "Run" : "Walk");
+                PlayAnimation(_isRunning ? "Run" : "Walk");
             }
             else if (_wasMoving && !_isAttacking && !_isJumping)
             {
-                SetMovementAnimation("Idle");
+                PlayAnimation("Idle");
             }
 
             _wasMoving = isMoving;
@@ -136,62 +107,41 @@ namespace EscapeSinRetorno.Source.Entities
             _previousKeyboardState = ks;
         }
 
-        private void SetMovementAnimation(string anim)
-        {
-            if (_currentAnim != anim && !_animLocked)
-            {
-                _currentAnim = anim;
-                _currentFrame = 0;
-                _timer = 0;
-            }
-        }
-
-        private Queue<string> _attackCombo = new();
-
         private void TriggerComboAttack()
         {
             if (_isAttacking) return;
-
-            _attackCombo.Enqueue("Attack_1");
-            _attackCombo.Enqueue("Attack_2");
-            _attackCombo.Enqueue("Attack_3");
-            _attackCombo.Enqueue("Attack_4");
-            StartNextAttackInCombo();
+            foreach (var atk in new[] { "Attack_1", "Attack_2", "Attack_3", "Attack_4" })
+                _attackCombo.Enqueue(atk);
+            StartNextAttack();
         }
 
-        private void StartNextAttackInCombo()
+        private void StartNextAttack()
         {
             if (_attackCombo.Count == 0)
             {
-                _isAttacking = false;
-                _animLocked = false;
-                SetMovementAnimation("Idle");
+                _isAttacking = _animLocked = false;
+                PlayAnimation("Idle");
                 return;
             }
-
-            string next = _attackCombo.Dequeue();
-            StartAnimation(next);
+            PlayAnimation(_attackCombo.Dequeue(), true);
             _isAttacking = true;
         }
 
-        private void StartAnimation(string anim)
+        private void PlayAnimation(string anim, bool lockAnim = false)
         {
-            if (_animations.ContainsKey(anim))
-            {
-                _currentAnim = anim;
-                _currentFrame = 0;
-                _timer = 0;
-                _animLocked = anim.StartsWith("Attack") || anim == "Jump";
-            }
+            if (_currentAnim == anim && !lockAnim) return;
+            if (!_animations.ContainsKey(anim)) return;
+            _currentAnim = anim;
+            _currentFrame = 0;
+            _timer = 0;
+            _animLocked = lockAnim;
         }
 
         private void Animate(GameTime gameTime)
         {
-            if (!_animations.ContainsKey(_currentAnim)) return;
-
-            Texture2D tex = _animations[_currentAnim];
+            if (!_animations.TryGetValue(_currentAnim, out var tex)) return;
             int frameCount = tex.Width / _frameWidth;
-            if (frameCount == 0) return;
+            if (frameCount <= 0) return;
 
             _timer += gameTime.ElapsedGameTime.TotalMilliseconds;
             if (_timer > _interval)
@@ -201,44 +151,23 @@ namespace EscapeSinRetorno.Source.Entities
 
                 if (_currentFrame >= frameCount)
                 {
-                    if (_currentAnim.StartsWith("Attack_"))
-                    {
-                        StartNextAttackInCombo();
-                    }
-                    else if (_currentAnim == "Jump")
-                    {
-                        _isJumping = false;
-                        _animLocked = false;
-                        SetMovementAnimation("Idle");
-                    }
-                    else if (_currentAnim == "Run" || _currentAnim == "Walk")
-                    {
-                        _currentFrame = 0; // Loop correctamente
-                    }
-                    else
-                    {
-                        _currentFrame = 0;
-                        _isAttacking = false;
-                        _animLocked = false;
-                        SetMovementAnimation("Idle");
-                    }
+                    if (_currentAnim.StartsWith("Attack_")) StartNextAttack();
+                    else if (_currentAnim == "Jump") { _isJumping = false; _animLocked = false; PlayAnimation("Idle"); }
+                    else if (_currentAnim is "Run" or "Walk") _currentFrame = 0;
+                    else { _currentFrame = 0; _isAttacking = _animLocked = false; PlayAnimation("Idle"); }
                 }
             }
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            if (!_animations.ContainsKey(_currentAnim)) return;
+            if (!_animations.TryGetValue(_currentAnim, out var tex)) return;
 
-            var tex = _animations[_currentAnim];
-            int totalFrames = tex.Width / _frameWidth;
-            int clampedFrame = Math.Clamp(_currentFrame, 0, totalFrames - 1);
+            int clampedFrame = Math.Clamp(_currentFrame, 0, tex.Width / _frameWidth - 1);
+            Rectangle source = new(clampedFrame * _frameWidth, 0, _frameWidth, _frameHeight);
 
-            Rectangle source = new Rectangle(clampedFrame * _frameWidth, 0, _frameWidth, _frameHeight);
             spriteBatch.Draw(tex, _position, source, Color.White, 0f, Vector2.Zero, _scale, _flip, 0f);
-
-            Rectangle hitboxRect = new Rectangle((int)HitboxPosition.X, (int)HitboxPosition.Y, Width, Height);
-            spriteBatch.Draw(_debugPixel, hitboxRect, Color.Red * 0.3f);
+            spriteBatch.Draw(_debugPixel, new Rectangle((int)HitboxPosition.X, (int)HitboxPosition.Y, Width, Height), Color.Red * 0.3f);
         }
     }
 }

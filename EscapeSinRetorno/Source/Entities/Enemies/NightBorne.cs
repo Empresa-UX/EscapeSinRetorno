@@ -22,10 +22,7 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
         private bool deathAnim1Done = false;
         private bool deathAnim2Done = false;
 
-        public NightBorne(Vector2 startPosition) : base(startPosition)
-        {
-
-        }
+        public NightBorne(Vector2 startPosition) : base(startPosition) { }
 
         public override void LoadContent(ContentManager content)
         {

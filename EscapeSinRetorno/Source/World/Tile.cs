@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 using System.Collections.Generic;
 
 namespace EscapeSinRetorno.Source.World
@@ -15,7 +14,6 @@ namespace EscapeSinRetorno.Source.World
             _layers = layers;
             Position = pos;
         }
-
         public void Draw(SpriteBatch spriteBatch, Vector2 camera)
         {
             if (_layers.Count > 0)
