@@ -6,15 +6,15 @@ namespace EscapeSinRetorno.Source.UI
 {
     public class Button
     {
-        private Rectangle bounds;
-        private SpriteFont font;
-        private string text;
-        private Color backgroundColor;
-        private Color textColor;
-        private Color hoverColor;
-        private bool isHovered;
+        protected Rectangle bounds;
+        protected SpriteFont font;
+        protected string text;
+        protected Color backgroundColor;
+        protected Color textColor;
+        protected Color hoverColor;
+        protected bool isHovered;
 
-        public event Action OnClick;
+        public event Action OnClick; // ← Ya está bien, debe ser public
 
         public Button(Rectangle bounds, string text, SpriteFont font)
         {
@@ -26,7 +26,7 @@ namespace EscapeSinRetorno.Source.UI
             this.hoverColor = Color.Gray;
         }
 
-        public void Update()
+        public virtual void Update()
         {
             Point mousePos = InputManager.MousePosition;
             isHovered = bounds.Contains(mousePos);
@@ -37,7 +37,7 @@ namespace EscapeSinRetorno.Source.UI
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, Texture2D pixelTexture)
+        public virtual void Draw(SpriteBatch spriteBatch, Texture2D pixelTexture)
         {
             Color currentBg = isHovered ? hoverColor : backgroundColor;
             spriteBatch.Draw(pixelTexture, bounds, currentBg);
