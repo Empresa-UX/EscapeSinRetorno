@@ -191,7 +191,5 @@ namespace EscapeSinRetorno.Source.Core
         {
             // El input se maneja en los botones
         }
-
-
     }
 }

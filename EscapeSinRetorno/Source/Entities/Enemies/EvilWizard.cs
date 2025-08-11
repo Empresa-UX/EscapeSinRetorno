@@ -2,6 +2,9 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
+using System.Collections.Generic;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace EscapeSinRetorno.Source.Entities.Enemies
 {
@@ -11,7 +14,6 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
         private State currentState = State.Idle;
 
         private float speed = 50f;
-        private float attackRange = 20f;
         private float attackCooldown = 3.5f;
         private float attackDuration = 0.8f;
 
@@ -24,6 +26,12 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
         private int health = 100;
 
         private bool deathPlayed = false;
+        private readonly Dictionary<string, int[]> _attackHitFrames = new()
+        {
+            { "Attack1", new[] { 5 } }, // ejemplo, ajusta según sprite
+            { "Attack2", new[] { 5 } }
+        };
+        private bool _hasHitPlayerThisAttack = false;
 
         public EvilWizard(Vector2 startPosition) : base(startPosition) { }
 
@@ -67,17 +75,32 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
                 case State.Attack:
                     attackTimeElapsed += delta;
 
+                    // Iniciar ataque (se llama solo al inicio)
                     if (attackTimeElapsed <= delta)
                     {
                         activeAttack = (attackTimer % 2f < 1f) ? "Attack1" : "Attack2";
                         PlayAnimation(activeAttack);
+                        _hasHitPlayerThisAttack = false; // resetear para este nuevo ataque
                     }
 
+                    // --- Detectar golpe en el frame configurado ---
+                    if (_attackHitFrames.TryGetValue(currentAnimation, out var hitFrames) &&
+                        System.Array.Exists(hitFrames, f => f == currentFrame))
+                    {
+                        if (!_hasHitPlayerThisAttack && GetHitbox().Intersects(player.GetHitbox()))
+                        {
+                            player.TakeDamage(100); // daño del enemigo (ajusta si quieres)
+                            _hasHitPlayerThisAttack = true;
+                        }
+                    }
+
+                    // Terminar ataque
                     if (attackTimeElapsed >= attackDuration)
                     {
                         attackTimeElapsed = 0f;
                         attackTimer = attackCooldown;
                         currentState = State.Run;
+                        _hasHitPlayerThisAttack = false; // asegurarse de resetear al finalizar
                     }
                     break;
 
@@ -87,7 +110,6 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
                     {
                         currentState = State.Attack;
                     }
-
 
                     Vector2 dir = toPlayer;
                     if (dir.LengthSquared() > 1e-2f)
@@ -101,10 +123,12 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             UpdateAnimation(gameTime);
         }
 
-        public void TakeDamage(int dmg)
+
+        public override void TakeDamage(int dmg)
         {
             if (health <= 0) return;
             health -= dmg;
+            PlayAnimation("Take_hit");
         }
     }
 }

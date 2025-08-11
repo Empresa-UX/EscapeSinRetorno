@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework.Input;
 using EscapeSinRetorno.Source.World;
 using System.Collections.Generic;
 using System;
+using EscapeSinRetorno.Source.Entities.Enemies;
 
 namespace EscapeSinRetorno.Source.Entities
 {
@@ -22,6 +23,10 @@ namespace EscapeSinRetorno.Source.Entities
         private SpriteEffects _flip = SpriteEffects.None;
         private Texture2D _debugPixel;
         private readonly int _frameWidth = 128, _frameHeight = 128, _hitboxWidth = 64, _hitboxHeight = 64;
+        private HashSet<Enemy> _hitEnemies = new();
+        private int _attackDamage = 20;
+        private EnemyManager _enemyManager;
+
 
         public int Width => (int)(_hitboxWidth * _scale);
         public int Height => (int)(_hitboxHeight * _scale);
@@ -30,11 +35,25 @@ namespace EscapeSinRetorno.Source.Entities
         public Vector2 HitboxPosition => new(_position.X + (_frameWidth * _scale - Width) / 2, _position.Y + (_frameHeight * _scale - Height));
         public Rectangle GetHitbox() => new((int)HitboxPosition.X, (int)HitboxPosition.Y, Width, Height);
         public Vector2 Center => new(_position.X, _position.Y - _frameHeight / 2f);
+        public void SetEnemyManager(EnemyManager enemyManager) {_enemyManager = enemyManager; }
+
+        private readonly Dictionary<string, int[]> _attackHitFrames = new()
+        {
+            { "Attack_1", new[] { 3 } }, // frame donde pega
+            { "Attack_2", new[] { 2 } },
+            { "Attack_3", new[] { 3 } },
+            { "Attack_4", new[] { 4 } }
+        };
 
         public void LoadContent(ContentManager content, GraphicsDevice graphicsDevice)
         {
-            foreach (var anim in new[] { "Idle", "Walk", "Run", "Jump", "Attack_1", "Attack_2", "Attack_3", "Attack_4" })
-                _animations[anim] = content.Load<Texture2D>($"Characters/Enchantress/{anim}");
+            foreach (var anim in new[]
+            {
+                "Idle", "Walk", "Hurt", "Run", "Jump",
+                "Attack_1", "Attack_2", "Attack_3", "Attack_4"
+            })
+             _animations[anim] = content.Load<Texture2D>($"Characters/Enchantress/{anim}");
+
             _position = new Vector2(300, 300);
             _debugPixel = new Texture2D(graphicsDevice, 1, 1);
             _debugPixel.SetData(new[] { Color.White });
@@ -88,12 +107,16 @@ namespace EscapeSinRetorno.Source.Entities
         private void TriggerComboAttack()
         {
             if (_isAttacking) return;
-            foreach (var atk in new[] { "Attack_1", "Attack_2", "Attack_3", "Attack_4" }) _attackCombo.Enqueue(atk);
+            foreach (var atk in new[] { "Attack_1", "Attack_2", "Attack_3", "Attack_4" })
+                _attackCombo.Enqueue(atk);
             StartNextAttack();
         }
 
+
         private void StartNextAttack()
         {
+            _hitEnemies.Clear();
+
             if (_attackCombo.Count == 0) { _isAttacking = _animLocked = false; PlayAnimation("Idle"); return; }
             PlayAnimation(_attackCombo.Dequeue(), true);
             _isAttacking = true;
@@ -103,6 +126,7 @@ namespace EscapeSinRetorno.Source.Entities
         {
             if (_currentAnim == anim && !lockAnim) return;
             if (!_animations.ContainsKey(anim)) return;
+
             (_currentAnim, _currentFrame, _timer, _animLocked) = (anim, 0, 0, lockAnim);
         }
 
@@ -118,15 +142,53 @@ namespace EscapeSinRetorno.Source.Entities
                 _currentFrame++;
                 _timer = 0;
 
+                // --- Si estamos en frame de golpe ---
+                if (IsHitFrame() && _enemyManager != null)
+                {
+                    var attackHitbox = GetAttackHitbox();
+
+                    foreach (var enemy in _enemyManager.GetEnemies())
+                    {
+                        if (enemy is MageGuardian) continue; // inmune
+                        if (_hitEnemies.Contains(enemy)) continue;
+
+                        if (attackHitbox.Intersects(enemy.GetHitbox()))
+                        {
+                            enemy.TakeDamage(_attackDamage);
+                            _hitEnemies.Add(enemy);
+                        }
+                    }
+                }
+
                 if (_currentFrame >= frameCount)
                 {
-                    if (_currentAnim.StartsWith("Attack_")) StartNextAttack();
-                    else if (_currentAnim == "Jump") { _isJumping = false; _animLocked = false; PlayAnimation("Idle"); }
-                    else if (_currentAnim is "Run" or "Walk") _currentFrame = 0;
-                    else { _currentFrame = 0; _isAttacking = _animLocked = false; PlayAnimation("Idle"); }
+                    if (_currentAnim.StartsWith("Attack_"))
+                        StartNextAttack();
+                    else if (_currentAnim == "Jump")
+                    {
+                        _isJumping = false;
+                        _animLocked = false;
+                        PlayAnimation("Idle");
+                    }
+                    else if (_currentAnim is "Run" or "Walk")
+                        _currentFrame = 0;
+                    else
+                    {
+                        _currentFrame = 0;
+                        _isAttacking = _animLocked = false;
+                        PlayAnimation("Idle");
+                    }
                 }
             }
         }
+
+        private bool IsHitFrame()
+        {
+            return _isAttacking &&
+                   _attackHitFrames.TryGetValue(_currentAnim, out var hitFrames) &&
+                   Array.Exists(hitFrames, f => f == _currentFrame);
+        }
+
 
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -137,6 +199,47 @@ namespace EscapeSinRetorno.Source.Entities
 
             spriteBatch.Draw(tex, _position, source, Color.White, 0f, Vector2.Zero, _scale, _flip, 0f);
             spriteBatch.Draw(_debugPixel, new Rectangle((int)HitboxPosition.X, (int)HitboxPosition.Y, Width, Height), Color.Red * 0.3f);
+        }
+
+        private Rectangle GetAttackHitbox()
+        {
+            int range = 60; // ajusta según alcance
+            int height = Height;
+
+            if (_flip == SpriteEffects.None) // mirando a la derecha
+            {
+                return new Rectangle(
+                    (int)(HitboxPosition.X + Width),
+                    (int)HitboxPosition.Y,
+                    range,
+                    height
+                );
+            }
+            else // mirando a la izquierda
+            {
+                return new Rectangle(
+                    (int)(HitboxPosition.X - range),
+                    (int)HitboxPosition.Y,
+                    range,
+                    height
+                );
+            }
+        }
+
+
+        private int _health = 10000;
+
+        public void TakeDamage(int dmg)
+        {
+            if (_health <= 0) return; // ya muerto
+            _health -= dmg;
+
+            PlayAnimation("Hurt", true);
+        }
+
+        private bool IsAttackingFrame()
+        {
+            return _isAttacking && _currentAnim.StartsWith("Attack_");
         }
     }
 }

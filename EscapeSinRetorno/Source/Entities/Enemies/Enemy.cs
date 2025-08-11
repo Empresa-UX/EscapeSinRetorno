@@ -27,7 +27,7 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
 
         public abstract void LoadContent(ContentManager content);
         public abstract void Update(GameTime gameTime, Player player, TileMap tileMap);
-
+        public abstract void TakeDamage(int dmg);
         public static void LoadDebugTexture(GraphicsDevice device)
         {
             debugPixel = new Texture2D(device, 1, 1);
@@ -105,6 +105,7 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
 
             return new Rectangle((int)(pos.X - width / 2f), (int)(pos.Y - height), width, height);
         }
+
 
         protected bool IsCollidingWith(Rectangle other) => GetHitbox().Intersects(other);
     }

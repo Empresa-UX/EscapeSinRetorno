@@ -14,8 +14,8 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
         public void LoadContent(ContentManager content) => enemies.ForEach(e => e.LoadContent(content));
         public void Update(GameTime gameTime, Player player, TileMap tileMap) => enemies.ForEach(e => e.Update(gameTime, player, tileMap));
         public void Draw(SpriteBatch spriteBatch) => enemies.ForEach(e => e.Draw(spriteBatch));
+        public List<Enemy> GetEnemies() => enemies;
         public void Add(Enemy enemy) => enemies.Add(enemy);
-
         public void SpawnFromMapData(List<(EnemyType type, Vector2 pos, string variant)> spawns)
         {
             if (hasSpawnedFromMap || spawns?.Count == 0) return;

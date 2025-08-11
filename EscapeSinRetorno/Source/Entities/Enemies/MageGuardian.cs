@@ -36,5 +36,6 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             currentAnimation = "Idle";
             UpdateAnimation(gameTime);
         }
+        public override void TakeDamage(int dmg) { }
     }
 }

@@ -2,6 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System.Collections.Generic;
 
 namespace EscapeSinRetorno.Source.Entities.Enemies
 {
@@ -19,7 +20,7 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
 
         private Vector2 velocity = Vector2.Zero;
         private float detectionRange = 160f;
-        private float attackRange = 20f;
+        private float attackRange = 10f;
 
         private int maxHealth = 100;
         private int health = 100;
@@ -27,6 +28,11 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
         private bool deathAnim1Done = false;
         private bool deathAnim2Done = false;
 
+        private readonly Dictionary<string, int[]> _attackHitFrames = new()
+{
+    { "Attack", new[] { 9 } } // ajusta el número según tu spritesheet
+};
+        private bool _hasHitPlayerThisAttack = false;
         public NightBorne(Vector2 startPosition) : base(startPosition) { }
 
         public override void LoadContent(ContentManager content)
@@ -47,8 +53,8 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             animations["Run"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Run"), FrameWidth = 80, FrameHeight = 80 };
 
             currentAnimation = "Idle";
-            hitboxWidth = (int)(animations["Idle"].FrameWidth * 0.25f);
-            hitboxHeight = (int)(animations["Idle"].FrameHeight * 0.35f);
+            hitboxWidth = (int)(animations["Idle"].FrameWidth * 0.40f);
+            hitboxHeight = (int)(animations["Idle"].FrameHeight * 0.40f);
         }
 
         public override void Update(GameTime gameTime, Player player, TileMap tileMap)
@@ -80,16 +86,35 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             {
                 case State.Attack:
                     attackTimeElapsed += delta;
-                    if (attackTimeElapsed <= delta)
-                        PlayAnimation("Attack");
 
+                    // Inicia ataque al primer frame
+                    if (attackTimeElapsed <= delta)
+                    {
+                        PlayAnimation("Attack");
+                        _hasHitPlayerThisAttack = false;
+                    }
+
+                    // Detectar golpe en frame configurado
+                    if (_attackHitFrames.TryGetValue(currentAnimation, out var hitFrames) &&
+                        System.Array.Exists(hitFrames, f => f == currentFrame))
+                    {
+                        if (!_hasHitPlayerThisAttack && GetHitbox().Intersects(player.GetHitbox()))
+                        {
+                            player.TakeDamage(10); // daño ajustable
+                            _hasHitPlayerThisAttack = true;
+                        }
+                    }
+
+                    // Termina ataque
                     if (attackTimeElapsed >= attackDuration)
                     {
                         attackTimeElapsed = 0f;
                         attackTimer = attackCooldown;
                         currentState = State.Run;
+                        _hasHitPlayerThisAttack = false;
                     }
                     break;
+
 
                 case State.Run:
                 default:
@@ -145,11 +170,11 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
 
             base.Draw(spriteBatch);
         }
-
-        public void TakeDamage(int dmg)
+        public override void TakeDamage(int dmg)
         {
             if (health <= 0) return;
             health -= dmg;
+            PlayAnimation("Hurt");
         }
     }
 }

@@ -18,7 +18,6 @@ namespace EscapeSinRetorno
         private TileMap _tileMap;
         private Player _player;
         private Camera2D _camera;
-        private GameStateManager _stateManager;
 
         // Variables para controlar si estamos en menú o en juego
         private bool _isInMenu = true;
