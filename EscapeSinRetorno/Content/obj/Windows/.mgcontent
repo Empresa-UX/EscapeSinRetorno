@@ -32,6 +32,7 @@
     <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/NightBorne/Idle.png</File>
     <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/NightBorne/NightBorne.png</File>
     <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/NightBorne/Run.png</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Fonts/Default.spritefont</File>
     <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Fonts/MenuFont.spritefont</File>
     <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/doors/door_1.jpeg</File>
     <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/floors/floor_1.jpeg</File>
@@ -93,6 +94,7 @@
     <File>Characters/NightBorne/Idle</File>
     <File>Characters/NightBorne/NightBorne</File>
     <File>Characters/NightBorne/Run</File>
+    <File xsi:nil="true" />
     <File xsi:nil="true" />
     <File>Tiles/doors/door_1</File>
     <File>Tiles/floors/floor_1</File>
