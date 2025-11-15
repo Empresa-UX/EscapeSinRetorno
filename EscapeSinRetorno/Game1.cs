@@ -1,6 +1,5 @@
 ﻿using Microsoft.Xna.Framework;
 using System;
-using System.Diagnostics;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using EscapeSinRetorno.Source.World;
@@ -9,7 +8,6 @@ using EscapeSinRetorno.Source.Entities.Enemies;
 using EscapeSinRetorno.Source.Core;
 using EscapeSinRetorno.Source.UI;
 using EscapeSinRetorno.Source.Multiplayer;
-using EscapeSinRetorno.Source.Net;
 
 namespace EscapeSinRetorno
 {
@@ -31,12 +29,9 @@ namespace EscapeSinRetorno
         private DeathScreen _deathScreen;
         private SpriteFont _hudFont;
 
-        private MultiplayerManager _mp;
-
-        private Process _serverProc;
-
-        private float _netSendTimer;
-        private const float NET_SEND_DT = 1f / 20f;
+        // Multiplayer
+        private MultiplayerManager _mp = new MultiplayerManager();
+        private GameNetMode _netMode = GameNetMode.Offline;
 
         public static readonly System.Random Random = new System.Random();
 
@@ -64,104 +59,44 @@ namespace EscapeSinRetorno
 
             _hudFont = Content.Load<SpriteFont>("Fonts/MenuFont");
             _hud = new StatsHud(GraphicsDevice, _hudFont);
-
-            _deathScreen = new DeathScreen(GraphicsDevice, _hudFont, onRetry: StartGame, onMenu: ReturnToMenu);
-
-            _mp = new MultiplayerManager();
-        }
-
-        // ====== MODOS (helpers) ======
-
-        public void StartSingleplayer()
-        {
-            StartGame(); // no llamar a EnableMultiplayer -> OFFLINE
-        }
-
-        public void StartLocalhostClient()
-        {
-            StartGame();
-            EnableMultiplayer("127.0.0.1");
-        }
-
-        public void HostAndJoin()
-        {
-            if (TryStartLocalServer(7777))
-            {
-                StartGame();
-                EnableMultiplayer("127.0.0.1");
-            }
-        }
-
-        public void JoinByIp(string host)
-        {
-            StartGame();
-            EnableMultiplayer(host);
-        }
-
-        // ====== Red ======
-
-        public bool TryStartLocalServer(int port = 7777)
-        {
-            string[] candidates =
-            {
-                System.IO.Path.GetFullPath(@"..\..\..\..\ServerConsole\ServerConsole\bin\Debug\net9.0\ServerConsole.exe"),
-                System.IO.Path.GetFullPath(@"..\ServerConsole\bin\Debug\net9.0\ServerConsole.exe"),
-            };
-
-            foreach (var path in candidates)
-            {
-                if (System.IO.File.Exists(path))
-                {
-                    try
-                    {
-                        _serverProc = new Process
-                        {
-                            StartInfo = new ProcessStartInfo
-                            {
-                                FileName = path,
-                                Arguments = "",
-                                UseShellExecute = false,
-                                CreateNoWindow = true
-                            },
-                            EnableRaisingEvents = true
-                        };
-                        _serverProc.Start();
-                        return true;
-                    }
-                    catch { }
-                }
-            }
-            // Si no se encontró, permitir seguir (server manual)
-            return true;
-        }
-
-        public void EnableMultiplayer(string host)
-        {
-            _mp.StartClient(Content, host, name: "Player");
+            _deathScreen = new DeathScreen(GraphicsDevice, _hudFont, onRetry: StartOfflineGame, onMenu: ReturnToMenu);
         }
 
         private void OnClientSizeChanged(object sender, EventArgs e)
         {
-            _deathScreen?.Resize(GraphicsDevice.Viewport, StartGame, ReturnToMenu);
+            _deathScreen?.Resize(GraphicsDevice.Viewport, StartOfflineGame, ReturnToMenu);
         }
 
         private void OnGameExiting(object sender, EventArgs e)
         {
-            try
-            {
-                if (_serverProc != null && !_serverProc.HasExited)
-                {
-                    _serverProc.Kill(entireProcessTree: true);
-                    _serverProc.Dispose();
-                }
-            }
-            catch { }
-
+            try { _mp?.Stop(); } catch { }
             _hud?.Dispose();
             _spriteBatch?.Dispose();
         }
 
-        public void StartGame()
+        // ======= Entradas del menú =======
+        public void StartOfflineGame()
+        {
+            _netMode = GameNetMode.Offline;
+            _mp.Stop();            // ← offline NO debe tener red activa
+            BuildWorld();
+        }
+
+        public void StartLocalhostClient()
+        {
+            _netMode = GameNetMode.Client;
+            _mp.StartClient(Content, host: "127.0.0.1", name: "Player");
+            BuildWorld();
+        }
+
+        public void JoinByIp(string host)
+        {
+            _netMode = GameNetMode.Client;
+            _mp.StartClient(Content, host, name: "Player");
+            BuildWorld();
+        }
+
+        private void BuildWorld()
         {
             _tileMap = new TileMap(tileSize: 16);
             _tileMap.LoadContent(Content);
@@ -186,6 +121,7 @@ namespace EscapeSinRetorno
 
         public void ReturnToMenu()
         {
+            _mp.Stop();            // ← limpiar cliente/red al volver al menú
             _isInMenu = true;
             IsMouseVisible = true;
         }
@@ -204,7 +140,6 @@ namespace EscapeSinRetorno
             }
 
             bool isDead = _player?.Stats?.IsDead == true;
-
             if (isDead && !_wasDead) IsMouseVisible = true;
             if (!isDead && _wasDead) IsMouseVisible = false;
             _wasDead = isDead;
@@ -216,10 +151,8 @@ namespace EscapeSinRetorno
                 return;
             }
 
-            float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            // MULTI (si está activo)
-            if (_mp?.Client != null)
+            // ====== Red: solo en modo Client ======
+            if (_netMode == GameNetMode.Client && _mp.Enabled && _mp.Client != null)
             {
                 var ks = Keyboard.GetState();
                 Vector2 dir = Vector2.Zero;
@@ -231,16 +164,8 @@ namespace EscapeSinRetorno
                 bool run = ks.IsKeyDown(Keys.X);
                 bool attack = ks.IsKeyDown(Keys.C);
 
-                _netSendTimer += dt;
-                if (_mp.Client.LocalId != 0 && _netSendTimer >= NET_SEND_DT)
-                {
-                    _netSendTimer = 0f;
-                    _ = _mp.Client.SendInputAsync(dir, run, attack);
-                }
-
+                _ = _mp.Client.SendInputAsync(dir, run, attack);
                 _mp.Update(gameTime);
-
-                // (opcional) reconciliación suave aquí si la deseas, como en tu versión anterior
             }
 
             _enemyManager.Update(gameTime, _player, _tileMap);
@@ -266,7 +191,8 @@ namespace EscapeSinRetorno
                 _enemyManager.Draw(_spriteBatch);
                 _player.Draw(_spriteBatch);
 
-                _mp?.Draw(_spriteBatch); // remotos
+                if (_netMode == GameNetMode.Client && _mp.Enabled)
+                    _mp.Draw(_spriteBatch);
 
                 _spriteBatch.End();
 
@@ -284,16 +210,7 @@ namespace EscapeSinRetorno
         {
             if (disposing)
             {
-                try
-                {
-                    if (_serverProc != null && !_serverProc.HasExited)
-                    {
-                        _serverProc.Kill(entireProcessTree: true);
-                        _serverProc.Dispose();
-                    }
-                }
-                catch { }
-
+                try { _mp?.Stop(); } catch { }
                 _hud?.Dispose();
                 _spriteBatch?.Dispose();
             }

@@ -12,8 +12,9 @@ namespace EscapeSinRetorno.Source.UI
 
         private string _text = "";
         private bool _focused;
-        private Keys _lastKey;
-        private double _repeatTimer;
+
+        // nuevo: edge-trigger (transición de tecla)
+        private KeyboardState _prevKs;
 
         public string Placeholder { get; set; } = "127.0.0.1";
         public string Text
@@ -36,46 +37,44 @@ namespace EscapeSinRetorno.Source.UI
             if (InputManager.IsLeftMouseButtonPressed())
                 _focused = _bounds.Contains(mouse);
 
-            if (!_focused) { _lastKey = Keys.None; _repeatTimer = 0; return; }
-
-            double dt = gt.ElapsedGameTime.TotalSeconds;
             var ks = Keyboard.GetState();
-
-            foreach (var key in ks.GetPressedKeys())
+            if (_focused)
             {
-                if (key == _lastKey)
+                // procesa solo teclas recién presionadas (edge)
+                foreach (var key in ks.GetPressedKeys())
                 {
-                    _repeatTimer += dt;
-                    if (_repeatTimer < 0.04) continue;
-                    _repeatTimer = 0;
+                    if (!_prevKs.IsKeyDown(key)) // recién presionada
+                    {
+                        if (key == Keys.Back && _text.Length > 0)
+                        {
+                            _text = _text[..^1];
+                            continue;
+                        }
+
+                        char? ch = null;
+
+                        // dígitos
+                        if (key >= Keys.D0 && key <= Keys.D9) ch = (char)('0' + (key - Keys.D0));
+                        else if (key >= Keys.NumPad0 && key <= Keys.NumPad9) ch = (char)('0' + (key - Keys.NumPad0));
+                        // punto
+                        else if (key == Keys.OemPeriod) ch = '.';
+                        // dos puntos (para ip:puerto si luego lo usamos)
+                        else if (key == Keys.OemSemicolon) ch = ':'; // normalizamos a ':'
+
+                        // Si quieres permitir letras para DNS, descomenta:
+                        // else if (key >= Keys.A && key <= Keys.Z)
+                        // {
+                        //     bool shift = ks.IsKeyDown(Keys.LeftShift) || ks.IsKeyDown(Keys.RightShift);
+                        //     ch = (char)((shift ? 'A' : 'a') + (key - Keys.A));
+                        // }
+
+                        if (ch.HasValue && _text.Length < 32)
+                            _text += ch.Value;
+                    }
                 }
-                else
-                {
-                    _lastKey = key;
-                    _repeatTimer = 0.3; // retardo inicial
-                }
-
-                if (key == Keys.Back && _text.Length > 0)
-                {
-                    _text = _text[..^1];
-                    continue;
-                }
-
-                char? ch = null;
-
-                // dígitos
-                if (key >= Keys.D0 && key <= Keys.D9) ch = (char)('0' + (key - Keys.D0));
-                if (key >= Keys.NumPad0 && key <= Keys.NumPad9) ch = (char)('0' + (key - Keys.NumPad0));
-
-                // punto (.)
-                if (key == Keys.OemPeriod) ch = '.';
-
-                // dos puntos (:) — MonoGame no tiene OemColon; usamos OemSemicolon
-                if (key == Keys.OemSemicolon) ch = ':'; // forzamos ':' para IP:puerto
-
-                if (ch.HasValue && _text.Length < 32)
-                    _text += ch.Value;
             }
+
+            _prevKs = ks;
         }
 
         public void Draw(SpriteBatch sb)
