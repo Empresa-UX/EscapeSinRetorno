@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "2Wa4CEwnPMo=",
+  "dgSpecHash": "XSpFEQsk3VY=",
   "success": true,
   "projectFilePath": "C:\\Users\\Gustavo\\source\\repos\\EscapeSinRetorno\\EscapeSinRetorno\\EscapeSinRetorno.csproj",
   "expectedPackageFiles": [
@@ -11,8 +11,8 @@
     "C:\\Users\\Gustavo\\.nuget\\packages\\microsoft.netcore.jit\\2.0.8\\microsoft.netcore.jit.2.0.8.nupkg.sha512",
     "C:\\Users\\Gustavo\\.nuget\\packages\\microsoft.netcore.platforms\\2.1.14\\microsoft.netcore.platforms.2.1.14.nupkg.sha512",
     "C:\\Users\\Gustavo\\.nuget\\packages\\microsoft.netcore.targets\\2.0.0\\microsoft.netcore.targets.2.0.0.nupkg.sha512",
-    "C:\\Users\\Gustavo\\.nuget\\packages\\monogame.content.builder.task\\3.8.4\\monogame.content.builder.task.3.8.4.nupkg.sha512",
-    "C:\\Users\\Gustavo\\.nuget\\packages\\monogame.framework.windowsdx\\3.8.4\\monogame.framework.windowsdx.3.8.4.nupkg.sha512",
+    "C:\\Users\\Gustavo\\.nuget\\packages\\monogame.content.builder.task\\3.8.4.1\\monogame.content.builder.task.3.8.4.1.nupkg.sha512",
+    "C:\\Users\\Gustavo\\.nuget\\packages\\monogame.framework.windowsdx\\3.8.4.1\\monogame.framework.windowsdx.3.8.4.1.nupkg.sha512",
     "C:\\Users\\Gustavo\\.nuget\\packages\\netstandard.library\\2.0.3\\netstandard.library.2.0.3.nupkg.sha512",
     "C:\\Users\\Gustavo\\.nuget\\packages\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl\\4.3.2\\runtime.debian.8-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
     "C:\\Users\\Gustavo\\.nuget\\packages\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl\\4.3.2\\runtime.fedora.23-x64.runtime.native.system.security.cryptography.openssl.4.3.2.nupkg.sha512",
@@ -70,9 +70,8 @@
     "C:\\Users\\Gustavo\\.nuget\\packages\\system.text.encoding\\4.3.0\\system.text.encoding.4.3.0.nupkg.sha512",
     "C:\\Users\\Gustavo\\.nuget\\packages\\system.threading\\4.3.0\\system.threading.4.3.0.nupkg.sha512",
     "C:\\Users\\Gustavo\\.nuget\\packages\\system.threading.tasks\\4.3.0\\system.threading.tasks.4.3.0.nupkg.sha512",
-    "C:\\Users\\Gustavo\\.nuget\\packages\\microsoft.net.sdk.compilers.toolset\\9.0.301\\microsoft.net.sdk.compilers.toolset.9.0.301.nupkg.sha512",
-    "C:\\Users\\Gustavo\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.17\\microsoft.windowsdesktop.app.ref.8.0.17.nupkg.sha512",
     "C:\\Users\\Gustavo\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.17\\microsoft.netcore.app.ref.8.0.17.nupkg.sha512",
+    "C:\\Users\\Gustavo\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.17\\microsoft.windowsdesktop.app.ref.8.0.17.nupkg.sha512",
     "C:\\Users\\Gustavo\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.17\\microsoft.aspnetcore.app.ref.8.0.17.nupkg.sha512",
     "C:\\Users\\Gustavo\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\8.0.17\\microsoft.netcore.app.host.win-x64.8.0.17.nupkg.sha512"
   ],

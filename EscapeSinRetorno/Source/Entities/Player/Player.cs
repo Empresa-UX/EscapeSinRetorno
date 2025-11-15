@@ -67,7 +67,7 @@ namespace EscapeSinRetorno.Source.Entities
                 if (_animations.ContainsKey("Death"))
                 { PlayAnimation("Death", true); _freezeOnLastFrameWhenDead = false; }
                 else
-                { _freezeOnLastFrameWhenDead = true; } // congela último frame
+                { _freezeOnLastFrameWhenDead = true; }
             };
         }
 
@@ -76,12 +76,22 @@ namespace EscapeSinRetorno.Source.Entities
             foreach (var anim in new[] { "Idle", "Walk", "Hurt", "Run", "Jump", "Attack_1", "Attack_2", "Attack_3", "Attack_4", "Death" })
             {
                 try { _animations[anim] = content.Load<Texture2D>($"Characters/Enchantress/{anim}"); }
-                catch { if (anim != "Death") throw; } // Death opcional
+                catch { if (anim != "Death") throw; }
             }
 
             _position = new Vector2(300, 300);
             _debugPixel = new Texture2D(graphicsDevice, 1, 1);
             _debugPixel.SetData(new[] { Color.White });
+        }
+
+        // --- Helper para reconciliación segura (sólo corrige si el destino no colisiona) ---
+        public bool IsPositionFree(TileMap map, Vector2 worldPos)
+        {
+            var hbPos = new Vector2(
+                worldPos.X + (_frameWidth * _scale - Width) / 2,
+                worldPos.Y + (_frameHeight * _scale - Height)
+            );
+            return !map.IsColliding(hbPos, Width, Height);
         }
 
         public void Update(GameTime gameTime, TileMap tileMap)
@@ -90,7 +100,7 @@ namespace EscapeSinRetorno.Source.Entities
             var ks = Keyboard.GetState();
             bool JustPressed(Keys k) => ks.IsKeyDown(k) && !_previousKeyboardState.IsKeyDown(k);
 
-            if (Stats.IsDead || _inputBlocked) { Animate(gameTime); _previousKeyboardState = ks; return; }
+            if (Stats.IsDead || _inputBlocked) { Stats.Tick(dt, false, out _lastFx); Animate(gameTime); _previousKeyboardState = ks; return; }
 
             Vector2 input = Vector2.Zero;
             if (!_animLocked)
@@ -99,7 +109,7 @@ namespace EscapeSinRetorno.Source.Entities
                 if ((_isJumping = JustPressed(Keys.Z))) PlayAnimation("Jump", true);
             }
 
-            if (_animLocked) { Animate(gameTime); _previousKeyboardState = ks; return; }
+            if (_animLocked) { Stats.Tick(dt, false, out _lastFx); Animate(gameTime); _previousKeyboardState = ks; return; }
 
             if (ks.IsKeyDown(Keys.Right) || ks.IsKeyDown(Keys.D)) input.X++;
             if (ks.IsKeyDown(Keys.Left) || ks.IsKeyDown(Keys.A)) input.X--;
@@ -119,10 +129,9 @@ namespace EscapeSinRetorno.Source.Entities
             }
 
             bool wantsRun = ks.IsKeyDown(Keys.X);
-            bool effectiveRun = wantsRun && !_staminaExhausted && isMoving; // SOLO si te mueves
-                                                                            // Tick con sprint real (evita caída de estamina sin moverte)
-            Stats.Tick(dt, isSprinting: effectiveRun, out _lastFx);
+            bool effectiveRun = wantsRun && !_staminaExhausted && isMoving;
 
+            Stats.Tick(dt, isSprinting: effectiveRun, out _lastFx);
             if (Stats.IsDead) { Animate(gameTime); _previousKeyboardState = ks; return; }
 
             if (isMoving)
@@ -183,8 +192,6 @@ namespace EscapeSinRetorno.Source.Entities
                 _currentFrame++;
                 _timer = 0;
 
-                // ... (golpes omitidos por brevedad)
-
                 if (_currentFrame >= frameCount)
                 {
                     if (_currentAnim == "Death" || (_freezeOnLastFrameWhenDead && Stats.IsDead))
@@ -212,8 +219,8 @@ namespace EscapeSinRetorno.Source.Entities
             var source = new Rectangle(clampedFrame * _frameWidth, 0, _frameWidth, _frameHeight);
             spriteBatch.Draw(tex, _position, source, Color.White, 0f, Vector2.Zero, _scale, _flip, 0f);
 
-            if (_debugPixel != null)
-                spriteBatch.Draw(_debugPixel, new Rectangle((int)HitboxPosition.X, (int)HitboxPosition.Y, Width, Height), Color.Red * 0.3f);
+            // Debug hitbox opcional
+            // spriteBatch.Draw(_debugPixel, new Rectangle((int)HitboxPosition.X, (int)HitboxPosition.Y, Width, Height), Color.Red * 0.3f);
         }
 
         private Rectangle GetAttackHitbox()
