@@ -1,5 +1,7 @@
-﻿using Microsoft.Xna.Framework;
+﻿// File: Game1.cs
+using Microsoft.Xna.Framework;
 using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using EscapeSinRetorno.Source.World;
@@ -11,6 +13,9 @@ using EscapeSinRetorno.Source.Multiplayer;
 using EscapeSinRetorno.Source.Boot;
 using EscapeSinRetorno.Source.Net;
 using EscapeSinRetorno.Source.Chat;
+using EscapeSinRetorno.Source.Inventory;
+using EscapeSinRetorno.Source.Items;
+using EscapeSinRetorno.Source.Systems.Stats;
 
 namespace EscapeSinRetorno
 {
@@ -37,11 +42,19 @@ namespace EscapeSinRetorno
         private MultiplayerManager _mp = new MultiplayerManager();
         private GameNetMode _netMode = GameNetMode.Offline;
 
-        // CHAT
         private ChatManager _chat;
         private ChatRenderer _chatRenderer;
         private Texture2D _chatPixel;
         private int _prevScrollValue;
+
+        private PlayerInventory _inventory;
+        private InventoryRenderer _inventoryRenderer;
+
+        private KeyboardState _prevKb;
+
+        private readonly List<ItemPickup> _itemPickups = new();
+
+        private DoorManager _doorManager = new DoorManager();
 
         public static readonly Random Random = new Random();
 
@@ -74,7 +87,11 @@ namespace EscapeSinRetorno
             _hud = new StatsHud(GraphicsDevice, _hudFont);
             _deathScreen = new DeathScreen(GraphicsDevice, _hudFont, onRetry: StartOfflineGame, onMenu: ReturnToMenu);
 
-            // Autostart opcional via args
+            ItemDatabase.Load(Content);
+            _inventoryRenderer = new InventoryRenderer(GraphicsDevice, _hudFont);
+
+            _doorManager.LoadContent(Content);
+
             if (_opts.AutoStart)
             {
                 if (_opts.AsClient) JoinByIpPort(_opts.Host, _opts.Port);
@@ -83,17 +100,15 @@ namespace EscapeSinRetorno
 
             Window.TextInput += OnTextInput;
 
-            // CHAT
             _chat = new ChatManager();
-
             _chatPixel = new Texture2D(GraphicsDevice, 1, 1);
             _chatPixel.SetData(new[] { Color.White });
-           
             _chatRenderer = new ChatRenderer(_hudFont, _chatPixel);
             _chat.CommandRequested += OnChatCommandRequested;
             _chat.MessageSent += OnChatMessageSent;
 
             _prevScrollValue = Mouse.GetState().ScrollWheelValue;
+            _prevKb = Keyboard.GetState();
         }
 
         private void OnClientSizeChanged(object sender, EventArgs e)
@@ -123,7 +138,6 @@ namespace EscapeSinRetorno
             _netMode = GameNetMode.Client;
             _mp.StartClient(Content, host: "127.0.0.1", name: "Player", port: NetConfig.ServerPort);
 
-            // 👇 NUEVO: escuchar mensajes de chat
             if (_mp.Client != null)
                 _mp.Client.ChatReceived += OnNetChatReceived;
 
@@ -160,6 +174,17 @@ namespace EscapeSinRetorno
             _player = new Player();
             _player.LoadContent(Content, GraphicsDevice);
 
+            _inventory = new PlayerInventory();
+            _player.Inventory = _inventory;
+
+            _itemPickups.Clear();
+
+            // Seeds de prueba
+            _inventory.AddItem("potion_life", 5);
+            _inventory.AddItem("watter_bottle", 3);
+            _inventory.AddItem("meal", 4);
+            _inventory.AddItem("main_key", 1);
+
             if (_tileMap.PlayerStartPosition.HasValue)
                 _player.SetPosition(_tileMap.PlayerStartPosition.Value);
 
@@ -167,6 +192,9 @@ namespace EscapeSinRetorno
             _enemyManager.SpawnFromMapData(_tileMap.EnemySpawns);
             _enemyManager.LoadContent(Content);
             Enemy.LoadDebugTexture(GraphicsDevice);
+
+            _doorManager.ClearDoors();
+            _doorManager.SpawnFromMapData(_tileMap.DoorSpawns, _tileMap.TileSize);
 
             _camera = new Camera2D(GraphicsDevice.Viewport);
             _camera.SetZoom(5.0f);
@@ -193,49 +221,70 @@ namespace EscapeSinRetorno
 
             InputManager.Update();
 
-            // 👇 NUEVO: scroll con la rueda del mouse para el chat
             var ms = Mouse.GetState();
             int scrollDelta = ms.ScrollWheelValue - _prevScrollValue;
             _prevScrollValue = ms.ScrollWheelValue;
 
-            if (_chat != null && (_chat.IsOpen || _chat.Messages.Count > 0) && scrollDelta != 0)
-            {
-                // En XNA: rueda arriba => delta positivo. Queremos que arriba = ver mensajes más viejos.
-                int deltaLines = scrollDelta > 0 ? 1 : -1;
-                _chatRenderer?.AdjustScroll(deltaLines);
-            }
-
-            // CHAT
-            // CHAT: solo en juego, no en menú principal
-            if (!_isInMenu)
-            {
-                // Abrir chat solo si está cerrado
-                if (!_chat.IsOpen && InputManager.IsKeyPressed(Keys.T))
-                {
-                    _chat.Open();
-                    _chatRenderer.ResetScroll(); // 👈 ir al final
-                }
-
-                _chat.Update(gameTime);
-
-                // Si el chat está abierto, bloqueamos el resto del input de juego
-                if (_chat.IsOpen)
-                {
-                    base.Update(gameTime);
-                    return;
-                }
-            }
-
-
+            var kb = Keyboard.GetState();
 
             if (_isInMenu)
             {
                 _menuState.Update(gameTime);
                 _menuState.HandleInput();
                 base.Update(gameTime);
+                _prevKb = kb;
                 return;
             }
 
+            // INVENTARIO (E)
+            if (_chat != null && !_chat.IsOpen && _inventoryRenderer != null &&
+                InputManager.IsKeyPressed(Keys.E))
+            {
+                _inventoryRenderer.Toggle();
+            }
+
+            if (_inventoryRenderer != null && _inventoryRenderer.IsOpen)
+            {
+                _inventoryRenderer.HandleInput(
+                    _prevKb,
+                    kb,
+                    _inventory,
+                    canUse: CanUseItemInInventory,
+                    onUse: ApplyItemEffect,
+                    onDrop: OnDropFromInventory
+                );
+
+                base.Update(gameTime);
+                _prevKb = kb;
+                return;
+            }
+
+            // CHAT
+            if (_chat != null && (_chat.IsOpen || _chat.Messages.Count > 0) && scrollDelta != 0)
+            {
+                int deltaLines = scrollDelta > 0 ? 1 : -1;
+                _chatRenderer?.AdjustScroll(deltaLines);
+            }
+
+            if (_chat != null)
+            {
+                if (!_chat.IsOpen && InputManager.IsKeyPressed(Keys.T))
+                {
+                    _chat.Open();
+                    _chatRenderer?.ResetScroll();
+                }
+
+                _chat.Update(gameTime);
+
+                if (_chat.IsOpen)
+                {
+                    base.Update(gameTime);
+                    _prevKb = kb;
+                    return;
+                }
+            }
+
+            // MUERTE
             bool isDead = _player?.Stats?.IsDead == true;
             if (isDead && !_wasDead) IsMouseVisible = true;
             if (!isDead && _wasDead) IsMouseVisible = false;
@@ -245,18 +294,19 @@ namespace EscapeSinRetorno
             {
                 _deathScreen.Update(gameTime);
                 base.Update(gameTime);
+                _prevKb = kb;
                 return;
             }
 
-            // Multiplayer client input forwarding
+            // MULTIJUGADOR CLIENTE
             if (_netMode == GameNetMode.Client && _mp.Enabled && _mp.Client != null)
             {
-                var ks = Keyboard.GetState();
+                var ks = kb;
                 Vector2 dir = Vector2.Zero;
                 if (ks.IsKeyDown(Keys.Right) || ks.IsKeyDown(Keys.D)) dir.X++;
                 if (ks.IsKeyDown(Keys.Left) || ks.IsKeyDown(Keys.A)) dir.X--;
                 if (ks.IsKeyDown(Keys.Up) || ks.IsKeyDown(Keys.W)) dir.Y--;
-                if (ks.IsKeyDown(Keys.Down) || ks.IsKeyDown(Keys.S)) dir.Y--;
+                if (ks.IsKeyDown(Keys.Down) || ks.IsKeyDown(Keys.S)) dir.Y++;
 
                 bool run = ks.IsKeyDown(Keys.X);
                 bool attack = ks.IsKeyDown(Keys.C);
@@ -265,11 +315,51 @@ namespace EscapeSinRetorno
                 _mp.Update(gameTime);
             }
 
+            // GAMEPLAY LOCAL
             _enemyManager.Update(gameTime, _player, _tileMap);
-            _player.Update(gameTime, _tileMap);
-            _camera.Follow(_player.Position, _graphics.PreferredBackBufferWidth, _graphics.PreferredBackBufferHeight);
+            _player.Update(gameTime, _tileMap, _doorManager);
+
+            _doorManager.Update(gameTime);
+
+            if (InputManager.IsKeyPressed(Keys.B))
+            {
+                _doorManager.TryOpenNearbyDoor(_player.GetHitbox(), _inventory, _chat);
+            }
+
+            UpdatePickups();
+
+            _camera.Follow(_player.Position,
+                _graphics.PreferredBackBufferWidth,
+                _graphics.PreferredBackBufferHeight);
 
             base.Update(gameTime);
+            _prevKb = kb;
+        }
+
+        private void UpdatePickups()
+        {
+            if (_player == null || _inventory == null) return;
+
+            var hb = _player.GetHitbox();
+
+            for (int i = _itemPickups.Count - 1; i >= 0; i--)
+            {
+                var p = _itemPickups[i];
+                if (hb.Intersects(p.Bounds))
+                {
+                    if (_inventory.AddItem(p.ItemId, 1))
+                    {
+                        if (ItemDatabase.Items.TryGetValue(p.ItemId, out var def))
+                            _chat?.AddSystemMessage($"Recogiste {def.Name}.");
+
+                        _itemPickups.RemoveAt(i);
+                    }
+                    else
+                    {
+                        _chat?.AddSystemMessage("Inventario lleno.");
+                    }
+                }
+            }
         }
 
         // =========================
@@ -291,13 +381,18 @@ namespace EscapeSinRetorno
                 _spriteBatch.Begin(transformMatrix: _camera.GetTransform());
                 _tileMap.DrawBackground(_spriteBatch, camPos, vp.Width, vp.Height);
                 _tileMap.Draw(_spriteBatch, camPos);
+
+                _doorManager.Draw(_spriteBatch);
+
+                foreach (var p in _itemPickups)
+                    p.Draw(_spriteBatch);
+
                 _enemyManager.Draw(_spriteBatch);
                 _player.Draw(_spriteBatch);
                 if (_netMode == GameNetMode.Client && _mp.Enabled)
                     _mp.Draw(_spriteBatch);
                 _spriteBatch.End();
 
-                // HUD + Overlay + Chat
                 _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
                 _overlay.Draw(_spriteBatch, vp, _player.CurrentFx);
                 _hud.Draw(_spriteBatch, _player.Stats, new Point(vp.Width, vp.Height));
@@ -305,6 +400,7 @@ namespace EscapeSinRetorno
                     _deathScreen.Draw(_spriteBatch, vp);
 
                 _chatRenderer.Draw(_spriteBatch, _chat);
+                _inventoryRenderer.Draw(_spriteBatch, _inventory, GraphicsDevice.Viewport);
                 _spriteBatch.End();
             }
 
@@ -371,12 +467,10 @@ namespace EscapeSinRetorno
 
         private void OnChatMessageSent(string text)
         {
-            // Si estoy en cliente, mandar el mensaje al servidor
             if (_netMode == GameNetMode.Client && _mp.Enabled && _mp.Client != null)
             {
                 _ = _mp.Client.SendChatAsync(text);
             }
-            // En offline no hace nada extra (el mensaje ya se agregó localmente)
         }
 
         private void OnNetChatReceived(int fromId, string msg)
@@ -398,5 +492,83 @@ namespace EscapeSinRetorno
                 _chat.ReceiveTextInput(e);
         }
 
+        // =========================
+        // INVENTORY HOOKS
+        // =========================
+        private bool CanUseItemInInventory(EscapeSinRetorno.Source.Inventory.Item item)
+        {
+            if (item == null || _player?.Stats == null) return false;
+
+            var stats = _player.Stats;
+            switch (item.Type)
+            {
+                case ItemType.Potion:
+                    return !stats.Health.IsFull;
+                case ItemType.Water:
+                    return !stats.Thirst.IsFull;
+                case ItemType.Food:
+                    return !stats.Hunger.IsFull;
+                default:
+                    return false;
+            }
+        }
+
+        private void ApplyItemEffect(EscapeSinRetorno.Source.Inventory.Item item)
+        {
+            if (item == null || _player?.Stats == null) return;
+
+            var s = _player.Stats;
+
+            switch (item.Type)
+            {
+                case ItemType.Potion:
+                    s.Heal(25f);
+                    _chat?.AddSystemMessage("Usaste una poción de vida (+25 HP).");
+                    break;
+                case ItemType.Water:
+                    s.Drink(30f);
+                    s.Stamina.Add(20f);
+                    _chat?.AddSystemMessage("Bebiste agua (+30 sed, +20 estamina).");
+                    break;
+                case ItemType.Food:
+                    s.ConsumeFood(25f, 2f);
+                    s.Heal(10f);
+                    _chat?.AddSystemMessage("Comiste comida (+25 hambre, +2 cordura, +10 HP).");
+                    break;
+                default:
+                    _chat?.AddSystemMessage($"No puedes usar: {item.Name}.");
+                    break;
+            }
+        }
+
+        private void OnDropFromInventory(EscapeSinRetorno.Source.Inventory.Item item, int amount)
+        {
+            if (item == null || amount <= 0 || _player == null) return;
+
+            if (_netMode == GameNetMode.Client)
+            {
+                _chat?.AddSystemMessage("Soltar objetos en cliente aún no está implementado.");
+                return;
+            }
+
+            var center = _player.Center;
+            const int scatterRadius = 10;
+
+            for (int i = 0; i < amount; i++)
+            {
+                var offset = new Vector2(
+                    Random.Next(-scatterRadius, scatterRadius + 1),
+                    Random.Next(-scatterRadius, scatterRadius + 1)
+                );
+
+                var pos = center + offset;
+
+                var pickup = new ItemPickup(item.Id, pos);
+                pickup.LoadContent(Content);
+                _itemPickups.Add(pickup);
+            }
+
+            _chat?.AddSystemMessage($"Soltaste {amount}x {item.Name}.");
+        }
     }
 }

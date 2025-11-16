@@ -13,15 +13,17 @@ namespace EscapeSinRetorno.Source.World
         private readonly int _tileSize;
         private Tile[,] _tiles;
         private readonly Dictionary<string, Texture2D> _tileTextures = new();
-        private string[][] _mapData; // siempre rectangular al final
+        private string[][] _mapData;
         public int TileSize => _tileSize;
-
 
         public int Width => _mapData?.Length > 0 ? _mapData[0].Length : 0;
         public int Height => _mapData?.Length ?? 0;
 
         public Vector2? PlayerStartPosition { get; private set; } = null;
         public List<(EnemyType type, Vector2 position, string variant)> EnemySpawns { get; private set; } = new();
+
+        // 👇 NUEVO: spawns de puertas
+        public List<DoorSpawn> DoorSpawns { get; private set; } = new();
 
         public TileMap(int tileSize) => _tileSize = tileSize;
 
@@ -82,7 +84,7 @@ namespace EscapeSinRetorno.Source.World
                     if (x < rows[y].Length && !string.IsNullOrWhiteSpace(rows[y][x]))
                         _mapData[y][x] = rows[y][x];
                     else
-                        _mapData[y][x] = "N"; // por defecto: nada
+                        _mapData[y][x] = "N";
                 }
             }
         }
@@ -90,6 +92,8 @@ namespace EscapeSinRetorno.Source.World
         private void BuildTileInstances()
         {
             EnemySpawns.Clear();
+            DoorSpawns.Clear(); // 👈 NUEVO
+
             if (_mapData == null || _mapData.Length == 0) return;
 
             int height = _mapData.Length;
@@ -142,6 +146,27 @@ namespace EscapeSinRetorno.Source.World
                             EnemySpawns.Add((EnemyType.MageGuardian, pos + spawnOffset, variant));
                             break;
 
+                        // 👇 PUERTAS
+                        case "DC": // cyan
+                            layers.Add(_tileTextures["F1"]);
+                            DoorSpawns.Add(new DoorSpawn(DoorType.Cyan, pos + new Vector2(_tileSize * 0.5f, _tileSize)));
+                            break;
+
+                        case "DP": // purple
+                            layers.Add(_tileTextures["F1"]);
+                            DoorSpawns.Add(new DoorSpawn(DoorType.Purple, pos + new Vector2(_tileSize * 0.5f, _tileSize)));
+                            break;
+
+                        case "DR": // red
+                            layers.Add(_tileTextures["F1"]);
+                            DoorSpawns.Add(new DoorSpawn(DoorType.Red, pos + new Vector2(_tileSize * 0.5f, _tileSize)));
+                            break;
+
+                        case "DF": // final
+                            layers.Add(_tileTextures["F1"]);
+                            DoorSpawns.Add(new DoorSpawn(DoorType.Final, pos + new Vector2(_tileSize * 0.5f, _tileSize)));
+                            break;
+
                         default:
                             if (code.StartsWith("W") &&
                                 int.TryParse(code[1..].TrimStart('0'), out int wallId) &&
@@ -158,7 +183,6 @@ namespace EscapeSinRetorno.Source.World
             }
         }
 
-        // cameraWorld = posición de la cámara en coordenadas de mundo
         public void Draw(SpriteBatch spriteBatch, Vector2 cameraWorld)
         {
             var (minX, maxX, minY, maxY) = GetVisibleBounds(cameraWorld, 1280, 720);
@@ -167,7 +191,7 @@ namespace EscapeSinRetorno.Source.World
                 for (int x = minX; x <= maxX; x++)
                 {
                     if (IsValidTile(x, y) && _tiles[x, y] != null)
-                        _tiles[x, y].Draw(spriteBatch); // ya no restamos la cámara aquí
+                        _tiles[x, y].Draw(spriteBatch);
                 }
             }
         }
@@ -195,7 +219,6 @@ namespace EscapeSinRetorno.Source.World
             }
         }
 
-        // IMPORTANTE: aquí sí usamos la posición real de la cámara
         private (int minX, int maxX, int minY, int maxY) GetVisibleBounds(Vector2 cameraWorld, int screenWidth, int screenHeight)
         {
             int minX = (int)(cameraWorld.X / _tileSize) - 1;
@@ -229,7 +252,8 @@ namespace EscapeSinRetorno.Source.World
                         x >= 0 && x < _mapData[y].Length)
                     {
                         string tileCode = _mapData[y][x];
-                        if (tileCode.StartsWith("W") || tileCode == "D")
+                        // De momento, SOLO paredes bloquean.
+                        if (tileCode.StartsWith("W"))
                             return true;
                     }
                 }

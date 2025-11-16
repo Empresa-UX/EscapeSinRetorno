@@ -122,3 +122,16 @@ C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0
 C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\obj\Debug\net8.0-windows\EscapeSi.7802FCF7.Up2Date
 C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\obj\Debug\net8.0-windows\EscapeSinRetorno.genruntimeconfig.cache
 C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\obj\Debug\net8.0-windows\ref\EscapeSinRetorno.dll
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Items\key.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Items\potion.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Items\cyan_key.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Items\main_key.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Items\meal.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Items\potion_life.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Items\purple_key.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Items\red_key.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Items\watter_bottle.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Doors\cyan_door.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Doors\final_door.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Doors\purple_door.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Doors\red_door.xnb

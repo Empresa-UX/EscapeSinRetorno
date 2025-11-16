@@ -1,4 +1,5 @@
-﻿using Microsoft.Xna.Framework;
+﻿// File: Source/Entities/Player.cs
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 using System;
 using EscapeSinRetorno.Source.Entities.Enemies;
 using EscapeSinRetorno.Source.Systems.Stats;
+using EscapeSinRetorno.Source.Inventory;
 
 namespace EscapeSinRetorno.Source.Entities
 {
@@ -27,12 +29,12 @@ namespace EscapeSinRetorno.Source.Entities
         private readonly HashSet<Enemy> _hitEnemies = new();
         private EnemyManager _enemyManager;
 
-        // Estamina: agotamiento con delay
         private bool _staminaExhausted;
-        private float _staminaRecoverDelay = 0.50f; // s
+        private float _staminaRecoverDelay = 0.50f;
         private float _staminaRecoverTimer;
 
-        // Si no existe anim "Death", congelar el último frame del estado actual
+        public PlayerInventory Inventory { get; set; }
+
         private bool _freezeOnLastFrameWhenDead;
 
         public PlayerStats Stats { get; private set; } = new PlayerStats(new StatsConfig());
@@ -44,7 +46,12 @@ namespace EscapeSinRetorno.Source.Entities
         public void SetPosition(Vector2 pos) => _position = pos;
         public Vector2 HitboxPosition => new(_position.X + (_frameWidth * _scale - Width) / 2, _position.Y + (_frameHeight * _scale - Height));
         public Rectangle GetHitbox() => new((int)HitboxPosition.X, (int)HitboxPosition.Y, Width, Height);
-        public Vector2 Center => new(_position.X, _position.Y - _frameHeight / 2f);
+
+        // Centro más lógico del sprite
+        public Vector2 Center => new(
+            _position.X + _frameWidth * _scale / 2f,
+            _position.Y + _frameHeight * _scale / 2f);
+
         public void SetEnemyManager(EnemyManager enemyManager) { _enemyManager = enemyManager; }
         public VisualEffectState CurrentFx => _lastFx;
 
@@ -64,18 +71,31 @@ namespace EscapeSinRetorno.Source.Entities
                 _animLocked = true;
 
                 if (_animations.ContainsKey("Death"))
-                { PlayAnimation("Death", true); _freezeOnLastFrameWhenDead = false; }
+                {
+                    PlayAnimation("Death", true);
+                    _freezeOnLastFrameWhenDead = false;
+                }
                 else
-                { _freezeOnLastFrameWhenDead = true; }
+                {
+                    _freezeOnLastFrameWhenDead = true;
+                }
             };
         }
 
         public void LoadContent(ContentManager content, GraphicsDevice graphicsDevice)
         {
-            foreach (var anim in new[] { "Idle", "Walk", "Hurt", "Run", "Jump", "Attack_1", "Attack_2", "Attack_3", "Attack_4", "Death" })
+            foreach (var anim in new[]
+                     { "Idle", "Walk", "Hurt", "Run", "Jump",
+                       "Attack_1", "Attack_2", "Attack_3", "Attack_4", "Death" })
             {
-                try { _animations[anim] = content.Load<Texture2D>($"Characters/Enchantress/{anim}"); }
-                catch { if (anim != "Death") throw; }
+                try
+                {
+                    _animations[anim] = content.Load<Texture2D>($"Characters/Enchantress/{anim}");
+                }
+                catch
+                {
+                    if (anim != "Death") throw;
+                }
             }
 
             _position = new Vector2(300, 300);
@@ -83,7 +103,7 @@ namespace EscapeSinRetorno.Source.Entities
             _debugPixel.SetData(new[] { Color.White });
         }
 
-        // --- Helper para reconciliación segura (sólo corrige si el destino no colisiona) ---
+        // Helper para reconciliación segura (cliente MP)
         public bool IsPositionFree(TileMap map, Vector2 worldPos)
         {
             var hbPos = new Vector2(
@@ -93,13 +113,25 @@ namespace EscapeSinRetorno.Source.Entities
             return !map.IsColliding(hbPos, Width, Height);
         }
 
+        // Overload viejo para estados que no usan puertas
         public void Update(GameTime gameTime, TileMap tileMap)
+        {
+            Update(gameTime, tileMap, null);
+        }
+
+        public void Update(GameTime gameTime, TileMap tileMap, DoorManager doorManager)
         {
             float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
             var ks = Keyboard.GetState();
             bool JustPressed(Keys k) => ks.IsKeyDown(k) && !_previousKeyboardState.IsKeyDown(k);
 
-            if (Stats.IsDead || _inputBlocked) { Stats.Tick(dt, false, out _lastFx); Animate(gameTime); _previousKeyboardState = ks; return; }
+            if (Stats.IsDead || _inputBlocked)
+            {
+                Stats.Tick(dt, false, out _lastFx);
+                Animate(gameTime);
+                _previousKeyboardState = ks;
+                return;
+            }
 
             Vector2 input = Vector2.Zero;
             if (!_animLocked)
@@ -108,7 +140,13 @@ namespace EscapeSinRetorno.Source.Entities
                 if ((_isJumping = JustPressed(Keys.Z))) PlayAnimation("Jump", true);
             }
 
-            if (_animLocked) { Stats.Tick(dt, false, out _lastFx); Animate(gameTime); _previousKeyboardState = ks; return; }
+            if (_animLocked)
+            {
+                Stats.Tick(dt, false, out _lastFx);
+                Animate(gameTime);
+                _previousKeyboardState = ks;
+                return;
+            }
 
             if (ks.IsKeyDown(Keys.Right) || ks.IsKeyDown(Keys.D)) input.X++;
             if (ks.IsKeyDown(Keys.Left) || ks.IsKeyDown(Keys.A)) input.X--;
@@ -117,9 +155,11 @@ namespace EscapeSinRetorno.Source.Entities
 
             bool isMoving = input != Vector2.Zero;
 
-            // --- Agotamiento de estamina ---
             if (Stats.Stamina.IsZero)
-            { _staminaExhausted = true; _staminaRecoverTimer = _staminaRecoverDelay; }
+            {
+                _staminaExhausted = true;
+                _staminaRecoverTimer = _staminaRecoverDelay;
+            }
             else if (_staminaExhausted)
             {
                 _staminaRecoverTimer -= dt;
@@ -131,7 +171,25 @@ namespace EscapeSinRetorno.Source.Entities
             bool effectiveRun = wantsRun && !_staminaExhausted && isMoving;
 
             Stats.Tick(dt, isSprinting: effectiveRun, out _lastFx);
-            if (Stats.IsDead) { Animate(gameTime); _previousKeyboardState = ks; return; }
+            if (Stats.IsDead)
+            {
+                Animate(gameTime);
+                _previousKeyboardState = ks;
+                return;
+            }
+
+            // Combinar colisión de mapa + puertas cerradas
+            bool IsBlocked(Vector2 hbPos, int w, int h)
+            {
+                bool blockedTiles = tileMap.IsColliding(hbPos, w, h);
+                if (!blockedTiles && doorManager != null)
+                {
+                    var rect = new Rectangle((int)hbPos.X, (int)hbPos.Y, w, h);
+                    if (doorManager.IsCollidingClosedDoor(rect))
+                        return true;
+                }
+                return blockedTiles;
+            }
 
             if (isMoving)
             {
@@ -139,10 +197,17 @@ namespace EscapeSinRetorno.Source.Entities
                 float speedMul = effectiveRun ? _runMultiplier : 1f;
                 _velocity = input * _speed * speedMul * dt;
 
-                if (!tileMap.IsColliding(HitboxPosition + new Vector2(_velocity.X, 0), Width, Height)) _position.X += _velocity.X;
-                if (!tileMap.IsColliding(HitboxPosition + new Vector2(0, _velocity.Y), Width, Height)) _position.Y += _velocity.Y;
+                var hbPosX = HitboxPosition + new Vector2(_velocity.X, 0);
+                if (!IsBlocked(hbPosX, Width, Height))
+                    _position.X += _velocity.X;
 
-                if (_velocity.X != 0) _flip = _velocity.X > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+                var hbPosY = HitboxPosition + new Vector2(0, _velocity.Y);
+                if (!IsBlocked(hbPosY, Width, Height))
+                    _position.Y += _velocity.Y;
+
+                if (_velocity.X != 0)
+                    _flip = _velocity.X > 0 ? SpriteEffects.None : SpriteEffects.FlipHorizontally;
+
                 PlayAnimation(effectiveRun ? "Run" : "Walk");
             }
             else if (_wasMoving && !_isAttacking && !_isJumping)
@@ -168,7 +233,12 @@ namespace EscapeSinRetorno.Source.Entities
         private void StartNextAttack()
         {
             _hitEnemies.Clear();
-            if (_attackCombo.Count == 0) { _isAttacking = _animLocked = false; PlayAnimation("Idle"); return; }
+            if (_attackCombo.Count == 0)
+            {
+                _isAttacking = _animLocked = false;
+                PlayAnimation("Idle");
+                return;
+            }
             PlayAnimation(_attackCombo.Dequeue(), true);
             _isAttacking = true;
         }
@@ -177,13 +247,17 @@ namespace EscapeSinRetorno.Source.Entities
         {
             if (_currentAnim == anim && !lockAnim) return;
             if (!_animations.ContainsKey(anim)) return;
-            (_currentAnim, _currentFrame, _timer, _animLocked) = (anim, 0, 0, lockAnim);
+            _currentAnim = anim;
+            _currentFrame = 0;
+            _timer = 0;
+            _animLocked = lockAnim;
         }
 
         private void Animate(GameTime gameTime)
         {
             if (!_animations.TryGetValue(_currentAnim, out var tex)) return;
-            int frameCount = tex.Width / _frameWidth; if (frameCount <= 0) return;
+            int frameCount = tex.Width / _frameWidth;
+            if (frameCount <= 0) return;
 
             _timer += gameTime.ElapsedGameTime.TotalMilliseconds;
             if (_timer > _interval)
@@ -194,12 +268,31 @@ namespace EscapeSinRetorno.Source.Entities
                 if (_currentFrame >= frameCount)
                 {
                     if (_currentAnim == "Death" || (_freezeOnLastFrameWhenDead && Stats.IsDead))
-                    { _currentFrame = frameCount - 1; _animLocked = true; return; }
+                    {
+                        _currentFrame = frameCount - 1;
+                        _animLocked = true;
+                        return;
+                    }
 
-                    if (_currentAnim.StartsWith("Attack_")) StartNextAttack();
-                    else if (_currentAnim == "Jump") { _isJumping = false; _animLocked = false; PlayAnimation("Idle"); }
-                    else if (_currentAnim is "Run" or "Walk") _currentFrame = 0;
-                    else { _currentFrame = 0; _isAttacking = _animLocked = false; PlayAnimation("Idle"); }
+                    if (_currentAnim.StartsWith("Attack_"))
+                        StartNextAttack();
+                    else if (_currentAnim == "Jump")
+                    {
+                        _isJumping = false;
+                        _animLocked = false;
+                        PlayAnimation("Idle");
+                    }
+                    else if (_currentAnim is "Run" or "Walk")
+                    {
+                        _currentFrame = 0;
+                    }
+                    else
+                    {
+                        _currentFrame = 0;
+                        _isAttacking = false;
+                        _animLocked = false;
+                        PlayAnimation("Idle");
+                    }
                 }
             }
         }
@@ -218,8 +311,8 @@ namespace EscapeSinRetorno.Source.Entities
             var source = new Rectangle(clampedFrame * _frameWidth, 0, _frameWidth, _frameHeight);
             spriteBatch.Draw(tex, _position, source, Color.White, 0f, Vector2.Zero, _scale, _flip, 0f);
 
-            // Debug hitbox opcional
-            // spriteBatch.Draw(_debugPixel, new Rectangle((int)HitboxPosition.X, (int)HitboxPosition.Y, Width, Height), Color.Red * 0.3f);
+            // Debug hitbox opcional:
+            // spriteBatch.Draw(_debugPixel, GetHitbox(), Color.Red * 0.3f);
         }
 
         private Rectangle GetAttackHitbox()

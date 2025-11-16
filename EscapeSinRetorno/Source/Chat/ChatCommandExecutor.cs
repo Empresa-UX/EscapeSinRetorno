@@ -3,6 +3,8 @@ using EscapeSinRetorno.Source.Entities.Enemies;
 using EscapeSinRetorno.Source.Systems.Stats;
 using EscapeSinRetorno.Source.World;
 using Microsoft.Xna.Framework;
+using EscapeSinRetorno.Source.Inventory;
+
 
 namespace EscapeSinRetorno.Source.Chat
 {
@@ -182,6 +184,36 @@ namespace EscapeSinRetorno.Source.Chat
                         DamageType.True,
                         true));
                     chat.AddSystemMessage("Has muerto por comando.");
+                    break;
+                case "/give":
+                    {
+                        if (player.Inventory == null)
+                            player.Inventory = new PlayerInventory();
+
+                        if (args.Length == 0)
+                        {
+                            chat.AddErrorMessage("Uso: /give <itemId> [cantidad]");
+                            break;
+                        }
+
+                        string itemId = args[0];
+
+                        int amount = 1;
+                        if (args.Length >= 2 && !int.TryParse(args[1], out amount))
+                            amount = 1;
+
+                        if (!ItemDatabase.Items.ContainsKey(itemId))
+                        {
+                            chat.AddErrorMessage($"Item '{itemId}' no existe en ItemDatabase.");
+                            break;
+                        }
+
+                        bool ok = player.Inventory.AddItem(itemId, amount);
+                        if (ok)
+                            chat.AddSystemMessage($"Dado {amount}x '{itemId}' al inventario.");
+                        else
+                            chat.AddErrorMessage("Inventario lleno, no se pudo agregar.");
+                    }
                     break;
 
                 // =========================
