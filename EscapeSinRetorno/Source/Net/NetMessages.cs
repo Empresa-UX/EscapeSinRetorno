@@ -39,19 +39,51 @@ namespace EscapeSinRetorno.Source.Net
             foreach (var p in players)
             {
                 w.Write(p.Id);
-                w.Write(p.X); w.Write(p.Y);
+                w.Write(p.X);
+                w.Write(p.Y);
                 w.Write((byte)p.Flip);
                 w.Write((byte)p.Anim);
             }
             return w.ToArray();
         }
 
-        public static byte[] Ping(int t) { using var w = new NetWriter(); w.Write((byte)MsgType.Ping); w.Write(t); return w.ToArray(); }
-        public static byte[] Pong(int t) { using var w = new NetWriter(); w.Write((byte)MsgType.Pong); w.Write(t); return w.ToArray(); }
+        public static byte[] Ping(int t)
+        {
+            using var w = new NetWriter();
+            w.Write((byte)MsgType.Ping);
+            w.Write(t);
+            return w.ToArray();
+        }
+
+        public static byte[] Pong(int t)
+        {
+            using var w = new NetWriter();
+            w.Write((byte)MsgType.Pong);
+            w.Write(t);
+            return w.ToArray();
+        }
+
+        public static byte[] Chat(int fromId, string text)
+        {
+            using var w = new NetWriter();
+            w.Write((byte)MsgType.Chat);
+            w.Write(fromId);
+            w.Write(text ?? "");
+            return w.ToArray();
+        }
     }
 
-    public enum NetAnim : byte { Idle = 0, Walk = 1, Run = 2, Attack = 3, Hurt = 4, Death = 5 }
-    public enum NetFlip : byte { Right = 0, Left = 1 }
+    // ⬇️ Tipos top-level (igual que el servidor)
+
+    public enum NetAnim : byte
+    {
+        Idle = 0, Walk = 1, Run = 2, Attack = 3, Hurt = 4, Death = 5
+    }
+
+    public enum NetFlip : byte
+    {
+        Right = 0, Left = 1
+    }
 
     public struct NetPlayerState
     {

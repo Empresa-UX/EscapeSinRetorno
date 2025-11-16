@@ -4234,10 +4234,6 @@
             "version": "[8.0.17, 8.0.17]"
           },
           {
-            "name": "Microsoft.Net.Sdk.Compilers.Toolset",
-            "version": "[9.0.301, 9.0.301]"
-          },
-          {
             "name": "Microsoft.NETCore.App.Host.win-x64",
             "version": "[8.0.17, 8.0.17]"
           },

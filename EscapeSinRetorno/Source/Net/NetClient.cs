@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
+using static EscapeSinRetorno.Source.Net.NetMessages;
 
 namespace EscapeSinRetorno.Source.Net
 {
@@ -14,6 +15,9 @@ namespace EscapeSinRetorno.Source.Net
 
         public int LocalId { get; private set; }
         public Dictionary<int, NetPlayerState> Players { get; } = new();
+
+        // 👇 NUEVO: evento para chat entrante
+        public event Action<int, string> ChatReceived;
 
         public NetClient(string host, int port = NetConfig.ServerPort)
         {
@@ -35,6 +39,9 @@ namespace EscapeSinRetorno.Source.Net
                 while (!ct.IsCancellationRequested)
                 {
                     var (data, _) = await _udp.ReceiveAsync(ct);
+                    if (data == null || data.Length == 0)
+                        continue;
+
                     var r = new NetReader(data);
                     var t = (MsgType)r.ReadByte();
                     switch (t)
@@ -42,6 +49,7 @@ namespace EscapeSinRetorno.Source.Net
                         case MsgType.Welcome:
                             LocalId = r.ReadInt();
                             break;
+
                         case MsgType.State:
                             {
                                 int tick = r.ReadInt();
@@ -55,14 +63,31 @@ namespace EscapeSinRetorno.Source.Net
                                         var y = r.ReadFloat();
                                         var flip = (NetFlip)r.ReadByte();
                                         var anim = (NetAnim)r.ReadByte();
-                                        Players[id] = new NetPlayerState { Id = id, X = x, Y = y, Flip = flip, Anim = anim };
+                                        Players[id] = new NetPlayerState
+                                        {
+                                            Id = id,
+                                            X = x,
+                                            Y = y,
+                                            Flip = flip,
+                                            Anim = anim
+                                        };
                                     }
                                 }
                                 break;
                             }
+
                         case MsgType.Pong:
                             r.ReadInt(); // ignore
                             break;
+
+                        // 👇 NUEVO: mensaje de chat recibido del servidor
+                        case MsgType.Chat:
+                            {
+                                int fromId = r.ReadInt();
+                                string msg = r.ReadString();
+                                ChatReceived?.Invoke(fromId, msg);
+                                break;
+                            }
                     }
                 }
             }
@@ -83,6 +108,13 @@ namespace EscapeSinRetorno.Source.Net
         {
             if (dir.LengthSquared() < 1e-6f) run = false;
             var pkt = NetMessages.Input(LocalId, dir, run, attack);
+            return _udp.SendAsync(pkt);
+        }
+
+        // 👇 NUEVO: enviar chat al servidor
+        public Task SendChatAsync(string text)
+        {
+            var pkt = NetMessages.Chat(LocalId, text);
             return _udp.SendAsync(pkt);
         }
 

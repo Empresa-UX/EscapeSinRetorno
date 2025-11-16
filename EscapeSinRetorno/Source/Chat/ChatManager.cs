@@ -25,6 +25,7 @@ namespace EscapeSinRetorno.Source.Chat
         public IReadOnlyList<ChatMessage> Messages => _messages;
 
         public event Action<string, string[]> CommandRequested;
+        public event Action<string> MessageSent;
 
         public ChatManager()
         {
@@ -232,6 +233,8 @@ namespace EscapeSinRetorno.Source.Chat
             {
                 // Mensaje normal
                 AddPlayerMessage(trimmed);
+                MessageSent?.Invoke(trimmed);   // 👈 Notificamos a Game1 para mandarlo al server
+
             }
 
             _input = string.Empty;

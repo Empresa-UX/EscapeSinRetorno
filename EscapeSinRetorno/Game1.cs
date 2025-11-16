@@ -82,10 +82,13 @@ namespace EscapeSinRetorno
 
             // CHAT
             _chat = new ChatManager();
+
             _chatPixel = new Texture2D(GraphicsDevice, 1, 1);
             _chatPixel.SetData(new[] { Color.White });
+           
             _chatRenderer = new ChatRenderer(_hudFont, _chatPixel);
             _chat.CommandRequested += OnChatCommandRequested;
+            _chat.MessageSent += OnChatMessageSent;   // 👈 NUEVO
         }
 
         private void OnClientSizeChanged(object sender, EventArgs e)
@@ -114,6 +117,11 @@ namespace EscapeSinRetorno
         {
             _netMode = GameNetMode.Client;
             _mp.StartClient(Content, host: "127.0.0.1", name: "Player", port: NetConfig.ServerPort);
+
+            // 👇 NUEVO: escuchar mensajes de chat
+            if (_mp.Client != null)
+                _mp.Client.ChatReceived += OnNetChatReceived;
+
             BuildWorld();
         }
 
@@ -121,6 +129,10 @@ namespace EscapeSinRetorno
         {
             _netMode = GameNetMode.Client;
             _mp.StartClient(Content, host, name: "Player", port: NetConfig.ServerPort);
+
+            if (_mp.Client != null)
+                _mp.Client.ChatReceived += OnNetChatReceived;
+
             BuildWorld();
         }
 
@@ -128,6 +140,10 @@ namespace EscapeSinRetorno
         {
             _netMode = GameNetMode.Client;
             _mp.StartClient(Content, host, name: "Player", port: port);
+
+            if (_mp.Client != null)
+                _mp.Client.ChatReceived += OnNetChatReceived;
+
             BuildWorld();
         }
 
@@ -416,5 +432,29 @@ namespace EscapeSinRetorno
 
             return false;
         }
+
+        private void OnChatMessageSent(string text)
+        {
+            // Si estoy en cliente, mandar el mensaje al servidor
+            if (_netMode == GameNetMode.Client && _mp.Enabled && _mp.Client != null)
+            {
+                _ = _mp.Client.SendChatAsync(text);
+            }
+            // En offline no hace nada extra (el mensaje ya se agregó localmente)
+        }
+
+        private void OnNetChatReceived(int fromId, string msg)
+        {
+            if (_chat == null) return;
+
+            string label;
+            if (_netMode == GameNetMode.Client && _mp.LocalId == fromId)
+                label = "Tú";
+            else
+                label = $"Player {fromId}";
+
+            _chat.AddPlayerMessage($"[{label}] {msg}");
+        }
+
     }
 }
