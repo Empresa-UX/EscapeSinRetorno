@@ -2,179 +2,159 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using System.Collections.Generic;
 
 namespace EscapeSinRetorno.Source.Entities.Enemies
 {
     public class NightBorne : Enemy
     {
-        private enum State { Idle, Run, Attack, Death }
-        private State currentState = State.Idle;
+        private bool death1Done = false, death2Done = false;
 
-        private float speed = 60f;
-        private float attackDuration = 0.8f;
-        private float attackCooldown = 3.5f;
+        // Rango muy corto para habilitar el ataque (medido con centros de hurtbox).
+        // Ajustá si querés más/menos exigente (20f ≈ ~1.25 tiles si tus tiles son 16px).
+        private const float AttackTriggerRange = 20f;
 
-        private float attackTimer = 0f;
-        private float attackTimeElapsed = 0f;
-
-        private Vector2 velocity = Vector2.Zero;
-        private float detectionRange = 160f;
-        private float attackRange = 10f;
-
-        private int maxHealth = 100;
-        private int health = 100;
-
-        private bool deathAnim1Done = false;
-        private bool deathAnim2Done = false;
-
-        private readonly Dictionary<string, int[]> _attackHitFrames = new()
-{
-    { "Attack", new[] { 9 } } // ajusta el número según tu spritesheet
-};
-        private bool _hasHitPlayerThisAttack = false;
-        public NightBorne(Vector2 startPosition) : base(startPosition) { }
+        public NightBorne(Vector2 startPosition) : base(startPosition)
+        {
+            speed = 60f;
+            health = 100;
+        }
 
         public override void LoadContent(ContentManager content)
         {
             string basePath = "Characters/NightBorne/";
 
-            animations["Attack"] = new AnimationClip
-            {
-                Texture = content.Load<Texture2D>($"{basePath}Attack"),
-                FrameWidth = 80,
-                FrameHeight = 80,
-                Offset = new Vector2(0, -10f)
-            };
+            animations["Attack"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Attack"), FrameWidth = 80, FrameHeight = 80, Offset = new Vector2(0, -10f) };
             animations["Death_1"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Death_1"), FrameWidth = 80, FrameHeight = 80 };
             animations["Death_2"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Death_2"), FrameWidth = 80, FrameHeight = 80 };
             animations["Hurt"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Hurt"), FrameWidth = 80, FrameHeight = 80 };
             animations["Idle"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Idle"), FrameWidth = 80, FrameHeight = 80 };
             animations["Run"] = new AnimationClip { Texture = content.Load<Texture2D>($"{basePath}Run"), FrameWidth = 80, FrameHeight = 80 };
 
+            // Contacto únicamente en hitframes; la hitbox se amplía en Attack (ver override).
+            attacks["Attack"] = new AttackDef
+            {
+                Damage = 10,
+                Duration = 0f,        // usa duración real del clip
+                Cooldown = 1.75f,
+                HitFrames = new[] { 9 }, // si tu sheet tiene menos frames, se clamp en Enemy
+
+                UseCollisionOnly = true,
+                UseProximity = false,
+
+                HitboxSizePx = new Point(40, 40),
+                HitboxOffsetPx = new Point(32, -10)
+            };
+
             currentAnimation = "Idle";
             hitboxWidth = (int)(animations["Idle"].FrameWidth * 0.40f);
             hitboxHeight = (int)(animations["Idle"].FrameHeight * 0.40f);
         }
 
+        // --- HITBOX AMPLIADA DURANTE ATTACK (x2 en ambos ejes)
+        public override Rectangle GetHitbox()
+        {
+            var rect = base.GetHitbox();
+            if (currentState == State.Attack)
+            {
+                // inflate en X e Y por la mitad del tamaño actual → ancho/alto se duplican.
+                int dx = rect.Width / 2;
+                int dy = rect.Height / 2;
+                rect.Inflate(dx, dy);
+            }
+            return rect;
+        }
+
         public override void Update(GameTime gameTime, Player player, TileMap tileMap)
         {
-            float delta = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            Vector2 toPlayer = player.Position - Center;
-            float distance = toPlayer.Length();
+            float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
 
-            attackTimer -= delta;
-
+            // ---- Muerte (igual que antes)
             if (health <= 0)
             {
-                if (!deathAnim1Done)
+                if (!death1Done)
                 {
                     PlayAnimation("Death_1");
-                    if (UpdateDeathAnimation(gameTime, "Death_1"))
-                        deathAnim1Done = true;
+                    UpdateAnimation(gameTime);
+                    if (currentFrame >= animations["Death_1"].TotalFrames - 1)
+                    { death1Done = true; PlayAnimation("Death_2", restart: true); }
+                    return;
                 }
-                else if (!deathAnim2Done)
+                if (!death2Done)
                 {
                     PlayAnimation("Death_2");
-                    if (UpdateDeathAnimation(gameTime, "Death_2"))
-                        deathAnim2Done = true;
+                    UpdateAnimation(gameTime);
+                    if (currentFrame >= animations["Death_2"].TotalFrames - 1)
+                    { death2Done = true; IsRemovable = true; }
                 }
                 return;
             }
 
-            switch (currentState)
+            attackCooldownTimer -= dt;
+
+            // === SEGUIMIENTO / DECISIÓN DE ATAQUE ==============================
+            // Usamos centros de HURTBOX (rectángulos) para evitar asimetrías visuales.
+            var playerHB = player.GetHitbox();
+            var enemyHB = GetHitbox(); // OJO: en Idle/Run es normal; en Attack ya viene ampliada.
+
+            Vector2 pc = new Vector2(playerHB.X + playerHB.Width * 0.5f,
+                                     playerHB.Y + playerHB.Height * 0.5f);
+            Vector2 ec = new Vector2(enemyHB.X + enemyHB.Width * 0.5f,
+                                     enemyHB.Y + enemyHB.Height * 0.5f);
+
+            Vector2 toPlayer = pc - ec;
+            float distanceHB = toPlayer.Length();
+
+            if (currentState != State.Attack)
             {
-                case State.Attack:
-                    attackTimeElapsed += delta;
+                bool touching = enemyHB.Intersects(playerHB); // contacto real de hurtboxes
 
-                    // Inicia ataque al primer frame
-                    if (attackTimeElapsed <= delta)
+                // 1) Solo iniciar ataque si está tocando o MUY cerca (rango bajo real)
+                if (touching || distanceHB <= AttackTriggerRange)
+                {
+                    TryStartAttack("Attack");
+                    if (currentState != State.Attack) PlayAnimation("Idle");
+                }
+                else
+                {
+                    // 2) Si no, perseguir si está relativamente cerca (detección)
+                    const float detectionRange = 180f;
+                    if (distanceHB <= detectionRange)
                     {
-                        PlayAnimation("Attack");
-                        _hasHitPlayerThisAttack = false;
-                    }
-
-                    // Detectar golpe en frame configurado
-                    if (_attackHitFrames.TryGetValue(currentAnimation, out var hitFrames) &&
-                        System.Array.Exists(hitFrames, f => f == currentFrame))
-                    {
-                        if (!_hasHitPlayerThisAttack && GetHitbox().Intersects(player.GetHitbox()))
-                        {
-                            player.TakeDamage(10); // daño ajustable
-                            _hasHitPlayerThisAttack = true;
-                        }
-                    }
-
-                    // Termina ataque
-                    if (attackTimeElapsed >= attackDuration)
-                    {
-                        attackTimeElapsed = 0f;
-                        attackTimer = attackCooldown;
-                        currentState = State.Run;
-                        _hasHitPlayerThisAttack = false;
-                    }
-                    break;
-
-
-                case State.Run:
-                default:
-                    if (distance < attackRange || IsCollidingWith(player.GetHitbox()))
-                    {
-                        currentState = State.Attack;
-                        break;
-                    }
-
-                    if (distance < detectionRange)
-                    {
-                        Vector2 dir = toPlayer;
-                        if (dir.LengthSquared() > 1e-2f)
-                            dir.Normalize();
-
-                        TryMoveToward(dir * speed, delta, tileMap);
+                        var dir = toPlayer;
+                        if (dir.LengthSquared() > 1e-3f) dir.Normalize();
+                        TryMoveToward(dir * speed, dt, tileMap);
                         PlayAnimation("Run");
                     }
                     else
                     {
-                        currentState = State.Idle;
-                        velocity = Vector2.Zero;
                         PlayAnimation("Idle");
                     }
-                    break;
+                }
+
+                // 3) Mirar hacia el jugador usando delta en X entre centros de hurtbox
+                if (toPlayer.X > 0) flip = SpriteEffects.None;
+                else if (toPlayer.X < 0) flip = SpriteEffects.FlipHorizontally;
+            }
+            else
+            {
+                // En Attack: daño SOLO en hitframes y SI hay contacto (con la hitbox ampliada).
+                ProcessAttackFrame(dt, player);
             }
 
             UpdateAnimation(gameTime);
         }
 
-        private bool UpdateDeathAnimation(GameTime gameTime, string anim)
-        {
-            if (!animations.TryGetValue(anim, out var clip)) return true;
-
-            animationTimer += gameTime.ElapsedGameTime.TotalMilliseconds;
-            if (animationTimer >= frameInterval)
-            {
-                currentFrame++;
-                animationTimer = 0;
-                if (currentFrame >= clip.TotalFrames)
-                {
-                    currentFrame = 0;
-                    return true;
-                }
-            }
-            return false;
-        }
-
         public override void Draw(SpriteBatch spriteBatch)
         {
-            if ((health <= 0) && deathAnim2Done)
-                return;
-
+            if (health <= 0 && death2Done) return;
             base.Draw(spriteBatch);
         }
+
         public override void TakeDamage(int dmg)
         {
             if (health <= 0) return;
-            health -= dmg;
-            PlayAnimation("Hurt");
+            health -= (dmg < 0 ? 0 : dmg);
+            if (health > 0) PlayAnimation("Hurt", true);
         }
     }
 }

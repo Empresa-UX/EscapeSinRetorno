@@ -25,7 +25,6 @@ namespace EscapeSinRetorno.Source.Entities
         private Texture2D _debugPixel;
         private readonly int _frameWidth = 128, _frameHeight = 128, _hitboxWidth = 64, _hitboxHeight = 64;
         private readonly HashSet<Enemy> _hitEnemies = new();
-        private int _attackDamage = 20;
         private EnemyManager _enemyManager;
 
         // Estamina: agotamiento con delay

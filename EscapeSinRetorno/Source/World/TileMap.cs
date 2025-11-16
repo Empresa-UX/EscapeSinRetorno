@@ -13,8 +13,12 @@ namespace EscapeSinRetorno.Source.World
         private readonly int _tileSize;
         private Tile[,] _tiles;
         private readonly Dictionary<string, Texture2D> _tileTextures = new();
-        private string[][] _mapData;
-        private bool _isContentLoaded = false;
+        private string[][] _mapData; // siempre rectangular al final
+        public int TileSize => _tileSize;
+
+
+        public int Width => _mapData?.Length > 0 ? _mapData[0].Length : 0;
+        public int Height => _mapData?.Length ?? 0;
 
         public Vector2? PlayerStartPosition { get; private set; } = null;
         public List<(EnemyType type, Vector2 position, string variant)> EnemySpawns { get; private set; } = new();
@@ -24,43 +28,81 @@ namespace EscapeSinRetorno.Source.World
         public void LoadContent(ContentManager content)
         {
             LoadTileTextures(content);
-            LoadMapFromFile("Content/Maps/test.txt");
+            LoadMapFromFile("Content/Maps/vFinal.txt");
             BuildTileInstances();
-            _isContentLoaded = true;
         }
 
         private void LoadTileTextures(ContentManager content)
         {
-            for (int i = 1; i <= 16; i++) _tileTextures[$"F{i}"] = content.Load<Texture2D>($"Tiles/floors/floor_{i}");
+            for (int i = 1; i <= 16; i++)
+                _tileTextures[$"F{i}"] = content.Load<Texture2D>($"Tiles/floors/floor_{i}");
+
             _tileTextures["N"] = content.Load<Texture2D>("Tiles/nothing");
-            for (int i = 1; i <= 9; i++) _tileTextures[$"W{i}"] = content.Load<Texture2D>($"Tiles/walls/wall_left_right/wall_{i}");
-            for (int i = 10; i <= 12; i++) _tileTextures[$"W{i}"] = content.Load<Texture2D>($"Tiles/walls/wall_up_down/wall_{i}");
+
+            for (int i = 1; i <= 9; i++)
+                _tileTextures[$"W{i}"] = content.Load<Texture2D>($"Tiles/walls/wall_left_right/wall_{i}");
+
+            for (int i = 10; i <= 12; i++)
+                _tileTextures[$"W{i}"] = content.Load<Texture2D>($"Tiles/walls/wall_up_down/wall_{i}");
         }
 
         private void LoadMapFromFile(string relativePath)
         {
             using var reader = new StreamReader(TitleContainer.OpenStream(relativePath));
-            var lines = new List<string>();
+            var rows = new List<string[]>();
+
             while (!reader.EndOfStream)
             {
                 var line = reader.ReadLine();
-                if (!string.IsNullOrWhiteSpace(line)) lines.Add(line);
+                if (string.IsNullOrWhiteSpace(line))
+                    continue;
+
+                var rawTokens = line.Split(',', StringSplitOptions.RemoveEmptyEntries);
+                for (int i = 0; i < rawTokens.Length; i++)
+                    rawTokens[i] = rawTokens[i].Trim().ToUpper();
+
+                if (rawTokens.Length > 0)
+                    rows.Add(rawTokens);
             }
-            _mapData = new string[lines.Count][];
-            for (int y = 0; y < lines.Count; y++) _mapData[y] = lines[y].Trim().Split(',', StringSplitOptions.None);
+
+            if (rows.Count == 0)
+                throw new Exception("vFinal.txt no contiene datos de mapa válidos.");
+
+            int height = rows.Count;
+            int maxWidth = 0;
+            for (int y = 0; y < height; y++)
+                maxWidth = Math.Max(maxWidth, rows[y].Length);
+
+            _mapData = new string[height][];
+            for (int y = 0; y < height; y++)
+            {
+                _mapData[y] = new string[maxWidth];
+                for (int x = 0; x < maxWidth; x++)
+                {
+                    if (x < rows[y].Length && !string.IsNullOrWhiteSpace(rows[y][x]))
+                        _mapData[y][x] = rows[y][x];
+                    else
+                        _mapData[y][x] = "N"; // por defecto: nada
+                }
+            }
         }
 
         private void BuildTileInstances()
         {
             EnemySpawns.Clear();
-            int width = _mapData[0].Length, height = _mapData.Length;
+            if (_mapData == null || _mapData.Length == 0) return;
+
+            int height = _mapData.Length;
+            int width = _mapData[0].Length;
+
             _tiles = new Tile[width, height];
+            PlayerStartPosition = null;
 
             for (int y = 0; y < height; y++)
             {
                 for (int x = 0; x < width; x++)
                 {
-                    string code = _mapData[y][x].Trim().ToUpper();
+                    string code = _mapData[y][x];
                     var layers = new List<Texture2D>();
                     var pos = new Vector2(x * _tileSize, y * _tileSize);
                     var spawnOffset = new Vector2(_tileSize * 0.5f, _tileSize);
@@ -70,75 +112,128 @@ namespace EscapeSinRetorno.Source.World
                         case "F":
                             layers.Add(_tileTextures[$"F{(x % 4) + (y % 4) * 4 + 1}"]);
                             break;
+
                         case "P":
                             layers.Add(_tileTextures["F1"]);
                             PlayerStartPosition = pos;
                             break;
+
                         case "EW":
                             layers.Add(_tileTextures["F1"]);
                             EnemySpawns.Add((EnemyType.EvilWizard, pos + spawnOffset, ""));
                             break;
+
                         case "NG":
                             layers.Add(_tileTextures["F1"]);
                             EnemySpawns.Add((EnemyType.NightBorne, pos + spawnOffset, ""));
                             break;
+
                         case "MR":
                         case "MB":
                         case "MM":
                             layers.Add(_tileTextures["F1"]);
-                            string variant = code switch { "MR" => "red", "MB" => "blue", "MM" => "magenta", _ => "blue" };
+                            string variant = code switch
+                            {
+                                "MR" => "red",
+                                "MB" => "blue",
+                                "MM" => "magenta",
+                                _ => "blue"
+                            };
                             EnemySpawns.Add((EnemyType.MageGuardian, pos + spawnOffset, variant));
                             break;
+
                         default:
-                            if (code.StartsWith("W") && int.TryParse(code[1..].TrimStart('0'), out int wallId))
+                            if (code.StartsWith("W") &&
+                                int.TryParse(code[1..].TrimStart('0'), out int wallId) &&
+                                _tileTextures.TryGetValue($"W{wallId}", out var wallTex))
                             {
-                                if (_tileTextures.TryGetValue($"W{wallId}", out var wallTex)) layers.Add(wallTex);
+                                layers.Add(wallTex);
                             }
                             break;
                     }
 
-                    if (layers.Count > 0) _tiles[x, y] = new Tile(layers, pos);
+                    if (layers.Count > 0)
+                        _tiles[x, y] = new Tile(layers, pos);
                 }
             }
         }
 
-        public void Draw(SpriteBatch spriteBatch, Vector2 camera)
+        // cameraWorld = posición de la cámara en coordenadas de mundo
+        public void Draw(SpriteBatch spriteBatch, Vector2 cameraWorld)
         {
-            var (minX, maxX, minY, maxY) = GetVisibleBounds(camera, 1280, 720);
+            var (minX, maxX, minY, maxY) = GetVisibleBounds(cameraWorld, 1280, 720);
             for (int y = minY; y <= maxY; y++)
+            {
                 for (int x = minX; x <= maxX; x++)
-                    if (IsValidTile(x, y) && _tiles[x, y] != null) _tiles[x, y].Draw(spriteBatch, camera);
+                {
+                    if (IsValidTile(x, y) && _tiles[x, y] != null)
+                        _tiles[x, y].Draw(spriteBatch); // ya no restamos la cámara aquí
+                }
+            }
         }
 
-        public void DrawBackground(SpriteBatch spriteBatch, Vector2 camera, int screenWidth, int screenHeight)
+        public void DrawBackground(SpriteBatch spriteBatch, Vector2 cameraWorld, int screenWidth, int screenHeight)
         {
             if (!_tileTextures.TryGetValue("N", out var tex)) return;
-            var (minX, maxX, minY, maxY) = GetVisibleBounds(camera, screenWidth, screenHeight);
+            var (minX, maxX, minY, maxY) = GetVisibleBounds(cameraWorld, screenWidth, screenHeight);
+
             for (int y = minY; y <= maxY; y++)
+            {
                 for (int x = minX; x <= maxX; x++)
-                    spriteBatch.Draw(tex, new Vector2(x * _tileSize, y * _tileSize), null, Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0f);
+                {
+                    spriteBatch.Draw(
+                        tex,
+                        new Vector2(x * _tileSize, y * _tileSize),
+                        null,
+                        Color.White,
+                        0f,
+                        Vector2.Zero,
+                        2f,
+                        SpriteEffects.None,
+                        0f);
+                }
+            }
         }
 
-        private (int minX, int maxX, int minY, int maxY) GetVisibleBounds(Vector2 camera, int screenWidth, int screenHeight)
+        // IMPORTANTE: aquí sí usamos la posición real de la cámara
+        private (int minX, int maxX, int minY, int maxY) GetVisibleBounds(Vector2 cameraWorld, int screenWidth, int screenHeight)
         {
-            return ((int)(camera.X / _tileSize) - 1, (int)((camera.X + screenWidth) / _tileSize) + 1,
-                    (int)(camera.Y / _tileSize) - 1, (int)((camera.Y + screenHeight) / _tileSize) + 1);
+            int minX = (int)(cameraWorld.X / _tileSize) - 1;
+            int maxX = (int)((cameraWorld.X + screenWidth) / _tileSize) + 1;
+            int minY = (int)(cameraWorld.Y / _tileSize) - 1;
+            int maxY = (int)((cameraWorld.Y + screenHeight) / _tileSize) + 1;
+            return (minX, maxX, minY, maxY);
         }
 
-        private bool IsValidTile(int x, int y) => y >= 0 && y < _tiles.GetLength(1) && x >= 0 && x < _tiles.GetLength(0);
+        private bool IsValidTile(int x, int y)
+        {
+            return _tiles != null &&
+                   y >= 0 && y < _tiles.GetLength(1) &&
+                   x >= 0 && x < _tiles.GetLength(0);
+        }
 
         public bool IsColliding(Vector2 position, int width, int height)
         {
-            int leftTile = (int)(position.X / _tileSize), rightTile = (int)((position.X + width) / _tileSize);
-            int topTile = (int)(position.Y / _tileSize), bottomTile = (int)((position.Y + height) / _tileSize);
+            if (_mapData == null) return false;
+
+            int leftTile = (int)(position.X / _tileSize);
+            int rightTile = (int)((position.X + width) / _tileSize);
+            int topTile = (int)(position.Y / _tileSize);
+            int bottomTile = (int)((position.Y + height) / _tileSize);
 
             for (int y = topTile; y <= bottomTile; y++)
+            {
                 for (int x = leftTile; x <= rightTile; x++)
-                    if (y >= 0 && y < _mapData.Length && x >= 0 && x < _mapData[y].Length)
+                {
+                    if (y >= 0 && y < _mapData.Length &&
+                        x >= 0 && x < _mapData[y].Length)
                     {
-                        string tileCode = _mapData[y][x].ToUpper();
-                        if (tileCode.StartsWith("W") || tileCode == "D") return true;
+                        string tileCode = _mapData[y][x];
+                        if (tileCode.StartsWith("W") || tileCode == "D")
+                            return true;
                     }
+                }
+            }
             return false;
         }
     }

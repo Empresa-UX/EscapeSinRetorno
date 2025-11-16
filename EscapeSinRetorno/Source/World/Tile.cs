@@ -14,10 +14,24 @@ namespace EscapeSinRetorno.Source.World
             _layers = layers;
             Position = pos;
         }
-        public void Draw(SpriteBatch spriteBatch, Vector2 camera)
+
+        public void Draw(SpriteBatch spriteBatch)
         {
             if (_layers.Count > 0)
-                spriteBatch.Draw(_layers[0], Position - camera, null, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            {
+                // Se dibuja en coordenadas de mundo.
+                // La cámara se aplica vía transformMatrix en Game1.
+                spriteBatch.Draw(
+                    _layers[0],
+                    Position,
+                    null,
+                    Color.White,
+                    0f,
+                    Vector2.Zero,
+                    1f,
+                    SpriteEffects.None,
+                    0f);
+            }
         }
     }
 }

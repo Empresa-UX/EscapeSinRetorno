@@ -25,7 +25,12 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
 
         public void Draw(SpriteBatch spriteBatch) => enemies.ForEach(e => e.Draw(spriteBatch));
         public List<Enemy> GetEnemies() => enemies;
-        public void Add(Enemy enemy) => enemies.Add(enemy);
+        public void Add(Enemy enemy, ContentManager content)
+        {
+            if (enemy == null) return;
+            enemy.LoadContent(content);
+            enemies.Add(enemy);
+        }
 
         public void SpawnFromMapData(List<(EnemyType type, Vector2 pos, string variant)> spawns)
         {
@@ -54,5 +59,7 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             hasSpawnedFromMap = false;
             SpawnFromMapData(_lastSpawns);
         }
+
+
     }
 }

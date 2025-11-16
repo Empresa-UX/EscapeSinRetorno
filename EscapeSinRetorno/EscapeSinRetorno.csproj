@@ -13,6 +13,16 @@
 		<ApplicationIcon>Icon.ico</ApplicationIcon>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
+		<OutputType>Exe</OutputType>
+		<!-- en Debug: muestra consola -->
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'!='Debug'">
+		<OutputType>WinExe</OutputType>
+		<!-- en Release: app sin consola -->
+	</PropertyGroup>
+
 	<ItemGroup>
 		<PackageReference Include="MonoGame.Framework.WindowsDX" Version="3.8.*" />
 		<PackageReference Include="MonoGame.Content.Builder.Task" Version="3.8.*" />
@@ -32,6 +42,9 @@
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Content\Maps\v9.txt">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Content\Maps\vFinal.txt">
 		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>
