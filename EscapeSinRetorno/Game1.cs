@@ -41,6 +41,7 @@ namespace EscapeSinRetorno
         private ChatManager _chat;
         private ChatRenderer _chatRenderer;
         private Texture2D _chatPixel;
+        private int _prevScrollValue;
 
         public static readonly Random Random = new Random();
 
@@ -80,6 +81,8 @@ namespace EscapeSinRetorno
                 else StartOfflineGame();
             }
 
+            Window.TextInput += OnTextInput;
+
             // CHAT
             _chat = new ChatManager();
 
@@ -88,7 +91,9 @@ namespace EscapeSinRetorno
            
             _chatRenderer = new ChatRenderer(_hudFont, _chatPixel);
             _chat.CommandRequested += OnChatCommandRequested;
-            _chat.MessageSent += OnChatMessageSent;   // 👈 NUEVO
+            _chat.MessageSent += OnChatMessageSent;
+
+            _prevScrollValue = Mouse.GetState().ScrollWheelValue;
         }
 
         private void OnClientSizeChanged(object sender, EventArgs e)
@@ -188,13 +193,28 @@ namespace EscapeSinRetorno
 
             InputManager.Update();
 
+            // 👇 NUEVO: scroll con la rueda del mouse para el chat
+            var ms = Mouse.GetState();
+            int scrollDelta = ms.ScrollWheelValue - _prevScrollValue;
+            _prevScrollValue = ms.ScrollWheelValue;
+
+            if (_chat != null && (_chat.IsOpen || _chat.Messages.Count > 0) && scrollDelta != 0)
+            {
+                // En XNA: rueda arriba => delta positivo. Queremos que arriba = ver mensajes más viejos.
+                int deltaLines = scrollDelta > 0 ? 1 : -1;
+                _chatRenderer?.AdjustScroll(deltaLines);
+            }
+
             // CHAT
             // CHAT: solo en juego, no en menú principal
             if (!_isInMenu)
             {
                 // Abrir chat solo si está cerrado
                 if (!_chat.IsOpen && InputManager.IsKeyPressed(Keys.T))
+                {
                     _chat.Open();
+                    _chatRenderer.ResetScroll(); // 👈 ir al final
+                }
 
                 _chat.Update(gameTime);
 
@@ -205,6 +225,7 @@ namespace EscapeSinRetorno
                     return;
                 }
             }
+
 
 
             if (_isInMenu)
@@ -312,99 +333,14 @@ namespace EscapeSinRetorno
         // =========================
         private void OnChatCommandRequested(string cmd, string[] args)
         {
-            cmd = cmd.ToLowerInvariant();
-
-            if (_player == null || _tileMap == null)
-            {
-                _chat.AddErrorMessage("No hay mundo/jugador cargado.");
-                return;
-            }
-
-            var stats = _player.Stats;
-
-            switch (cmd)
-            {
-                case "/commands":
-                    _chat.AddSystemMessage("Comandos:");
-                    _chat.AddSystemMessage("/god /tprandom /heal /stamina /thirst /sanity");
-                    _chat.AddSystemMessage("/maxall /spawnEW /spawnNB /menu /win /die");
-                    break;
-
-                case "/god":
-                    stats.DebugGodMode = !stats.DebugGodMode;
-                    _chat.AddSystemMessage(stats.DebugGodMode ?
-                        "Modo inmortal ACTIVADO." :
-                        "Modo inmortal DESACTIVADO.");
-                    break;
-
-                case "/tprandom":
-                    if (TeleportPlayerRandom())
-                        _chat.AddSystemMessage("Teletransportado.");
-                    else
-                        _chat.AddErrorMessage("No se encontró posición segura.");
-                    break;
-
-                case "/heal":
-                    stats.Heal(99999f);
-                    _chat.AddSystemMessage("Curado.");
-                    break;
-
-                case "/stamina":
-                    stats.Stamina.Set(stats.Stamina.Max);
-                    _chat.AddSystemMessage("Estamina al máximo.");
-                    break;
-
-                case "/thirst":
-                    stats.Thirst.Set(stats.Thirst.Max);
-                    _chat.AddSystemMessage("Sed al máximo.");
-                    break;
-
-                case "/sanity":
-                    stats.Sanity.Set(stats.Sanity.Max);
-                    _chat.AddSystemMessage("Cordura al máximo.");
-                    break;
-
-                case "/maxall":
-                    stats.Heal(99999f);
-                    stats.Stamina.Set(stats.Stamina.Max);
-                    stats.Hunger.Set(stats.Hunger.Max);
-                    stats.Thirst.Set(stats.Thirst.Max);
-                    stats.Sanity.Set(stats.Sanity.Max);
-                    _chat.AddSystemMessage("Stats al máximo.");
-                    break;
-
-                case "/spawnEW":
-                    _enemyManager.Add(new EvilWizard(_player.Position), Content);
-                    _chat.AddSystemMessage("EvilWizard spawneado.");
-                    break;
-
-                case "/spawnNB":
-                    _enemyManager.Add(new NightBorne(_player.Position), Content);
-                    _chat.AddSystemMessage("NightBorne spawneado.");
-                    break;
-
-                case "/menu":
-                    _chat.Close();
-                    ReturnToMenu();
-                    break;
-
-                case "/win":
-                    _chat.AddSystemMessage("Ganaste.");
-                    ReturnToMenu();
-                    break;
-
-                case "/die":
-                    stats.ApplyDamage(new EscapeSinRetorno.Source.Systems.Stats.DamageRequest(
-                        stats.Health.Max + 999f,
-                        EscapeSinRetorno.Source.Systems.Stats.DamageType.True,
-                        true));
-                    _chat.AddSystemMessage("Has muerto.");
-                    break;
-
-                default:
-                    _chat.AddErrorMessage("Comando no reconocido. Usa '/commands'");
-                    break;
-            }
+            ChatCommandExecutor.Execute(
+                cmd,
+                args,
+                this,
+                _player,
+                _tileMap,
+                _enemyManager,
+                _chat);
         }
 
         private bool TeleportPlayerRandom()
@@ -454,6 +390,12 @@ namespace EscapeSinRetorno
                 label = $"Player {fromId}";
 
             _chat.AddPlayerMessage($"[{label}] {msg}");
+        }
+
+        private void OnTextInput(object sender, TextInputEventArgs e)
+        {
+            if (_chat != null && _chat.IsOpen)
+                _chat.ReceiveTextInput(e);
         }
 
     }

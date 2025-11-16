@@ -60,6 +60,10 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             SpawnFromMapData(_lastSpawns);
         }
 
+        public void KillAll()
+        {
+            enemies.Clear();
+        }
 
     }
 }
