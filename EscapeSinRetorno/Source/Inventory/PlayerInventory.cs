@@ -1,5 +1,6 @@
 ﻿using System;
 using EscapeSinRetorno.Source.Items;
+using System.Collections.Generic;
 
 namespace EscapeSinRetorno.Source.Inventory
 {
@@ -13,6 +14,19 @@ namespace EscapeSinRetorno.Source.Inventory
             for (int i = 0; i < Slots.Length; i++)
                 Slots[i] = new InventorySlot();
         }
+
+        public IEnumerable<(string ItemId, int Amount)> Items
+        {
+            get
+            {
+                foreach (var slot in Slots)
+                {
+                    if (!slot.IsEmpty && slot.Item != null)
+                        yield return (slot.Item.Id, slot.Count);
+                }
+            }
+        }
+
 
         public bool AddItem(string itemId, int amount = 1)
         {
@@ -100,5 +114,15 @@ namespace EscapeSinRetorno.Source.Inventory
             onUsed?.Invoke(usedItem);
             return true;
         }
+
+        public void Clear()
+        {
+            for (int i = 0; i < Slots.Length; i++)
+            {
+                Slots[i].Item = null;
+                Slots[i].Count = 0;
+            }
+        }
+
     }
 }

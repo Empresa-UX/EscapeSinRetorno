@@ -2,21 +2,47 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using EscapeSinRetorno.Source.Inventory;
+using EscapeSinRetorno.Source.Items;
+using EscapeSinRetorno.Source.Chat;
 
 namespace EscapeSinRetorno.Source.Entities.Enemies
 {
     public class MageGuardian : Enemy
     {
-        private readonly string color;
+        private readonly string _variant;     // "red", "blue", "magenta"
+        private readonly string _keyItemId;   // "red_key", "cyan_key", "purple_key"
+        private bool _keyGiven;
 
-        public MageGuardian(Vector2 startPosition, string color) : base(startPosition)
+        public bool KeyAlreadyGiven => _keyGiven;
+        public string KeyItemId => _keyItemId;
+
+        public MageGuardian(Vector2 startPosition, string variant) : base(startPosition)
         {
-            this.color = color;
+            _variant = variant.ToLowerInvariant();
+
+            speed = 50f;
+            health = 120;
+
+            // Mapeo variante → id de ítem
+            _keyItemId = _variant switch
+            {
+                "red" => "red_key",
+                "blue" => "cyan_key",
+                "magenta" => "purple_key",
+                _ => null
+            };
+        }
+
+        public void MarkKeyGiven()
+        {
+            _keyGiven = true;
         }
 
         public override void LoadContent(ContentManager content)
         {
-            string path = $"Characters/MageGuardian/Idle_{color.ToLower()}";
+            // Usa la misma variante para elegir el sprite
+            string path = $"Characters/MageGuardian/Idle_{_variant}";
 
             animations["Idle"] = new AnimationClip
             {
@@ -36,6 +62,7 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             currentAnimation = "Idle";
             UpdateAnimation(gameTime);
         }
-        public override void TakeDamage(int dmg) { }
+
+        public override void TakeDamage(int dmg){}
     }
 }

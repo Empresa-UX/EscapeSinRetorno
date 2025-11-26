@@ -50,9 +50,10 @@ namespace EscapeSinRetorno
         private PlayerInventory _inventory;
         private InventoryRenderer _inventoryRenderer;
 
-        private KeyboardState _prevKb;
-
-        private readonly List<ItemPickup> _itemPickups = new();
+        // ✔ nuevo sistema
+        private ItemPickupManager _pickupManager;
+        private KeyboardState _prevKeyboard;  // para pickups
+        private KeyboardState _prevKb;        // para inventario/chat
 
         private DoorManager _doorManager = new DoorManager();
 
@@ -82,7 +83,6 @@ namespace EscapeSinRetorno
             _menuState.LoadContent(Content, GraphicsDevice);
 
             _overlay = new VignetteOverlay(GraphicsDevice);
-
             _hudFont = Content.Load<SpriteFont>("Fonts/MenuFont");
             _hud = new StatsHud(GraphicsDevice, _hudFont);
             _deathScreen = new DeathScreen(GraphicsDevice, _hudFont, onRetry: StartOfflineGame, onMenu: ReturnToMenu);
@@ -90,7 +90,7 @@ namespace EscapeSinRetorno
             ItemDatabase.Load(Content);
             _inventoryRenderer = new InventoryRenderer(GraphicsDevice, _hudFont);
 
-            _doorManager.LoadContent(Content);
+            _doorManager.LoadContent(Content, GraphicsDevice);
 
             if (_opts.AutoStart)
             {
@@ -100,15 +100,19 @@ namespace EscapeSinRetorno
 
             Window.TextInput += OnTextInput;
 
+            // CHAT
             _chat = new ChatManager();
             _chatPixel = new Texture2D(GraphicsDevice, 1, 1);
             _chatPixel.SetData(new[] { Color.White });
             _chatRenderer = new ChatRenderer(_hudFont, _chatPixel);
+
+            ChatCommandBootstrap.RegisterAll();
             _chat.CommandRequested += OnChatCommandRequested;
             _chat.MessageSent += OnChatMessageSent;
 
-            _prevScrollValue = Mouse.GetState().ScrollWheelValue;
-            _prevKb = Keyboard.GetState();
+            // ✔ nuevo manager de pickups
+            _pickupManager = new ItemPickupManager();
+            _prevKeyboard = Keyboard.GetState();
         }
 
         private void OnClientSizeChanged(object sender, EventArgs e)
@@ -122,6 +126,7 @@ namespace EscapeSinRetorno
             _hud?.Dispose();
             _spriteBatch?.Dispose();
         }
+
 
         // =========================
         // MENÚ
@@ -177,13 +182,12 @@ namespace EscapeSinRetorno
             _inventory = new PlayerInventory();
             _player.Inventory = _inventory;
 
-            _itemPickups.Clear();
-
-            // Seeds de prueba
+            // SEEDS
             _inventory.AddItem("potion_life", 5);
             _inventory.AddItem("watter_bottle", 3);
             _inventory.AddItem("meal", 4);
             _inventory.AddItem("main_key", 1);
+            _inventory.AddItem("cyan_key", 1);
 
             if (_tileMap.PlayerStartPosition.HasValue)
                 _player.SetPosition(_tileMap.PlayerStartPosition.Value);
@@ -199,10 +203,14 @@ namespace EscapeSinRetorno
             _camera = new Camera2D(GraphicsDevice.Viewport);
             _camera.SetZoom(5.0f);
 
+            _pickupManager = new ItemPickupManager(); // reset pickups
+            _prevKeyboard = Keyboard.GetState();
+
             _isInMenu = false;
             _wasDead = false;
             IsMouseVisible = false;
         }
+
 
         public void ReturnToMenu()
         {
@@ -210,6 +218,7 @@ namespace EscapeSinRetorno
             _isInMenu = true;
             IsMouseVisible = true;
         }
+
 
         // =========================
         // UPDATE
@@ -227,6 +236,7 @@ namespace EscapeSinRetorno
 
             var kb = Keyboard.GetState();
 
+            // MENÚ
             if (_isInMenu)
             {
                 _menuState.Update(gameTime);
@@ -236,7 +246,7 @@ namespace EscapeSinRetorno
                 return;
             }
 
-            // INVENTARIO (E)
+            // INVENTARIO
             if (_chat != null && !_chat.IsOpen && _inventoryRenderer != null &&
                 InputManager.IsKeyPressed(Keys.E))
             {
@@ -298,7 +308,7 @@ namespace EscapeSinRetorno
                 return;
             }
 
-            // MULTIJUGADOR CLIENTE
+            // MULTIJUGADOR CLIENTE INPUT
             if (_netMode == GameNetMode.Client && _mp.Enabled && _mp.Client != null)
             {
                 var ks = kb;
@@ -323,10 +333,20 @@ namespace EscapeSinRetorno
 
             if (InputManager.IsKeyPressed(Keys.B))
             {
-                _doorManager.TryOpenNearbyDoor(_player.GetHitbox(), _inventory, _chat);
+                var hb = _player.GetHitbox();
+
+                bool openedDoor = _doorManager.TryOpenNearbyDoor(hb, _inventory, _chat);
+
+                if (!openedDoor)
+                {
+                    _enemyManager.TryInteractWithMageGuardian(hb, _inventory, _chat);
+                }
             }
 
-            UpdatePickups();
+            // ✔ recoger ítems con R
+            var curKeyboard = kb;
+            _pickupManager.Update(_player, _prevKeyboard, curKeyboard);
+            _prevKeyboard = curKeyboard;
 
             _camera.Follow(_player.Position,
                 _graphics.PreferredBackBufferWidth,
@@ -336,31 +356,7 @@ namespace EscapeSinRetorno
             _prevKb = kb;
         }
 
-        private void UpdatePickups()
-        {
-            if (_player == null || _inventory == null) return;
 
-            var hb = _player.GetHitbox();
-
-            for (int i = _itemPickups.Count - 1; i >= 0; i--)
-            {
-                var p = _itemPickups[i];
-                if (hb.Intersects(p.Bounds))
-                {
-                    if (_inventory.AddItem(p.ItemId, 1))
-                    {
-                        if (ItemDatabase.Items.TryGetValue(p.ItemId, out var def))
-                            _chat?.AddSystemMessage($"Recogiste {def.Name}.");
-
-                        _itemPickups.RemoveAt(i);
-                    }
-                    else
-                    {
-                        _chat?.AddSystemMessage("Inventario lleno.");
-                    }
-                }
-            }
-        }
 
         // =========================
         // DRAW
@@ -384,8 +380,8 @@ namespace EscapeSinRetorno
 
                 _doorManager.Draw(_spriteBatch);
 
-                foreach (var p in _itemPickups)
-                    p.Draw(_spriteBatch);
+                // ✔ dibujar pickups ORDENADO por el nuevo sistema
+                _pickupManager.Draw(_spriteBatch);
 
                 _enemyManager.Draw(_spriteBatch);
                 _player.Draw(_spriteBatch);
@@ -400,8 +396,16 @@ namespace EscapeSinRetorno
                     _deathScreen.Draw(_spriteBatch, vp);
 
                 _chatRenderer.Draw(_spriteBatch, _chat);
-                _inventoryRenderer.Draw(_spriteBatch, _inventory, GraphicsDevice.Viewport);
+                _inventoryRenderer.Draw(_spriteBatch, _inventory, vp);
                 _spriteBatch.End();
+            }
+
+            if (Player.DebugDrawFPS)
+            {
+                _spriteBatch.DrawString(_hudFont,
+                    $"FPS: {(1 / gameTime.ElapsedGameTime.TotalSeconds):0}",
+                    new Vector2(10, 10),
+                    Color.Yellow);
             }
 
             base.Draw(gameTime);
@@ -423,6 +427,7 @@ namespace EscapeSinRetorno
             _graphics.IsFullScreen = !_graphics.IsFullScreen;
             _graphics.ApplyChanges();
         }
+
 
         // =========================
         // CHAT COMMANDS
@@ -491,6 +496,7 @@ namespace EscapeSinRetorno
             if (_chat != null && _chat.IsOpen)
                 _chat.ReceiveTextInput(e);
         }
+
 
         // =========================
         // INVENTORY HOOKS
@@ -565,7 +571,9 @@ namespace EscapeSinRetorno
 
                 var pickup = new ItemPickup(item.Id, pos);
                 pickup.LoadContent(Content);
-                _itemPickups.Add(pickup);
+
+                // ✔ Agregar al nuevo sistema
+                _pickupManager.AddPickup(pickup);
             }
 
             _chat?.AddSystemMessage($"Soltaste {amount}x {item.Name}.");

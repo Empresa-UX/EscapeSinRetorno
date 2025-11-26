@@ -25,7 +25,8 @@ namespace EscapeSinRetorno.Source.Entities
         private KeyboardState _previousKeyboardState;
         private SpriteEffects _flip = SpriteEffects.None;
         private Texture2D _debugPixel;
-        private readonly int _frameWidth = 128, _frameHeight = 128, _hitboxWidth = 64, _hitboxHeight = 64;
+        private readonly int _frameWidth = 128, _frameHeight = 128;
+        private readonly int _hitboxWidth = 32, _hitboxHeight = 48; 
         private readonly HashSet<Enemy> _hitEnemies = new();
         private EnemyManager _enemyManager;
 
@@ -36,6 +37,9 @@ namespace EscapeSinRetorno.Source.Entities
         public PlayerInventory Inventory { get; set; }
 
         private bool _freezeOnLastFrameWhenDead;
+
+        public static bool DebugDrawHitboxes = false;
+        public static bool DebugDrawFPS = false;
 
         public PlayerStats Stats { get; private set; } = new PlayerStats(new StatsConfig());
         private VisualEffectState _lastFx;
@@ -167,7 +171,7 @@ namespace EscapeSinRetorno.Source.Entities
                     _staminaExhausted = false;
             }
 
-            bool wantsRun = ks.IsKeyDown(Keys.X);
+            bool wantsRun = ks.IsKeyDown(Keys.LeftShift) || ks.IsKeyDown(Keys.RightShift);
             bool effectiveRun = wantsRun && !_staminaExhausted && isMoving;
 
             Stats.Tick(dt, isSprinting: effectiveRun, out _lastFx);
@@ -181,15 +185,22 @@ namespace EscapeSinRetorno.Source.Entities
             // Combinar colisión de mapa + puertas cerradas
             bool IsBlocked(Vector2 hbPos, int w, int h)
             {
+                var rect = new Rectangle((int)hbPos.X, (int)hbPos.Y, w, h);
+
+                // Si estamos dentro de una puerta ABIERTA, dejamos pasar aunque haya paredes ahí.
+                if (doorManager != null && doorManager.IntersectsOpenDoor(rect))
+                    return false;
+
+                // Colisión con tiles
                 bool blockedTiles = tileMap.IsColliding(hbPos, w, h);
-                if (!blockedTiles && doorManager != null)
-                {
-                    var rect = new Rectangle((int)hbPos.X, (int)hbPos.Y, w, h);
-                    if (doorManager.IsCollidingClosedDoor(rect))
-                        return true;
-                }
+
+                // Si no hay tiles bloqueando, revisamos puertas CERRADAS
+                if (!blockedTiles && doorManager != null && doorManager.IsCollidingClosedDoor(rect))
+                    return true;
+
                 return blockedTiles;
             }
+
 
             if (isMoving)
             {
@@ -312,7 +323,8 @@ namespace EscapeSinRetorno.Source.Entities
             spriteBatch.Draw(tex, _position, source, Color.White, 0f, Vector2.Zero, _scale, _flip, 0f);
 
             // Debug hitbox opcional:
-            // spriteBatch.Draw(_debugPixel, GetHitbox(), Color.Red * 0.3f);
+            if (DebugDrawHitboxes)
+                spriteBatch.Draw(_debugPixel, GetHitbox(), Color.Red * 0.3f);
         }
 
         private Rectangle GetAttackHitbox()

@@ -19,6 +19,10 @@ namespace EscapeSinRetorno.Source.Chat
 
         private KeyboardState _prevKeyboard;
 
+        // Historial de comandos / mensajes
+        private readonly List<string> _history = new();
+        private int _historyIndex = -1;
+
         // --- BACKSPACE HOLD ---
         private float _backspaceTimer = 0f;
         private const float BackspaceInitialDelay = 0.35f;
@@ -53,6 +57,9 @@ namespace EscapeSinRetorno.Source.Chat
             _isOpen = true;
             _input = string.Empty;
             _suppressFirstChar = true;
+
+            // Cuando abrís el chat, el índice apunta "después" del último comando
+            _historyIndex = _history.Count;
         }
 
         public void Close()
@@ -116,13 +123,21 @@ namespace EscapeSinRetorno.Source.Chat
             if (!_isOpen)
                 return;
 
-            // Ignorar teclas especiales: enter, escape, backspace
-            if (e.Key == Keys.Enter || e.Key == Keys.Escape || e.Key == Keys.Back)
+            // Ignorar teclas especiales: enter, escape, backspace, tab
+            if (e.Key == Keys.Enter ||
+                e.Key == Keys.Escape ||
+                e.Key == Keys.Back ||
+                e.Key == Keys.Tab)
+                return;
+
+            // Ignorar cualquier carácter de control (por si acaso)
+            if (char.IsControl(e.Character))
                 return;
 
             // Agregar caracter tal cual (respeta layout, acentos, símbolos, SHIFT…)
             _input += e.Character;
         }
+
 
         // ================================================================
         // INPUT CUANDO EL CHAT ESTÁ ABIERTO
@@ -151,7 +166,32 @@ namespace EscapeSinRetorno.Source.Chat
                 return;
             }
 
-            // ===== BACKSPACE SOSTENIDO =====
+            // ================= HISTORIAL (↑ / ↓) =================
+            if (JustPressed(ks, Keys.Up))
+            {
+                if (_history.Count > 0)
+                {
+                    // Mover hacia atrás, pero no menos de 0
+                    _historyIndex = Math.Max(0, _historyIndex - 1);
+                    _input = _history[_historyIndex];
+                }
+            }
+
+            if (JustPressed(ks, Keys.Down))
+            {
+                if (_history.Count > 0)
+                {
+                    // Mover hacia adelante hasta history.Count
+                    _historyIndex = Math.Min(_history.Count, _historyIndex + 1);
+
+                    if (_historyIndex >= _history.Count)
+                        _input = string.Empty;
+                    else
+                        _input = _history[_historyIndex];
+                }
+            }
+
+            // ================= BACKSPACE SOSTENIDO =================
             if (ks.IsKeyDown(Keys.Back))
             {
                 if (_input.Length > 0)
@@ -175,6 +215,30 @@ namespace EscapeSinRetorno.Source.Chat
             else
             {
                 _backspaceTimer = 0f;
+            }
+
+            // ================= AUTOCOMPLETE (TAB) =================
+            if (JustPressed(ks, Keys.Tab))
+            {
+                if (_input.StartsWith("/"))
+                {
+                    string part = _input.ToLowerInvariant();
+
+                    string match = null;
+                    foreach (var cmd in CommandRegistry.AllCommands)
+                    {
+                        if (cmd.Name.StartsWith(part))
+                        {
+                            match = cmd.Name;
+                            break;
+                        }
+                    }
+
+                    if (match != null)
+                    {
+                        _input = match + " ";
+                    }
+                }
             }
         }
 
@@ -202,6 +266,10 @@ namespace EscapeSinRetorno.Source.Chat
                 string cmd = parts[0];
                 string[] args = parts.Length > 1 ? parts[1..] : Array.Empty<string>();
 
+                // Guardar en historial
+                _history.Add(trimmed);
+                _historyIndex = _history.Count;
+
                 AddSystemMessage(trimmed);
                 CommandRequested?.Invoke(cmd, args);
             }
@@ -215,10 +283,10 @@ namespace EscapeSinRetorno.Source.Chat
 
             _input = string.Empty;
         }
+
         public void ClearMessages()
         {
             _messages.Clear();
         }
-
     }
 }

@@ -88,7 +88,8 @@ namespace EscapeSinRetorno.Source.Chat
             for (int i = start; i < end; i++)
             {
                 var (text, color) = wrappedLines[i];
-                spriteBatch.DrawString(_font, text, new Vector2(x, y), color);
+                string safeText = Sanitize(text);
+                spriteBatch.DrawString(_font, safeText, new Vector2(x, y), color);
                 y += lineHeight;
             }
 
@@ -102,12 +103,13 @@ namespace EscapeSinRetorno.Source.Chat
 
                 // caret
                 bool caretOn = ((int)(chat.CaretTime * 2f) % 2) == 0;
-                if (caretOn)
-                    inputLines[^1] += "_";
+                if (caretOn && inputLines.Count > 0)
+                    inputLines[^1] += "|"; // se sanitiza antes de dibujar
 
                 foreach (var l in inputLines)
                 {
-                    spriteBatch.DrawString(_font, l, new Vector2(x, y), Color.Yellow);
+                    string safe = Sanitize(l);
+                    spriteBatch.DrawString(_font, safe, new Vector2(x, y), Color.Yellow);
                     y += lineHeight;
                 }
             }
@@ -124,7 +126,7 @@ namespace EscapeSinRetorno.Source.Chat
             foreach (var w in words)
             {
                 string tryLine = line.Length == 0 ? w : $"{line} {w}";
-                float width = _font.MeasureString(tryLine).X;
+                float width = _font.MeasureString(Sanitize(tryLine)).X;
 
                 if (width > PanelWidth)
                 {
@@ -161,7 +163,7 @@ namespace EscapeSinRetorno.Source.Chat
             foreach (var w in words)
             {
                 string tryLine = line.Length == 0 ? w : $"{line} {w}";
-                float width = _font.MeasureString(tryLine).X;
+                float width = _font.MeasureString(Sanitize(tryLine)).X;
 
                 if (width > PanelWidth)
                 {
@@ -181,6 +183,24 @@ namespace EscapeSinRetorno.Source.Chat
                 lines.Add(line.ToString());
 
             return lines;
+        }
+
+        private string Sanitize(string text)
+        {
+            if (string.IsNullOrEmpty(text))
+                return string.Empty;
+
+            StringBuilder sb = new();
+
+            foreach (char c in text)
+            {
+                if (_font.Characters.Contains(c))
+                    sb.Append(c);
+                else
+                    sb.Append('?'); // caracter de reemplazo
+            }
+
+            return sb.ToString();
         }
     }
 }

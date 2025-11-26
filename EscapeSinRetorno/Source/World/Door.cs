@@ -29,6 +29,7 @@ namespace EscapeSinRetorno.Source.World
         private readonly Texture2D _texture;
         private readonly float _frameDuration;
         private readonly float _scale;
+        private Texture2D _debugPixel;
 
         private int _currentFrame;
         private float _frameTimer;
@@ -84,6 +85,7 @@ namespace EscapeSinRetorno.Source.World
 
                 if (_currentFrame >= 3)
                 {
+
                     _currentFrame = 2; // frame final = abierto
                     State = DoorState.Open;
                 }
@@ -145,16 +147,21 @@ namespace EscapeSinRetorno.Source.World
         private Texture2D _purpleTex;
         private Texture2D _redTex;
         private Texture2D _finalTex;
+        private Texture2D _debugPixel;
 
         public IReadOnlyList<Door> Doors => _doors;
 
-        public void LoadContent(ContentManager content)
+        public void LoadContent(ContentManager content, GraphicsDevice graphicsDevice)
         {
             _cyanTex = content.Load<Texture2D>("Doors/cyan_door");
             _purpleTex = content.Load<Texture2D>("Doors/purple_door");
             _redTex = content.Load<Texture2D>("Doors/red_door");
             _finalTex = content.Load<Texture2D>("Doors/final_door");
+
+            _debugPixel = new Texture2D(graphicsDevice, 1, 1);
+            _debugPixel.SetData(new[] { Color.White });
         }
+
 
         public void ClearDoors() => _doors.Clear();
 
@@ -202,21 +209,38 @@ namespace EscapeSinRetorno.Source.World
         public void Draw(SpriteBatch sb)
         {
             foreach (var d in _doors)
-                d.Draw(sb);
-        }
+            {
+                // Debug de la caja de colisión de la puerta
+                Color debugColor = d.State switch
+                {
+                    DoorState.Closed => Color.Red * 0.4f,
+                    DoorState.Opening => Color.Yellow * 0.4f,
+                    DoorState.Open => Color.Green * 0.25f,
+                    _ => Color.Blue * 0.3f
+                };
 
-        /// <summary>
-        /// Devuelve true si el rectángulo colisiona con alguna puerta cerrada.
-        /// </summary>
+                sb.Draw(_debugPixel, d.Bounds, debugColor);
+
+                // Sprite real de la puerta
+                d.Draw(sb);
+            }
+        }
         public bool IsCollidingClosedDoor(Rectangle rect)
         {
             foreach (var d in _doors)
             {
-                if (!d.IsOpen && d.Bounds.Intersects(rect))
-                    return true;
+                if (!d.IsOpen)
+                {
+                    var b = d.Bounds;
+                    // achicamos la colisión real de la puerta un poco a los costados
+                    b.Inflate(-2, 0); // 2 px menos por lado
+                    if (b.Intersects(rect))
+                        return true;
+                }
             }
             return false;
         }
+
 
         public bool TryOpenNearbyDoor(Rectangle playerHitbox, PlayerInventory inv, ChatManager chat)
         {
@@ -277,5 +301,38 @@ namespace EscapeSinRetorno.Source.World
             var bc = new Vector2(b.Center.X, b.Center.Y);
             return Vector2.Distance(ac, bc);
         }
+
+        public bool IntersectsOpenDoor(Rectangle rect)
+        {
+            foreach (var d in _doors)
+            {
+                if (!d.IsOpen)
+                    continue;
+
+                var portal = GetDoorPortalArea(d);
+                if (portal.Intersects(rect))
+                    return true;
+            }
+
+            return false;
+        }
+
+        // Helper privado para NO duplicar lógica
+        private Rectangle GetDoorPortalArea(Door d)
+        {
+            var portal = d.Bounds;
+
+            const float portalRatio = 0.50f; // lo que ya ajustaste
+            int h = (int)(portal.Height * portalRatio);
+
+            portal.Y = portal.Bottom - h;
+            portal.Height = h;
+
+            // mismo inflate que usaste
+            portal.Inflate(-20, 0);
+
+            return portal;
+        }
+
     }
 }

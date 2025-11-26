@@ -56,14 +56,17 @@ namespace EscapeSinRetorno.Source.UI
             _pulse += (float)gt.ElapsedGameTime.TotalSeconds * 2.2f;
 
             // Atajos de teclado
-            if (InputManager.IsKeyPressed(Keys.Enter)) _btnRetry?.SetClickAction(null); // evita doble suscripción
-            if (InputManager.IsKeyPressed(Keys.Enter)) _btnRetry?.Update(); // dispara flujo del botón
-            if (InputManager.IsKeyPressed(Keys.Escape)) _btnMenu?.Update();
+            if (InputManager.IsKeyPressed(Keys.Enter))
+                _btnRetry?.Update();
+
+            if (InputManager.IsKeyPressed(Keys.Escape))
+                _btnMenu?.Update();
 
             // Mouse/hover
             _btnRetry?.Update();
             _btnMenu?.Update();
         }
+
 
         public void Draw(SpriteBatch sb, Viewport vp)
         {

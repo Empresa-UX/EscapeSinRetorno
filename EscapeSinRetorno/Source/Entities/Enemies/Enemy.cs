@@ -115,7 +115,8 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             spriteBatch.Draw(clip.Texture, position, source, Color.White, 0f, origin, 1f, flip, 0f);
 
             // Debug hitbox
-            if (debugPixel != null) spriteBatch.Draw(debugPixel, GetHitbox(), Color.Red * 0.25f);
+            if (Player.DebugDrawHitboxes)
+                spriteBatch.Draw(debugPixel, GetHitbox(), Color.Red * 0.25f);
         }
 
         // --- Colisión

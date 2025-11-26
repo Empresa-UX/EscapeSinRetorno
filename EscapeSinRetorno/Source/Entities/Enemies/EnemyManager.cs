@@ -3,6 +3,9 @@ using EscapeSinRetorno.Source.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using EscapeSinRetorno.Source.Inventory;
+using EscapeSinRetorno.Source.Items;
+using EscapeSinRetorno.Source.Chat;
 
 namespace EscapeSinRetorno.Source.Entities.Enemies
 {
@@ -63,6 +66,60 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
         public void KillAll()
         {
             enemies.Clear();
+        }
+
+        public bool TryInteractWithMageGuardian(Rectangle playerHitbox, PlayerInventory inv, ChatManager chat)
+        {
+            if (inv == null) return false;
+
+            // Zona de interacción alrededor del jugador
+            const int interactPadding = 8;
+            var area = playerHitbox;
+            area.Inflate(interactPadding, interactPadding);
+
+            foreach (var e in enemies)
+            {
+                if (e is not MageGuardian mg)
+                    continue;
+
+                // ¿Está cerca del jugador?
+                if (!area.Intersects(e.GetHitbox()))
+                    continue;
+
+                // Si ya dio la llave antes
+                if (mg.KeyAlreadyGiven)
+                {
+                    chat?.AddSystemMessage("Esta llave ya la tomaste.");
+                    return true;
+                }
+
+                // Si no tiene llave asociada por algún motivo
+                string keyId = mg.KeyItemId;
+                if (string.IsNullOrEmpty(keyId))
+                {
+                    chat?.AddSystemMessage("Este guardián no tiene ninguna llave.");
+                    return true;
+                }
+
+                // Intentar agregar la llave al inventario
+                bool added = inv.AddItem(keyId, 1);
+                if (!added)
+                {
+                    chat?.AddSystemMessage("No tienes espacio en el inventario para la llave.");
+                    return true;
+                }
+
+                mg.MarkKeyGiven();
+
+                if (ItemDatabase.Items.TryGetValue(keyId, out var item))
+                    chat?.AddSystemMessage($"Obtuviste {item.Name}.");
+                else
+                    chat?.AddSystemMessage("Obtuviste una llave.");
+
+                return true;
+            }
+
+            return false; // no había ningún guardián cerca
         }
 
     }
