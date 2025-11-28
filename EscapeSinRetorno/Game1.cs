@@ -4,6 +4,9 @@ using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
+
 using EscapeSinRetorno.Source.World;
 using EscapeSinRetorno.Source.Entities;
 using EscapeSinRetorno.Source.Entities.Enemies;
@@ -71,6 +74,15 @@ namespace EscapeSinRetorno
 
         public static readonly Random Random = new Random();
 
+        // ========== AUDIO ==========
+        Song menuMusic;
+        Song gameMusic;
+        SoundEffect doorOpenSound;
+        SoundEffect playerHitSound;
+        SoundEffect playerDeathSound;
+        SoundEffect playerAttackSound;
+        // ===========================
+
         public Game1(LaunchOptions opts = null)
         {
             _opts = opts ?? LaunchOptions.Default();
@@ -90,6 +102,15 @@ namespace EscapeSinRetorno
         protected override void LoadContent()
         {
             _spriteBatch = new SpriteBatch(GraphicsDevice);
+
+            // ==== Carga de audio ====
+            menuMusic = Content.Load<Song>("Audio/menu");
+            gameMusic = Content.Load<Song>("Audio/exploration");
+            doorOpenSound = Content.Load<SoundEffect>("Audio/door-open");
+            playerHitSound = Content.Load<SoundEffect>("Audio/damage-player");
+            playerDeathSound = Content.Load<SoundEffect>("Audio/death");
+            playerAttackSound = Content.Load<SoundEffect>("Audio/attack");
+            // ========================
 
             _menuState = new MenuState(this);
             _menuState.LoadContent(Content, GraphicsDevice);
@@ -139,6 +160,22 @@ namespace EscapeSinRetorno
             _spriteBatch?.Dispose();
         }
 
+        // =========================
+        // AUDIO
+        // =========================
+        private void PlayMusic(Song song)
+        {
+            if (song == null)
+                return;
+
+            if (MediaPlayer.Queue.ActiveSong != song)
+            {
+                MediaPlayer.Stop();
+                MediaPlayer.IsRepeating = true;
+                MediaPlayer.Volume = 0.4f; // ajusta a gusto
+                MediaPlayer.Play(song);
+            }
+        }
 
         // =========================
         // MENÚ
@@ -191,6 +228,11 @@ namespace EscapeSinRetorno
             _player = new Player();
             _player.LoadContent(Content, GraphicsDevice);
 
+            // Pasar SFX al player
+            _player.SfxHit = playerHitSound;
+            _player.SfxDeath = playerDeathSound;
+            _player.SfxAttack = playerAttackSound;
+
             _inventory = new PlayerInventory();
             _player.Inventory = _inventory;
 
@@ -209,7 +251,7 @@ namespace EscapeSinRetorno
             _enemyManager.LoadContent(Content);
             Enemy.LoadDebugTexture(GraphicsDevice);
 
-            // 🔥🔥🔥 LÍNEA CRUCIAL AGREGADA AQUÍ:
+            // conectar enemyManager al player
             _player.SetEnemyManager(_enemyManager);
 
             _doorManager.ClearDoors();
@@ -224,6 +266,9 @@ namespace EscapeSinRetorno
             _isInMenu = false;
             _wasDead = false;
             IsMouseVisible = false;
+
+            // música del juego
+            PlayMusic(gameMusic);
         }
 
 
@@ -232,6 +277,9 @@ namespace EscapeSinRetorno
             _mp.Stop();
             _isInMenu = true;
             IsMouseVisible = true;
+
+            // música del menú
+            PlayMusic(menuMusic);
         }
 
 
@@ -254,6 +302,9 @@ namespace EscapeSinRetorno
             // MENÚ
             if (_isInMenu)
             {
+                // asegura que suene la música del menú
+                PlayMusic(menuMusic);
+
                 _menuState.Update(gameTime);
                 _menuState.HandleInput();
                 base.Update(gameTime);
@@ -354,7 +405,12 @@ namespace EscapeSinRetorno
 
                 bool openedDoor = _doorManager.TryOpenNearbyDoor(hb, _inventory, _chat);
 
-                if (!openedDoor)
+                if (openedDoor)
+                {
+                    // sonido al abrir puerta
+                    doorOpenSound?.Play();
+                }
+                else
                 {
                     _enemyManager.TryInteractWithMageGuardian(hb, _inventory, _chat);
                 }
@@ -433,6 +489,7 @@ namespace EscapeSinRetorno
                 _inventoryRenderer.Draw(_spriteBatch, _inventory, vp);
                 _spriteBatch.End();
             }
+
             if (Player.DebugDrawFPS)
             {
                 _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
@@ -446,7 +503,6 @@ namespace EscapeSinRetorno
 
                 _spriteBatch.End();
             }
-
 
             base.Draw(gameTime);
         }
@@ -648,6 +704,5 @@ namespace EscapeSinRetorno
         {
             _pickupManager?.ClearAll();
         }
-
     }
 }

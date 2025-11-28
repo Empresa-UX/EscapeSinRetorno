@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 using EscapeSinRetorno.Source.World;
 using System.Collections.Generic;
 using System;
@@ -26,7 +27,7 @@ namespace EscapeSinRetorno.Source.Entities
         private SpriteEffects _flip = SpriteEffects.None;
         private Texture2D _debugPixel;
         private readonly int _frameWidth = 128, _frameHeight = 128;
-        private readonly int _hitboxWidth = 32, _hitboxHeight = 48; 
+        private readonly int _hitboxWidth = 32, _hitboxHeight = 48;
         private readonly HashSet<Enemy> _hitEnemies = new();
         private EnemyManager _enemyManager;
 
@@ -41,6 +42,7 @@ namespace EscapeSinRetorno.Source.Entities
         public static bool DebugDrawHitboxes = false;
         public static bool DebugDrawFPS = false;
         public static bool DebugNoClip = false;
+
         public PlayerStats Stats { get; private set; } = new PlayerStats(new StatsConfig());
         private VisualEffectState _lastFx;
 
@@ -60,6 +62,11 @@ namespace EscapeSinRetorno.Source.Entities
         public void SetPosition(Vector2 pos) => _position = pos;
         public Vector2 HitboxPosition => new(_position.X + (_frameWidth * _scale - Width) / 2, _position.Y + (_frameHeight * _scale - Height));
         public Rectangle GetHitbox() => new((int)HitboxPosition.X, (int)HitboxPosition.Y, Width, Height);
+
+        // --- Sound effects del jugador ---
+        public SoundEffect SfxHit { get; set; }
+        public SoundEffect SfxDeath { get; set; }
+        public SoundEffect SfxAttack { get; set; }
 
         // Centro más lógico del sprite
         public Vector2 Center => new(
@@ -83,6 +90,9 @@ namespace EscapeSinRetorno.Source.Entities
             {
                 _inputBlocked = true;
                 _animLocked = true;
+
+                // sonido de muerte
+                SfxDeath?.Play();
 
                 if (_animations.ContainsKey("Death"))
                 {
@@ -191,7 +201,6 @@ namespace EscapeSinRetorno.Source.Entities
             bool wantsRun = ks.IsKeyDown(Keys.LeftShift) || ks.IsKeyDown(Keys.RightShift);
             bool effectiveRun = wantsRun && !_staminaExhausted && isMoving;
 
-
             Stats.Tick(dt, isSprinting: effectiveRun, out _lastFx);
             if (Stats.IsDead)
             {
@@ -228,7 +237,6 @@ namespace EscapeSinRetorno.Source.Entities
                 }
                 return blockedTiles;
             }
-
 
             if (isMoving)
             {
@@ -272,12 +280,17 @@ namespace EscapeSinRetorno.Source.Entities
         private void StartNextAttack()
         {
             _hitEnemies.Clear();
+
             if (_attackCombo.Count == 0)
             {
                 _isAttacking = _animLocked = false;
                 PlayAnimation("Idle");
                 return;
             }
+
+            // sonido de ataque
+            SfxAttack?.Play();
+
             PlayAnimation(_attackCombo.Dequeue(), true);
             _isAttacking = true;
         }
@@ -368,8 +381,14 @@ namespace EscapeSinRetorno.Source.Entities
         public void TakeDamage(int dmg)
         {
             if (Stats.IsDead) return;
+
             Stats.ApplyDamage(new DamageRequest(dmg, DamageType.Physical, false));
-            if (!Stats.IsDead) PlayAnimation("Hurt", true);
+
+            // sonido de recibir daño
+            SfxHit?.Play();
+
+            if (!Stats.IsDead)
+                PlayAnimation("Hurt", true);
         }
     }
 }

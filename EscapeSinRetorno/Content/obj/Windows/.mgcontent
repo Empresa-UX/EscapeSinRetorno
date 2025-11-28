@@ -4,6 +4,12 @@
   <Platform>Windows</Platform>
   <Config />
   <SourceFiles>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Audio/attack.wav</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Audio/damage-player.wav</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Audio/death.wav</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Audio/door-open.wav</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Audio/exploration.mp3</File>
+    <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Audio/menu.mp3</File>
     <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/Enchantress/Attack_1.png</File>
     <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/Enchantress/Attack_2.png</File>
     <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Characters/Enchantress/Attack_3.png</File>
@@ -77,6 +83,12 @@
     <File>C:/Users/Gustavo/source/repos/EscapeSinRetorno/EscapeSinRetorno/Content/Tiles/walls/wall_up_down/wall_12.png</File>
   </SourceFiles>
   <DestFiles>
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
+    <File xsi:nil="true" />
     <File>Characters/Enchantress/Attack_1</File>
     <File>Characters/Enchantress/Attack_2</File>
     <File>Characters/Enchantress/Attack_3</File>

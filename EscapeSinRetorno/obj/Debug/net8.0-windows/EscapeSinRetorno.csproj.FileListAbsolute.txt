@@ -135,3 +135,11 @@ C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0
 C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Doors\final_door.xnb
 C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Doors\purple_door.xnb
 C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Doors\red_door.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Audio\attack.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Audio\damage-player.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Audio\death.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Audio\door-open.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Audio\exploration.wma
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Audio\exploration.xnb
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Audio\menu.wma
+C:\Users\Gustavo\source\repos\EscapeSinRetorno\EscapeSinRetorno\bin\Debug\net8.0-windows\Content\Audio\menu.xnb
