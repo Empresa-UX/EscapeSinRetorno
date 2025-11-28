@@ -12,6 +12,7 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
         // Rango muy corto para habilitar el ataque (medido con centros de hurtbox).
         // Ajustá si querés más/menos exigente (20f ≈ ~1.25 tiles si tus tiles son 16px).
         private const float AttackTriggerRange = 20f;
+        public override string TypeId => "nightborne";
 
         public NightBorne(Vector2 startPosition) : base(startPosition)
         {

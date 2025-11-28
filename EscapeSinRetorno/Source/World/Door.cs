@@ -333,6 +333,18 @@ namespace EscapeSinRetorno.Source.World
 
             return portal;
         }
+        public void GetDoorStats(out int total, out int open, out int closed)
+        {
+            total = Doors.Count;
+            open = 0;
+            closed = 0;
+
+            foreach (var d in Doors)
+            {
+                if (d.IsOpen) open++;
+                else closed++;
+            }
+        }
 
     }
 }

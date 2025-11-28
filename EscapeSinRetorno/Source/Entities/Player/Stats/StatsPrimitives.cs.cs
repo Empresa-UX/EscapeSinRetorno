@@ -83,18 +83,18 @@ namespace EscapeSinRetorno.Source.Systems.Stats
         public float StaminaRegen { get; set; } = 15f;
 
         public float HungerMax { get; set; } = 100f;
-        public float HungerDrainPerSec { get; set; } = 0.6f;
+        public float HungerDrainPerSec { get; set; } = 0.25f;   // antes 0.6f
 
         public float ThirstMax { get; set; } = 100f;
-        public float ThirstDrainPerSec { get; set; } = 1.0f;
+        public float ThirstDrainPerSec { get; set; } = 0.45f;   // antes 1.0f
 
         public float SanityMax { get; set; } = 100f;
-        public float SanityDrainPerSec { get; set; } = 0.18f;
+        public float SanityDrainPerSec { get; set; } = 0.10f;   // antes 0.18f
 
         public float ArmorPercent { get; set; } = 0.2f;
 
-        public float HungerZeroHealthDps { get; set; } = 2.0f;
-        public float ThirstZeroHealthDps { get; set; } = 3.0f;
+        public float HungerZeroHealthDps { get; set; } = 1.5f;  // antes 2.0f
+        public float ThirstZeroHealthDps { get; set; } = 2.0f;  // antes 3.0f
 
         public float LowHealthPct { get; set; } = 0.25f;
         public float LowSanityPct { get; set; } = 0.2f;
@@ -270,13 +270,17 @@ namespace EscapeSinRetorno.Source.Systems.Stats
             Health.Update(dt);
             Health.RegenPerSec = baseRegen;
 
-            // Estamina: SOLO drena corriendo (sprint real)
-            if (isSprinting && Stamina.Current > 0.5f)
+            // Estamina: SOLO drena corriendo (sprint real) y sin godstamina
+            if (isSprinting && Stamina.Current > 0.5f && !DebugGodStamina)
                 Stamina.Sub(25f * dt);
             else
                 Stamina.Update(dt);
 
-            // Supervivencia
+            // Supervivencia (aplicando multiplier)
+            Hunger.RegenPerSec = -_cfg.HungerDrainPerSec * _survivalDrainMultiplier;
+            Thirst.RegenPerSec = -_cfg.ThirstDrainPerSec * _survivalDrainMultiplier;
+            Sanity.RegenPerSec = -_cfg.SanityDrainPerSec * _survivalDrainMultiplier;
+
             Hunger.Update(dt);
             Thirst.Update(dt);
             Sanity.Update(dt);
@@ -320,6 +324,7 @@ namespace EscapeSinRetorno.Source.Systems.Stats
                 Desaturate = _effects.ContainsKey("poison") ? 0.35f : 0f
             };
         }
+
 
         public void ApplyDamage(DamageRequest req)
         {
@@ -399,5 +404,89 @@ namespace EscapeSinRetorno.Source.Systems.Stats
         {
             ArmorPercent = MathHelper.Clamp(pct, 0f, 0.9f);
         }
+
+        // Dentro de PlayerStats
+
+        // Multiplier de drenaje de supervivencia (hambre/sed/corodura)
+        private float _survivalDrainMultiplier = 1f;
+
+        // No gastar stamina al correr
+        public bool DebugGodStamina { get; set; } = false;
+
+        // Helper: mapear string → Stat
+        public bool TryGetStat(string name, out Stat stat)
+        {
+            stat = null;
+            if (string.IsNullOrWhiteSpace(name)) return false;
+
+            switch (name.ToLowerInvariant())
+            {
+                case "hp":
+                case "vida":
+                case "health":
+                    stat = Health; return true;
+                case "stamina":
+                case "sta":
+                    stat = Stamina; return true;
+                case "hunger":
+                case "hambre":
+                    stat = Hunger; return true;
+                case "thirst":
+                case "sed":
+                    stat = Thirst; return true;
+                case "sanity":
+                case "cordura":
+                    stat = Sanity; return true;
+                default:
+                    return false;
+            }
+        }
+
+        // Todos los stats al máximo
+        public void MaxAllStats()
+        {
+            Health.Set(Health.Max);
+            Stamina.Set(Stamina.Max);
+            Hunger.Set(Hunger.Max);
+            Thirst.Set(Thirst.Max);
+            Sanity.Set(Sanity.Max);
+        }
+
+        // Todos los stats a 0 (debug)
+        public void ZeroAllStats()
+        {
+            Health.Set(0f);
+            Stamina.Set(0f);
+            Hunger.Set(0f);
+            Thirst.Set(0f);
+            Sanity.Set(0f);
+        }
+
+        // Restore “lógico” de partida
+        public void Restore()
+        {
+            Health.Set(Health.Max);
+            Stamina.Set(Stamina.Max);
+            Hunger.Set(Hunger.Max);
+            Thirst.Set(Thirst.Max);
+            Sanity.Set(Sanity.Max);
+        }
+
+        // Modo drenaje
+        public void SetDrainModeNormal()
+        {
+            _survivalDrainMultiplier = 1f;
+        }
+
+        public void SetDrainModeSlow()
+        {
+            _survivalDrainMultiplier = 0.5f;
+        }
+
+        public void SetDrainModeFast()
+        {
+            _survivalDrainMultiplier = 2.0f;
+        }
+
     }
 }

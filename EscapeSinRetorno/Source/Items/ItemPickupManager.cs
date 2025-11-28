@@ -72,5 +72,21 @@ namespace EscapeSinRetorno.Source.Items
             foreach (var p in _pickups)
                 p.Draw(sb);
         }
+
+        public void ClearAll()
+        {
+            _pickups.Clear();
+        }
+
+        // Opcional para /near ver pickups
+        public IEnumerable<ItemPickup> GetPickupsInRadius(Vector2 center, float radius)
+        {
+            float r2 = radius * radius;
+            foreach (var p in _pickups)
+            {
+                if (Vector2.DistanceSquared(center, p.Position) <= r2)
+                    yield return p;
+            }
+        }
     }
 }

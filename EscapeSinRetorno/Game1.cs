@@ -34,6 +34,15 @@ namespace EscapeSinRetorno
         private bool _wasDead = false;
         private MenuState _menuState;
 
+        public bool FxEnabled { get; set; } = true;
+        public bool DebugShowCollisions
+        {
+            get => _debugShowCollisions;
+            set => _debugShowCollisions = value;
+        }
+        public double WorldTimeSeconds => _worldTimeSeconds;
+        public DoorManager DoorManager => _doorManager;
+
         private StatsHud _hud;
         private VignetteOverlay _overlay;
         private DeathScreen _deathScreen;
@@ -49,6 +58,9 @@ namespace EscapeSinRetorno
 
         private PlayerInventory _inventory;
         private InventoryRenderer _inventoryRenderer;
+
+        private double _worldTimeSeconds = 0;
+        private bool _debugShowCollisions = false;
 
         // ✔ nuevo sistema
         private ItemPickupManager _pickupManager;
@@ -197,6 +209,9 @@ namespace EscapeSinRetorno
             _enemyManager.LoadContent(Content);
             Enemy.LoadDebugTexture(GraphicsDevice);
 
+            // 🔥🔥🔥 LÍNEA CRUCIAL AGREGADA AQUÍ:
+            _player.SetEnemyManager(_enemyManager);
+
             _doorManager.ClearDoors();
             _doorManager.SpawnFromMapData(_tileMap.DoorSpawns, _tileMap.TileSize);
 
@@ -245,6 +260,8 @@ namespace EscapeSinRetorno
                 _prevKb = kb;
                 return;
             }
+
+            _worldTimeSeconds += gameTime.ElapsedGameTime.TotalSeconds;
 
             // INVENTARIO
             if (_chat != null && !_chat.IsOpen && _inventoryRenderer != null &&
@@ -380,13 +397,30 @@ namespace EscapeSinRetorno
 
                 _doorManager.Draw(_spriteBatch);
 
-                // ✔ dibujar pickups ORDENADO por el nuevo sistema
+                // pickups, enemigos, jugador...
                 _pickupManager.Draw(_spriteBatch);
-
                 _enemyManager.Draw(_spriteBatch);
                 _player.Draw(_spriteBatch);
                 if (_netMode == GameNetMode.Client && _mp.Enabled)
                     _mp.Draw(_spriteBatch);
+
+                // DEBUG: mostrar colisiones como overlay
+                if (_debugShowCollisions && _tileMap != null && _chatPixel != null)
+                {
+                    int ts = _tileMap.TileSize;
+                    for (int y = 0; y < _tileMap.Height; y++)
+                    {
+                        for (int x = 0; x < _tileMap.Width; x++)
+                        {
+                            var pos = new Vector2(x * ts, y * ts);
+                            if (_tileMap.IsColliding(pos, ts, ts))
+                            {
+                                var r = new Rectangle((int)pos.X, (int)pos.Y, ts, ts);
+                                _spriteBatch.Draw(_chatPixel, r, Color.Red * 0.25f);
+                            }
+                        }
+                    }
+                }
                 _spriteBatch.End();
 
                 _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
@@ -399,14 +433,20 @@ namespace EscapeSinRetorno
                 _inventoryRenderer.Draw(_spriteBatch, _inventory, vp);
                 _spriteBatch.End();
             }
-
             if (Player.DebugDrawFPS)
             {
-                _spriteBatch.DrawString(_hudFont,
+                _spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied);
+
+                _spriteBatch.DrawString(
+                    _hudFont,
                     $"FPS: {(1 / gameTime.ElapsedGameTime.TotalSeconds):0}",
-                    new Vector2(10, 10),
-                    Color.Yellow);
+                    new Vector2(200, 10),
+                    Color.Yellow
+                );
+
+                _spriteBatch.End();
             }
+
 
             base.Draw(gameTime);
         }
@@ -557,6 +597,9 @@ namespace EscapeSinRetorno
                 return;
             }
 
+            SpawnItemOnGround(item.Id, amount, _player.Center);
+            _chat?.AddSystemMessage($"Soltaste {amount}x {item.Name}.");
+
             var center = _player.Center;
             const int scatterRadius = 10;
 
@@ -578,5 +621,33 @@ namespace EscapeSinRetorno
 
             _chat?.AddSystemMessage($"Soltaste {amount}x {item.Name}.");
         }
+
+        public void SpawnItemOnGround(string itemId, int amount, Vector2 center)
+        {
+            if (amount <= 0 || _pickupManager == null) return;
+
+            const int scatterRadius = 10;
+
+            for (int i = 0; i < amount; i++)
+            {
+                var offset = new Vector2(
+                    Random.Next(-scatterRadius, scatterRadius + 1),
+                    Random.Next(-scatterRadius, scatterRadius + 1)
+                );
+
+                var pos = center + offset;
+
+                var pickup = new ItemPickup(itemId, pos);
+                pickup.LoadContent(Content);
+                _pickupManager.AddPickup(pickup);
+            }
+        }
+
+        // Para /wipeinv
+        public void ClearAllPickups()
+        {
+            _pickupManager?.ClearAll();
+        }
+
     }
 }

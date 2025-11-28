@@ -21,6 +21,7 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
         private bool _hasLos = false;
         private Vector2 _lastPos;
         private int _stuckFrames = 0;
+        public override string TypeId => "evilwizard";
 
         public EvilWizard(Vector2 startPosition) : base(startPosition)
         {

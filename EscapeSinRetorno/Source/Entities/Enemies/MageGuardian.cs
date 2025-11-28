@@ -13,6 +13,7 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
         private readonly string _variant;     // "red", "blue", "magenta"
         private readonly string _keyItemId;   // "red_key", "cyan_key", "purple_key"
         private bool _keyGiven;
+        public override string TypeId => "mg";
 
         public bool KeyAlreadyGiven => _keyGiven;
         public string KeyItemId => _keyItemId;

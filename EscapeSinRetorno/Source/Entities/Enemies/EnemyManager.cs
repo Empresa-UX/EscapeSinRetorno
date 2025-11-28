@@ -6,6 +6,7 @@ using Microsoft.Xna.Framework.Graphics;
 using EscapeSinRetorno.Source.Inventory;
 using EscapeSinRetorno.Source.Items;
 using EscapeSinRetorno.Source.Chat;
+using System;
 
 namespace EscapeSinRetorno.Source.Entities.Enemies
 {
@@ -13,7 +14,8 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
     {
         private readonly List<Enemy> enemies = new();
         private bool hasSpawnedFromMap = false;
-        private List<(EnemyType type, Vector2 pos, string variant)> _lastSpawns; // para respawn
+        private List<(EnemyType type, Vector2 pos, string variant)> _lastSpawns; // para respawnprivate bool _aiFrozen = false;
+        private bool _aiFrozen = false;
 
         public void LoadContent(ContentManager content) => enemies.ForEach(e => e.LoadContent(content));
 
@@ -21,6 +23,8 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
         {
             // Si el jugador está muerto, no actualizamos IA ni aplicamos daño.
             if (player?.Stats?.IsDead == true) return;
+            
+            if (_aiFrozen) return;
 
             // Actualiza normalmente
             enemies.ForEach(e => e.Update(gameTime, player, tileMap));
@@ -68,6 +72,10 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             enemies.Clear();
         }
 
+        public void SetFrozen(bool frozen)
+        {
+            _aiFrozen = frozen;
+        }
         public bool TryInteractWithMageGuardian(Rectangle playerHitbox, PlayerInventory inv, ChatManager chat)
         {
             if (inv == null) return false;
@@ -120,6 +128,79 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
             }
 
             return false; // no había ningún guardián cerca
+        }
+
+        public IEnumerable<Enemy> GetEnemiesInRadius(Vector2 center, float radius)
+        {
+            float r2 = radius * radius;
+            foreach (var e in enemies)
+            {
+                if (!e.IsAlive) continue;
+                if (Vector2.DistanceSquared(center, e.Position) <= r2)
+                    yield return e;
+            }
+        }
+
+        public Enemy GetEnemyInSight(Player player, float maxDistance = 300f, float maxAngleDeg = 35f)
+        {
+            var origin = player.Center;
+            var dir = player.FacingDir;
+            float maxDist2 = maxDistance * maxDistance;
+            float cosMax = MathF.Cos(MathHelper.ToRadians(maxAngleDeg));
+
+            Enemy best = null;
+            float bestDist2 = float.MaxValue;
+
+            foreach (var e in enemies)
+            {
+                if (!e.IsAlive) continue;
+
+                var to = e.Center - origin;
+                float dist2 = to.LengthSquared();
+                if (dist2 > maxDist2) continue;
+
+                var norm = to;
+                if (norm != Vector2.Zero) norm.Normalize();
+                float dot = Vector2.Dot(dir, norm);
+                if (dot < cosMax) continue;
+
+                if (dist2 < bestDist2)
+                {
+                    bestDist2 = dist2;
+                    best = e;
+                }
+            }
+
+            return best;
+        }
+
+        public void KillEnemiesInRadius(Vector2 center, float radius)
+        {
+            foreach (var e in GetEnemiesInRadius(center, radius))
+                e.Kill(); // o ApplyDamage grande, ajustá a tu API
+        }
+
+        public void DespawnByType(string typeId)
+        {
+            enemies.RemoveAll(e =>
+                string.Equals(e.TypeId, typeId, StringComparison.OrdinalIgnoreCase));
+        }
+
+        public void Clone(string typeId, int count, Vector2 pos, Microsoft.Xna.Framework.Content.ContentManager content)
+        {
+            for (int i = 0; i < count; i++)
+            {
+                Enemy clone = typeId.ToLowerInvariant() switch
+                {
+                    "evilwizard" or "ew" => new EvilWizard(pos),
+                    "nightborne" or "nb" => new NightBorne(pos),
+                    "mg" or "mageguardian" => new MageGuardian(pos, "red"), // o lo que decidas
+                    _ => null
+                };
+
+                if (clone != null)
+                    Add(clone, content);
+            }
         }
 
     }

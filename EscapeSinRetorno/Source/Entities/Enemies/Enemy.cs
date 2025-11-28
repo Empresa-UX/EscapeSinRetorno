@@ -43,6 +43,24 @@ namespace EscapeSinRetorno.Source.Entities.Enemies
         // Duración efectiva del ataque (por anim si Duration<=0)
         private float _attackDurationSec = 0f;
 
+        // Identificador textual del enemigo (para comandos)
+        public virtual string TypeId => "enemy";
+
+        // Vida pública mínima requerida para comandos
+        public int Health => health;
+        public int MaxHealth => 100;    // si querés hacerla variable, después lo cambiamos
+
+        // Alive según tu implementación
+        public bool IsAlive => !IsDead;
+
+        // Método universal para matarlos
+        public virtual void Kill()
+        {
+            health = 0;
+            currentState = State.Dying;
+            IsRemovable = true;
+        }
+
         protected struct AttackDef
         {
             public int Damage;

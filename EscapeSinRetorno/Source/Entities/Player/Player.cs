@@ -40,9 +40,19 @@ namespace EscapeSinRetorno.Source.Entities
 
         public static bool DebugDrawHitboxes = false;
         public static bool DebugDrawFPS = false;
-
+        public static bool DebugNoClip = false;
         public PlayerStats Stats { get; private set; } = new PlayerStats(new StatsConfig());
         private VisualEffectState _lastFx;
+
+        // Velocidad base ajustable por comando
+        public float BaseSpeed
+        {
+            get => _speed;
+            set => _speed = MathF.Max(10f, value);
+        }
+
+        public Vector2 FacingDir =>
+            _flip == SpriteEffects.None ? Vector2.UnitX : -Vector2.UnitX;
 
         public int Width => (int)(_hitboxWidth * _scale);
         public int Height => (int)(_hitboxHeight * _scale);
@@ -159,20 +169,28 @@ namespace EscapeSinRetorno.Source.Entities
 
             bool isMoving = input != Vector2.Zero;
 
-            if (Stats.Stamina.IsZero)
+            float staminaRatio = Stats.Stamina.Ratio;
+
+            // Si baja por debajo del 5%, marcamos agotamiento
+            if (staminaRatio <= 0.05f)
             {
-                _staminaExhausted = true;
-                _staminaRecoverTimer = _staminaRecoverDelay;
+                if (!_staminaExhausted)
+                {
+                    _staminaExhausted = true;
+                    _staminaRecoverTimer = _staminaRecoverDelay; // pequeño delay antes de poder correr otra vez
+                }
             }
             else if (_staminaExhausted)
             {
+                // Mientras está agotado, contamos el delay y exigimos que recupere algo
                 _staminaRecoverTimer -= dt;
-                if (_staminaRecoverTimer <= 0f && Stats.Stamina.Ratio >= 0.15f)
+                if (_staminaRecoverTimer <= 0f && staminaRatio >= 0.20f)
                     _staminaExhausted = false;
             }
 
             bool wantsRun = ks.IsKeyDown(Keys.LeftShift) || ks.IsKeyDown(Keys.RightShift);
             bool effectiveRun = wantsRun && !_staminaExhausted && isMoving;
+
 
             Stats.Tick(dt, isSprinting: effectiveRun, out _lastFx);
             if (Stats.IsDead)
@@ -198,6 +216,16 @@ namespace EscapeSinRetorno.Source.Entities
                 if (!blockedTiles && doorManager != null && doorManager.IsCollidingClosedDoor(rect))
                     return true;
 
+                if (DebugNoClip)
+                    return false;
+
+                blockedTiles = tileMap.IsColliding(hbPos, w, h);
+                if (!blockedTiles && doorManager != null)
+                {
+                    rect = new Rectangle((int)hbPos.X, (int)hbPos.Y, w, h);
+                    if (doorManager.IsCollidingClosedDoor(rect))
+                        return true;
+                }
                 return blockedTiles;
             }
 

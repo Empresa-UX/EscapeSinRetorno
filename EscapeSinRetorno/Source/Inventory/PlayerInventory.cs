@@ -1,6 +1,6 @@
 ﻿using System;
-using EscapeSinRetorno.Source.Items;
 using System.Collections.Generic;
+using EscapeSinRetorno.Source.Items;
 
 namespace EscapeSinRetorno.Source.Inventory
 {
@@ -15,6 +15,7 @@ namespace EscapeSinRetorno.Source.Inventory
                 Slots[i] = new InventorySlot();
         }
 
+        /// Enumerar ítems actuales (debug / comandos)
         public IEnumerable<(string ItemId, int Amount)> Items
         {
             get
@@ -27,7 +28,6 @@ namespace EscapeSinRetorno.Source.Inventory
             }
         }
 
-
         public bool AddItem(string itemId, int amount = 1)
         {
             if (amount <= 0) return true;
@@ -35,6 +35,7 @@ namespace EscapeSinRetorno.Source.Inventory
 
             int remaining = amount;
 
+            // Apilar en slots existentes
             if (item.Stackable)
             {
                 foreach (var slot in Slots)
@@ -49,6 +50,7 @@ namespace EscapeSinRetorno.Source.Inventory
                 }
             }
 
+            // Poner en slots vacíos
             foreach (var slot in Slots)
             {
                 if (remaining == 0) break;
@@ -68,13 +70,15 @@ namespace EscapeSinRetorno.Source.Inventory
         {
             if (amount <= 0) return true;
 
-            int remaining = amount;
+            // Verificar total disponible
             int total = 0;
             foreach (var s in Slots)
                 if (!s.IsEmpty && s.Item.Id == itemId)
                     total += s.Count;
 
-            if (total < remaining) return false;
+            if (total < amount) return false;
+
+            int remaining = amount;
 
             for (int i = 0; i < Slots.Length && remaining > 0; i++)
             {
@@ -105,6 +109,7 @@ namespace EscapeSinRetorno.Source.Inventory
 
             slot.Count -= 1;
             var usedItem = slot.Item;
+
             if (slot.Count <= 0)
             {
                 slot.Item = null;
@@ -117,12 +122,11 @@ namespace EscapeSinRetorno.Source.Inventory
 
         public void Clear()
         {
-            for (int i = 0; i < Slots.Length; i++)
+            foreach (var slot in Slots)
             {
-                Slots[i].Item = null;
-                Slots[i].Count = 0;
+                slot.Item = null;
+                slot.Count = 0;
             }
         }
-
     }
 }
