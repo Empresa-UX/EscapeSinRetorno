@@ -1,0 +1,106 @@
+LICENCIA DE USO, COPIA, MODIFICACIÓN Y DISTRIBUCIÓN DEL SOFTWARE
+----------------------------------------------------------------
+
+Copyright (c) 2025
+Autor: Cristian Chejo
+
+1. DEFINICIONES
+---------------
+A los efectos de esta licencia, se entiende por:
+
+- “Software”: todo el código fuente, recursos, archivos, documentación o materiales
+  incluidos dentro del proyecto denominado "Escape sin Retorno".
+- “Titular”: Cristian Chejo, creador y propietario original del software.
+- “Usuario”: cualquier persona física o jurídica que obtenga una copia del software.
+
+2. PERMISOS OTORGADOS
+----------------------
+Por medio de esta licencia, el Titular concede al Usuario los siguientes derechos,
+de forma gratuita, perpetua, irrevocable y no exclusiva:
+
+a) Usar el software para cualquier propósito, personal o comercial.  
+b) Copiar el software total o parcialmente.  
+c) Modificar o adaptar el software a nuevas necesidades.  
+d) Fusionar el software con otros programas o bibliotecas.  
+e) Distribuir copias del software, en su forma original o modificada.  
+f) Publicar el software, reutilizarlo o integrarlo en otros proyectos.  
+
+Estos permisos se conceden sin limitación geográfica ni tecnológica.
+
+3. CONDICIONES PARA EL USO Y DISTRIBUCIÓN
+------------------------------------------
+Todo Usuario que utilice, modifique o distribuya el software, ya sea con o sin
+alteraciones, deberá cumplir con los siguientes requisitos:
+
+a) Mantener de forma visible e íntegra la siguiente información:
+   - El aviso de copyright original.
+   - Esta licencia completa en español.
+   - El nombre del autor original (Cristian Chejo).
+
+b) Si el software se distribuye modificado, se debe indicar claramente
+   que se han realizado cambios respecto a la obra original.
+
+c) Esta licencia debe acompañar siempre cualquier copia del software.
+
+El Usuario *no está obligado* a publicar su código derivado, a menos que él lo desee.
+
+4. LIMITACIÓN DE RESPONSABILIDAD
+--------------------------------
+El software se proporciona “TAL CUAL”, sin garantías de ningún tipo, expresas o
+implícitas, incluyendo, pero sin limitarse a:
+
+- Comercialización
+- Idoneidad para un propósito particular
+- Ausencia de errores
+- Seguridad o estabilidad
+- Funcionamiento ininterrumpido
+
+En ningún caso el Titular será responsable por:
+
+- Daños directos, indirectos, incidentales o consecuentes
+- Pérdida de datos
+- Pérdida económica
+- Fallos operativos
+- Uso indebido del software
+
+Los usuarios aceptan utilizar el software BAJO SU PROPIO RIESGO.
+
+5. ALCANCE DE LA LICENCIA
+--------------------------
+Esta licencia permite un uso amplio y flexible del software.  
+El Usuario es libre de:
+
+- Incorporarlo en proyectos privados o comerciales
+- Construir juegos nuevos basados en partes del código
+- Vender títulos que incluyan fragmentos del software
+- Publicar forks o versiones modificadas
+
+Siempre y cuando se respeten las condiciones detalladas en el punto 3.
+
+6. DERECHOS QUE NO SE CEDEN
+----------------------------
+El Titular conserva:
+
+- La autoría intelectual del proyecto original  
+- El derecho a ser reconocido como creador  
+- El control creativo sobre su obra original  
+
+Ninguna parte de esta licencia implica transferencia de propiedad intelectual,
+solo concesión de permisos de uso amplios.
+
+7. FINALIZACIÓN
+----------------
+Esta licencia es irrevocable.
+
+No obstante, si un Usuario viola deliberadamente cualquiera de las condiciones
+aquí establecidas, sus permisos quedan automáticamente revocados hasta que se
+restaure el cumplimiento.
+
+8. JURISDICCIÓN
+----------------
+Esta licencia y su interpretación se regirán por las leyes vigentes en el país
+de residencia del Titular (Argentina), salvo pacto escrito en contrario.
+
+---------------------------------------------------------------
+AL UTILIZAR ESTE SOFTWARE, EL USUARIO ACEPTA TODAS LAS CONDICIONES DE ESTA LICENCIA.
+---------------------------------------------------------------
